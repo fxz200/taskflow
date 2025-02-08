@@ -1,14 +1,9 @@
 ﻿# taskflow
  
 ```
-my-project/
-│── backend/       # Express / Flask / FastAPI 等後端服務
-│   ├── server.js  # 伺服器主程式
-│   ├── routes/    # API 路由
-│   ├── models/    # 資料模型
-│── frontend/      # React 應用程式
-│   ├── src/       # React 主要程式碼
-│   ├── package.json
-│── package.json   # 可以用於 monorepo 管理
-│── README.md      # 專案文件
+/my-project
+ ├── /frontend      # React 前端
+ ├── /backend       # Golang 後端
+ ├── docker-compose.yml  # Docker 管理前後端
+ ├── README.md
 ```
