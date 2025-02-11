@@ -16,7 +16,7 @@ services:
       - DB_NAME=mydatabase
 
   frontend:
-    build: ./frontend/my-app
+    build: ./frontend
     container_name: react_frontend
     restart: always
     ports:
