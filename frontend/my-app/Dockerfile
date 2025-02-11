@@ -1,5 +1,3 @@
-
-
 # 使用官方 Node.js 作為基底映像
 FROM node:20-alpine
 
