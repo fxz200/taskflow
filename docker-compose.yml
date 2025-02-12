@@ -11,9 +11,9 @@ services:
     environment:
       - DB_HOST=db
       - DB_PORT=5432
-      - DB_USER=myuser
-      - DB_PASSWORD=newpassword
-      - DB_NAME=mydatabase
+      - DB_USER=docker
+      - DB_PASSWORD=docker
+      - DB_NAME=pg-test
 
   frontend:
     build: ./frontend
@@ -25,17 +25,46 @@ services:
       - backend
 
   db:
-    image: postgres:15
-    container_name: my_postgres
+    container_name: pg_server # 自定 container 名稱
+    image: postgres:14.3 # 使用 postgres@14.3 docker image 檔
     restart: always
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: newpassword
-      POSTGRES_DB: mydatabase
+      - POSTGRES_USER=docker # 建立一個 postgres user
+      - POSTGRES_PASSWORD=docker # 這個 user 的密碼
+    volumes: # 將 local 的 ./sql/initdb.sql 掛載到 postgres docker /docker-entrypoint-initdb.d/init.sql，目的是建立一個名為 pg_testdb 資料庫
+      - ./sql/initdb.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U docker"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    container_name: pg_admin # 自定 container 名稱
+    image: dpage/pgadmin4:6.9 # 使用 pgadmin4＠6.9 docker image 檔
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-user@domain.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-docker}
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_SERVER_JSON_FILE: "/config/pgdb_servers.json" # 使用這個 Json 檔案來設定 pgadmin
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./pgadmin:/config # 將 local 的 ./pgadmin 目錄掛載到 pgadmin4 docker 中
+    ports:
+      - "5431:80" # 將 pgadmin4 docker 中的 80 Port 映射到 local 端的 5431 Port
+    restart: always
 
 volumes:
   postgres_data:
+
+networks:
+  mynet:
+    name: mynet
+    enable_ipv6: false
+    ipam:
+      config:
+        - subnet: 0.0.0.0/0
