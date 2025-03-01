@@ -1,15 +1,24 @@
 package main
 
 import (
+	"backend/model"
+	"backend/router"
+	"backend/sql"
+	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-    r := gin.Default()
-
-    // CORS 設置，允許前端請求
+    if err := sql.InitPostgres(); err != nil {
+        panic(err)
+    }
+    // sql.Connect.AutoMigrate(&model.Message{}, &model.User{})
+    sql.Connect.AutoMigrate(&model.Message{})
+    r := router.SetRouter()
+    //for froentend to access backend
     r.Use(func(c *gin.Context) {
         c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
         c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
@@ -20,11 +29,12 @@ func main() {
         }
         c.Next()
     })
-
-    // API 路由
+    //test api
     r.GET("/api/message", func(c *gin.Context) {
         c.JSON(http.StatusOK, gin.H{"message": "Hello from Go backend!"})
     })
-
-    r.Run(":8080") // 監聽 8080 port
+    fmt.Println("backend Server Start")
+    if err := r.Run(":8080"); err != nil {
+        log.Fatalf("backend Server fail: %v", err)
+    }
 }

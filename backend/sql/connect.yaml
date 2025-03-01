@@ -1,0 +1,5 @@
+host: db
+username: docker
+password: docker
+dbname: pg_testdb
+port: 5432
