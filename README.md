@@ -23,3 +23,17 @@
 ```
 http://localhost:8080/swagger/index.html
 ```
+
+### 開啟 container
+
+```
+docker-compose up -d
+```
+
+### 重啟特定 image
+
+```
+docker-compose stop backend
+docker-compose build backend
+docker-compose up -d backend
+```
