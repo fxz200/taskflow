@@ -21,5 +21,5 @@
 ### API
 
 ```
-[GET] /api/message (for frontend to test)
+http://localhost:8080/swagger/index.html
 ```

@@ -1,0 +1,30 @@
+definitions:
+  main.MessageResponse:
+    properties:
+      message:
+        example: Hello from Go backend!
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Taskflow swagger
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Taskflow swagger
+  version: "1.0"
+paths:
+  /api/message:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Hello from Go backend!
+          schema:
+            $ref: '#/definitions/main.MessageResponse'
+      summary: Test API
+      tags:
+      - Test
+swagger: "2.0"
