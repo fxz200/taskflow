@@ -1,0 +1,26 @@
+# 忽略 node_modules 和編譯產物
+node_modules
+.next
+dist
+build
+
+# 忽略鎖定檔案
+package-lock.json
+yarn.lock
+
+# 忽略環境變數
+.env
+.env.local
+.env.*.local
+
+# 忽略靜態資源和公共目錄
+public
+static
+
+# 忽略 TypeScript 定義檔案（可選）
+next-env.d.ts
+
+# 忽略格式化 README 和 JSON 設定檔（可選）
+README.md
+*.config.js
+*.config.mjs
