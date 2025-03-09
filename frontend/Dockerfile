@@ -6,7 +6,7 @@ FROM node:20-alpine
 WORKDIR /frontend
 
 # 複製 package.json 和 package-lock.json，先安裝相依性
-COPY /my-app/package.json /my-app/yarn.lock ./
+COPY /app/package.json /my-app/yarn.lock ./
 
 # 安裝相依套件
 RUN yarn install
