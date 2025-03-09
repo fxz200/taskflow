@@ -3,15 +3,18 @@
 ```
 /taskflow
  ├── /frontend
+    ├── /app
+    ├── Dockerfile
+    ├── .gitignore
  ├── /backend
-    ├──/controller
-    ├──/model
-    ├──/repository
-    ├──/router
-    ├──/sql
-    ├──/docs(swagger)
-    ├──Dockerfile
-    ├──main.go
+    ├── /controller
+    ├── /model
+    ├── /repository
+    ├── /router
+    ├── /sql
+    ├── /docs(swagger)
+    ├── Dockerfile
+    ├── main.go
  ├── /pgadmin
  ├── /pgdbdata
  ├── /sql
