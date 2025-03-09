@@ -37,6 +37,25 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/api/v1/sprint": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sprint"
+                ],
+                "summary": "Get all sprints",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "$ref": "#/definitions/model.Sprint"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -46,6 +65,49 @@ const docTemplate = `{
                 "message": {
                     "type": "string",
                     "example": "Hello from Go backend!"
+                }
+            }
+        },
+        "model.EventDate": {
+            "type": "object",
+            "properties": {
+                "plan_time": {
+                    "type": "string",
+                    "example": "2025-3-21T00:00:00Z"
+                },
+                "retro_time": {
+                    "type": "string",
+                    "example": "2025-3-21T00:00:00Z"
+                },
+                "test_time": {
+                    "type": "string",
+                    "example": "2025-3-21T00:00:00Z"
+                }
+            }
+        },
+        "model.Sprint": {
+            "type": "object",
+            "required": [
+                "end_date",
+                "event_date",
+                "name",
+                "start_date"
+            ],
+            "properties": {
+                "end_date": {
+                    "type": "string",
+                    "example": "2025-3-21T00:00:00Z"
+                },
+                "event_date": {
+                    "$ref": "#/definitions/model.EventDate"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "ver2.55"
+                },
+                "start_date": {
+                    "type": "string",
+                    "example": "2025-3-09T00:00:00Z"
                 }
             }
         }

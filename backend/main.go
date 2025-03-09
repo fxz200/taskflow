@@ -13,7 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// MessageResponse 定義返回的結構
+
 type MessageResponse struct {
     Message string `json:"message" example:"Hello from Go backend!"`
 }
@@ -40,7 +40,7 @@ func main() {
     }
     port := 8080
     // sql.Connect.AutoMigrate(&model.Message{}, &model.User{})
-    sql.Connect.AutoMigrate(&model.Message{})
+    sql.Connect.AutoMigrate(&model.Message{}, &model.Sprint{})
     r := router.SetRouter(port)
     //for froentend to access backend
     r.Use(func(c *gin.Context) {

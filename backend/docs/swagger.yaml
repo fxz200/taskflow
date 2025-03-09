@@ -5,6 +5,37 @@ definitions:
         example: Hello from Go backend!
         type: string
     type: object
+  model.EventDate:
+    properties:
+      plan_time:
+        example: "2025-3-21T00:00:00Z"
+        type: string
+      retro_time:
+        example: "2025-3-21T00:00:00Z"
+        type: string
+      test_time:
+        example: "2025-3-21T00:00:00Z"
+        type: string
+    type: object
+  model.Sprint:
+    properties:
+      end_date:
+        example: "2025-3-21T00:00:00Z"
+        type: string
+      event_date:
+        $ref: '#/definitions/model.EventDate'
+      name:
+        example: ver2.55
+        type: string
+      start_date:
+        example: "2025-3-09T00:00:00Z"
+        type: string
+    required:
+    - end_date
+    - event_date
+    - name
+    - start_date
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -27,4 +58,16 @@ paths:
       summary: Test API
       tags:
       - Test
+  /api/v1/sprint:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/model.Sprint'
+      summary: Get all sprints
+      tags:
+      - Sprint
 swagger: "2.0"

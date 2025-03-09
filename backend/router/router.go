@@ -22,5 +22,12 @@ func SetRouter(port int) *gin.Engine {
 		v1.PATCH("/message/:id", controller.Update)
 		v1.DELETE("/message/:id", controller.Delete)
 	}
+	sprint := r.Group("api/v1/sprint")
+	{
+		sprint.GET("/", controller.GetAllSprint)
+		sprint.POST("/", controller.CreateSprint)
+		sprint.PUT("/", controller.UpdateSprint)
+		sprint.DELETE("/", controller.DeleteSprint)
+	}
 	return r
 }
