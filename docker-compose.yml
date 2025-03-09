@@ -35,8 +35,7 @@ services:
       - POSTGRES_PASSWORD=docker
     volumes:
       - ./sql/initdb.sql:/docker-entrypoint-initdb.d/init.sql
-
-      - D:/pgdbdata:/var/lib/postgresql/data #指定到你想掛載的位置
+      - ${PGDATA_PATH}:/var/lib/postgresql/data #指定到你想掛載的位置
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U docker"]
       interval: 10s
