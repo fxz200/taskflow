@@ -25,7 +25,6 @@ func CreateSprint(sprint *model.Sprint) (err error) {
 }
 
 func UpdateSprint(sprint *model.Sprint) (err error) {
-    // 檢查資料庫中是否存在對應的 ID
     var existingSprint model.Sprint
     if err = sql.Connect.Model(&model.Sprint{}).Where("id = ?", sprint.Id).First(&existingSprint).Error; err != nil {
         if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -33,14 +32,15 @@ func UpdateSprint(sprint *model.Sprint) (err error) {
         }
         return
     }
-
-    // 更新 sprint
     err = sql.Connect.Model(&model.Sprint{}).Where("id = ?", sprint.Id).Updates(sprint).Error
     return
 }
-func DeleteSprint(sprint *model.Sprint, name string) (err error) {
-    err = sql.Connect.Where("id = ?", name).First(&sprint).Error
+func DeleteSprint(sprint *model.Sprint, id string) (err error) {
+    err = sql.Connect.Where("id = ?", id).First(&sprint).Error
     if err != nil {
+        if errors.Is(err, gorm.ErrRecordNotFound) {
+            return fmt.Errorf("no sprint found with ID %s", id)
+        }
         return
     }
     err = sql.Connect.Delete(&sprint).Error

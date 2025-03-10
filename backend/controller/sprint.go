@@ -8,7 +8,13 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
-
+func JSONResponse(c *gin.Context, httpcode int,errorcode int, data interface{}, msg string) {
+    c.JSON(httpcode, model.Response{
+        Code: errorcode,
+        Data: data,
+        Msg:  msg,
+    })
+}
 // @Summary Get all sprints
 // @Tags Sprint
 // @version 1.0
@@ -19,52 +25,57 @@ import (
 func GetAllSprint(c *gin.Context) {
 	name := c.Query("name")
 	sprint, err := repository.GetAllSprint(name)
-
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		JSONResponse(c, http.StatusBadRequest,http.StatusBadRequest, nil, err.Error())
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"sprints": sprint})
+	JSONResponse(c, http.StatusOK,http.StatusOK, sprint, "OK")
 }
 
 func CreateSprint(c *gin.Context) {
     var sprint model.Sprint
     if err := c.Bind(&sprint); err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"message": "無效的請求數據", "error": err.Error()})
+		JSONResponse(c, http.StatusBadRequest,http.StatusBadRequest,nil, err.Error())
         return
     }
     if err := repository.CreateSprint(&sprint); err != nil {
         if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
-            c.JSON(http.StatusConflict, gin.H{"message": "Sprint 名稱已存在"})
+			JSONResponse(c, http.StatusConflict,http.StatusConflict,nil, "sprint already exists")
+			
         } else {
-            c.JSON(http.StatusInternalServerError, gin.H{"message": "創建 Sprint 失敗", "error": err.Error()})
+			JSONResponse(c, http.StatusBadRequest,http.StatusBadRequest,nil, err.Error())
         }
         return
     }
-    c.JSON(http.StatusCreated, gin.H{"sprint": sprint})
+	JSONResponse(c, http.StatusOK,http.StatusOK,nil, "OK")
 }
 
 func UpdateSprint(c *gin.Context) {
     var sprint model.Sprint
 
     if err := c.Bind(&sprint); err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+        JSONResponse(c, http.StatusBadRequest,http.StatusBadRequest,nil, err.Error())
         return
     }
 
     if err := repository.UpdateSprint(&sprint); err != nil {
-        c.JSON(http.StatusNotFound, gin.H{"message": err.Error()})
+		if strings.Contains(err.Error(), "no sprint found with ID") {
+			JSONResponse(c, http.StatusBadRequest,http.StatusBadRequest,nil, "sprint not found")
+		}else{JSONResponse(c, http.StatusBadRequest,http.StatusBadRequest,nil, err.Error())}
         return
     }
-
-    c.JSON(http.StatusOK, gin.H{"sprint": sprint})
+	JSONResponse(c, http.StatusOK,http.StatusOK,nil, "OK")
 }
 
 func DeleteSprint(c *gin.Context) {
 	var sprint model.Sprint
 
 	if err := repository.DeleteSprint(&sprint, c.Query("name")); err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"message": err.Error()})
+		if strings.Contains(err.Error(), "no sprint found with ID") {
+			JSONResponse(c, http.StatusBadRequest,http.StatusBadRequest,nil, "sprint not found")
+			return
+		}else{JSONResponse(c, http.StatusBadRequest,http.StatusBadRequest,nil, err.Error())}
 		return
 	}
+	JSONResponse(c, http.StatusOK,http.StatusOK,nil, "OK")
 }

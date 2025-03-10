@@ -18,7 +18,11 @@ type Message struct {
 	// gorm.Model contain  CreatedAt &  UpdatedAt & DeletedAt column
     gorm.Model `json:"-"`
 }
-
+type Response struct {
+	Code int `json:"code"`
+	Data interface{} `json:"data"`
+	Msg string `json:"msg"`
+}
 type Sprint struct {
 	Id 	string `gorm:"primaryKey;not null;unique" json:"name" form:"name"  binding:"required" example:"ver2.55"`
 	StartDate 	time.Time `json:"start_date" form:"start_date"  binding:"required" example:"2025-03-09T00:00:00Z"`
