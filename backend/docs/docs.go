@@ -4,115 +4,233 @@ package docs
 import "github.com/swaggo/swag"
 
 const docTemplate = `{
-    "schemes": {{ marshal .Schemes }},
     "swagger": "2.0",
     "info": {
-        "description": "{{escape .Description}}",
-        "title": "{{.Title}}",
-        "contact": {},
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
-        "version": "{{.Version}}"
+      "description": "Taskflow swagger",
+      "title": "Taskflow swagger",
+      "contact": {},
+      "license": {
+        "name": "Apache 2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      },
+      "version": "1.0"
     },
-    "host": "{{.Host}}",
-    "basePath": "{{.BasePath}}",
+    "host": "localhost:8080",
     "paths": {
-        "/api/message": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Test"
-                ],
-                "summary": "Test API",
-                "responses": {
-                    "200": {
-                        "description": "Hello from Go backend!",
-                        "schema": {
-                            "$ref": "#/definitions/main.MessageResponse"
-                        }
-                    }
-                }
+      "/api/message": {
+        "get": {
+          "produces": ["application/json"],
+          "tags": ["Test"],
+          "summary": "Test API",
+          "responses": {
+            "200": {
+              "description": "Hello from Go backend!",
+              "schema": {
+                "$ref": "#/definitions/main.MessageResponse"
+              }
             }
-        },
-        "/api/v1/sprint": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Sprint"
-                ],
-                "summary": "Get all sprints",
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "schema": {
-                            "$ref": "#/definitions/model.Sprint"
-                        }
-                    }
-                }
-            }
+          }
         }
+      },
+      "/api/v1/sprint": {
+        "get": {
+          "produces": ["application/json"],
+          "tags": ["Sprint"],
+          "summary": "Get all sprints",
+          "parameters": [
+            {
+              "type": "string",
+              "description": "verison",
+              "name": "name",
+              "in": "query"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "success",
+              "schema": {
+                "$ref": "#/definitions/model.Sprint"
+              }
+            }
+          }
+        },
+        "put": {
+          "produces": ["application/json"],
+          "tags": ["Sprint"],
+          "summary": "Update a sprint",
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Sprint 1"
+                  },
+                  "start_date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-03-11"
+                  },
+                  "end_date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-03-25"
+                  },
+                  "plan_date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-03-25"
+                  },
+                  "retro_date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-03-25"
+                  },
+                  "test_date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-03-25"
+                  }
+                },
+                "required": ["name", "startDate", "endDate"]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "success",
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "post": {
+          "produces": ["application/json"],
+          "tags": ["Sprint"],
+          "summary": "Create a sprint",
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Sprint 1"
+                  },
+                  "start_date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-03-11"
+                  },
+                  "end_date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-03-25"
+                  },
+                  "plan_date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-03-25"
+                  },
+                  "retro_date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-03-25"
+                  },
+                  "test_date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-03-25"
+                  }
+                },
+                "required": ["name", "startDate", "endDate"]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "success",
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "delete": {
+          "produces": ["application/json"],
+          "tags": ["Sprint"],
+          "summary": "Delete a sprint",
+          "parameters": [
+            {
+              "type": "string",
+              "description": "verison",
+              "name": "name",
+              "in": "query",
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "success",
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
     },
     "definitions": {
-        "main.MessageResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string",
-                    "example": "Hello from Go backend!"
-                }
-            }
-        },
-        "model.EventDate": {
-            "type": "object",
-            "properties": {
-                "plan_time": {
-                    "type": "string",
-                    "example": "2025-3-21T00:00:00Z"
-                },
-                "retro_time": {
-                    "type": "string",
-                    "example": "2025-3-21T00:00:00Z"
-                },
-                "test_time": {
-                    "type": "string",
-                    "example": "2025-3-21T00:00:00Z"
-                }
-            }
-        },
-        "model.Sprint": {
-            "type": "object",
-            "required": [
-                "end_date",
-                "event_date",
-                "name",
-                "start_date"
-            ],
-            "properties": {
-                "end_date": {
-                    "type": "string",
-                    "example": "2025-3-21T00:00:00Z"
-                },
-                "event_date": {
-                    "$ref": "#/definitions/model.EventDate"
-                },
-                "name": {
-                    "type": "string",
-                    "example": "ver2.55"
-                },
-                "start_date": {
-                    "type": "string",
-                    "example": "2025-3-09T00:00:00Z"
-                }
-            }
+      "main.MessageResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Hello from Go backend!"
+          }
         }
+      },
+      "model.Sprint": {
+        "type": "object",
+        "required": ["end_date", "name", "start_date"],
+        "properties": {
+          "end_date": {
+            "type": "string",
+            "example": "2025-03-21T00:00:00Z"
+          },
+          "name": {
+            "type": "string",
+            "example": "ver2.55"
+          },
+          "plan_date": {
+            "type": "string",
+            "example": "2025-03-21T00:00:00Z"
+          },
+          "retro_date": {
+            "type": "string",
+            "example": "2025-03-21T00:00:00Z"
+          },
+          "start_date": {
+            "type": "string",
+            "example": "2025-03-09T00:00:00Z"
+          },
+          "test_date": {
+            "type": "string",
+            "example": "2025-03-21T00:00:00Z"
+          }
+        }
+      }
     }
-}`
+  }
+  `
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{

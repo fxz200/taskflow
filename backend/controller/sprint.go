@@ -15,13 +15,6 @@ func JSONResponse(c *gin.Context, httpcode int,errorcode int, data interface{}, 
         Msg:  msg,
     })
 }
-// @Summary Get all sprints
-// @Tags Sprint
-// @version 1.0
-// @produce application/json
-// @Success 200 {object} model.Sprint "success"
-// @Router /api/v1/sprint [get]
-// @Example 200 {object} model.Sprint
 func GetAllSprint(c *gin.Context) {
 	name := c.Query("name")
 	sprint, err := repository.GetAllSprint(name)
@@ -31,7 +24,6 @@ func GetAllSprint(c *gin.Context) {
 	}
 	JSONResponse(c, http.StatusOK,http.StatusOK, sprint, "OK")
 }
-
 func CreateSprint(c *gin.Context) {
     var sprint model.Sprint
     if err := c.Bind(&sprint); err != nil {
@@ -49,7 +41,13 @@ func CreateSprint(c *gin.Context) {
     }
 	JSONResponse(c, http.StatusOK,http.StatusOK,nil, "OK")
 }
-
+// @Summary Update a sprint
+// @Tags Sprint
+// @version 1.0
+// @produce application/json
+// @Success 200 {object} model.Sprint "success"
+// @Router /api/v1/sprint [put]
+// @Example 200 {object} model.Sprint
 func UpdateSprint(c *gin.Context) {
     var sprint model.Sprint
 
@@ -66,7 +64,13 @@ func UpdateSprint(c *gin.Context) {
     }
 	JSONResponse(c, http.StatusOK,http.StatusOK,nil, "OK")
 }
-
+// @Summary Delete a sprint
+// @Tags Sprint
+// @version 1.0
+// @produce application/json
+// @Success 200 {object} model.Sprint "success"
+// @Router /api/v1/sprint [delete]
+// @Example 200 {object} model.Sprint
 func DeleteSprint(c *gin.Context) {
 	var sprint model.Sprint
 

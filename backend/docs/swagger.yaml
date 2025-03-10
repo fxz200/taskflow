@@ -5,34 +5,28 @@ definitions:
         example: Hello from Go backend!
         type: string
     type: object
-  model.EventDate:
-    properties:
-      plan_time:
-        example: "2025-3-21T00:00:00Z"
-        type: string
-      retro_time:
-        example: "2025-3-21T00:00:00Z"
-        type: string
-      test_time:
-        example: "2025-3-21T00:00:00Z"
-        type: string
-    type: object
   model.Sprint:
     properties:
       end_date:
-        example: "2025-3-21T00:00:00Z"
+        example: "2025-03-21T00:00:00Z"
         type: string
-      event_date:
-        $ref: '#/definitions/model.EventDate'
       name:
         example: ver2.55
         type: string
+      plan_date:
+        example: "2025-03-21T00:00:00Z"
+        type: string
+      retro_date:
+        example: "2025-03-21T00:00:00Z"
+        type: string
       start_date:
-        example: "2025-3-09T00:00:00Z"
+        example: "2025-03-09T00:00:00Z"
+        type: string
+      test_date:
+        example: "2025-03-21T00:00:00Z"
         type: string
     required:
     - end_date
-    - event_date
     - name
     - start_date
     type: object
@@ -59,7 +53,23 @@ paths:
       tags:
       - Test
   /api/v1/sprint:
+    delete:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/model.Sprint'
+      summary: Delete a sprint
+      tags:
+      - Sprint
     get:
+      parameters:
+      - description: verison
+        in: query
+        name: name
+        type: string
       produces:
       - application/json
       responses:
@@ -68,6 +78,29 @@ paths:
           schema:
             $ref: '#/definitions/model.Sprint'
       summary: Get all sprints
+      tags:
+      - Sprint
+    post:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a sprint
+      tags:
+      - Sprint
+    put:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/model.Sprint'
+      summary: Update a sprint
       tags:
       - Sprint
 swagger: "2.0"
