@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@heroui/react": "^2.7.5",
     "@tailwindcss/postcss": "^4.0.12",
     "axios": "^1.8.3",
