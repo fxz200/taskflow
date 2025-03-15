@@ -40,7 +40,7 @@ func main() {
     }
     port := 8080
     // sql.Connect.AutoMigrate(&model.Message{}, &model.User{})
-    sql.Connect.AutoMigrate(&model.Message{}, &model.Sprint{})
+    sql.Connect.AutoMigrate( &model.Sprint{})
     r := router.SetRouter(port)
     //for froentend to access backend
     r.Use(func(c *gin.Context) {
