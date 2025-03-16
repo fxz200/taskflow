@@ -25,8 +25,12 @@ func CreateMember(c *gin.Context){
 		return
 	}
 	if err := repository.CreateMember(&member); err != nil {
-		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
-			JSONResponse(c, http.StatusConflict, http.StatusConflict, nil, "member already exists")
+		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") && strings.Contains(err.Error(), "email") {
+			JSONResponse(c, http.StatusConflict, http.StatusConflict, nil, "email already exists")
+			return
+		}
+		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") && strings.Contains(err.Error(), "name") {
+			JSONResponse(c, http.StatusConflict, http.StatusConflict, nil, "name already exists")
 			return
 		}
 		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, err.Error())
