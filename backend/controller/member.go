@@ -42,7 +42,7 @@ func UpdateMember(c *gin.Context){
 		return
 	}
 	if err := repository.UpdateMember(&member); err != nil {
-		if strings.Contains(err.Error(), "no member found with name") {
+		if strings.Contains(err.Error(), "member does not exist") {
 			JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, "member not found")
 			return
 		}
@@ -53,10 +53,10 @@ func UpdateMember(c *gin.Context){
 }
 
 func DeleteMember(c *gin.Context){
-	name := c.Query("name")
-	err := repository.DeleteMember(name)
+	id := c.Query("id")
+	err := repository.DeleteMember(id)
 	if err != nil {
-		if strings.Contains(err.Error(), "no member found with name") {
+		if strings.Contains(err.Error(), "member does not exist") {
 			JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, "member not found")
 			return
 		}

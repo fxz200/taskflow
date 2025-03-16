@@ -4,6 +4,8 @@ import (
 	"time"
 
 	"gorm.io/gorm"
+
+	"github.com/google/uuid"
 )
 
 //the test model
@@ -24,7 +26,13 @@ type Sprint struct {
 }
 
 type Member struct {
-	Name 	string `gorm:"primaryKey;not null;unique" json:"name" form:"name"  binding:"required" `
+	Id 	string `gorm:"primaryKey;not null;unique" json:"id" form:"id"`
+	Name 	string `gorm:"not null;unique" json:"name" form:"name"  binding:"required" `
 	Role 	string `json:"role" form:"role"  binding:"required" `
-	Email 	string `json:"email" form:"email"  binding:"required" `
+	Email 	string `gorm:"unique" json:"email" form:"email"  binding:"required" `
+}
+
+func (m *Member) BeforeCreate(tx *gorm.DB) (err error) {
+    m.Id = uuid.New().String()
+    return
 }

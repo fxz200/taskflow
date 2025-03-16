@@ -25,22 +25,23 @@ func CreateMember(member *model.Member)(err error){
 
 func UpdateMember(member *model.Member)(err error){
 	var existingMember model.Member
-	if err = sql.Connect.Model(&model.Member{}).Where("name = ?",member.Name).First(&existingMember).Error; err != nil {
+	fmt.Printf("UpdateMember: member.Id = %s\n", member.Id)
+	if err = sql.Connect.Model(&model.Member{}).Where("id = ?",member.Id).First(&existingMember).Error; err != nil {
 		if errors.Is(err,gorm.ErrRecordNotFound){
-			return fmt.Errorf("no member found with name %s",member.Name)
+			return fmt.Errorf("member does not exist")
 		}
 		return
 	}
-	err = sql.Connect.Model(&model.Member{}).Where("name = ?",member.Name).Updates(member).Error
+	err = sql.Connect.Model(&model.Member{}).Where("id = ?",member.Id).Updates(member).Error
 	return
 }
 
-func DeleteMember(name string)(err error){
+func DeleteMember(id string)(err error){
 	var member model.Member
-	err = sql.Connect.Where("name = ?",name).First(&member).Error
+	err = sql.Connect.Where("id = ?",id).First(&member).Error
 	if err != nil {
 		if errors.Is(err,gorm.ErrRecordNotFound){
-			return fmt.Errorf("no member found with name %s",name)
+			return fmt.Errorf("member does not exist")
 		}
 		return
 	}
