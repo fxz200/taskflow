@@ -21,5 +21,12 @@ func SetRouter(port int) *gin.Engine {
 		sprint.PUT("/", controller.UpdateSprint)
 		sprint.DELETE("/", controller.DeleteSprint)
 	}
+	member := r.Group("api/v1/member")
+	{
+		member.GET("/", controller.GetMembers)
+		member.POST("/", controller.CreateMember)
+		member.PUT("/", controller.UpdateMember)
+		member.DELETE("/", controller.DeleteMember)
+	}
 	return r
 }

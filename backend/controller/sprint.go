@@ -41,13 +41,7 @@ func CreateSprint(c *gin.Context) {
     }
 	JSONResponse(c, http.StatusOK,http.StatusOK,nil, "OK")
 }
-// @Summary Update a sprint
-// @Tags Sprint
-// @version 1.0
-// @produce application/json
-// @Success 200 {object} model.Sprint "success"
-// @Router /api/v1/sprint [put]
-// @Example 200 {object} model.Sprint
+
 func UpdateSprint(c *gin.Context) {
     var sprint model.Sprint
 
@@ -64,13 +58,7 @@ func UpdateSprint(c *gin.Context) {
     }
 	JSONResponse(c, http.StatusOK,http.StatusOK,nil, "OK")
 }
-// @Summary Delete a sprint
-// @Tags Sprint
-// @version 1.0
-// @produce application/json
-// @Success 200 {object} model.Sprint "success"
-// @Router /api/v1/sprint [delete]
-// @Example 200 {object} model.Sprint
+
 func DeleteSprint(c *gin.Context) {
 	var sprint model.Sprint
 
