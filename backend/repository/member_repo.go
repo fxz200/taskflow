@@ -9,13 +9,16 @@ import (
 	"gorm.io/gorm"
 )
 
-func GetMembers(role string)(member []*model.Member,err error){
-	if role != "" {
-		err = sql.Connect.Where("role=?",role).Find(&member).Error
-	}else{
-		err = sql.Connect.Find(&member).Error
-	}
-	return
+func GetMembers(role string, id string) (member []*model.Member, err error) {
+    query := sql.Connect.Model(&model.Member{})
+    if role != "" {
+        query = query.Where("role = ?", role)
+    }
+    if id != "" {
+        query = query.Where("id = ?", id)
+    }
+    err = query.Find(&member).Error
+    return
 }
 
 func CreateMember(member *model.Member)(err error){

@@ -11,7 +11,8 @@ import (
 
 func GetMembers(c *gin.Context){
 	role := c.Query("role")
-	member,err := repository.GetMembers(role)
+	id := c.Query("id")
+	member,err := repository.GetMembers(role,id)
 	if err !=nil{
 		JSONResponse(c,http.StatusBadRequest,http.StatusBadRequest,nil,err.Error())
 	}
