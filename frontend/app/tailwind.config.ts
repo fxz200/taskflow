@@ -14,7 +14,7 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
         lightGray: "#E5E5E5",
-        customBlue: "#7D95BE",
+        lightBlue: "#C1D3E5",
       },
     },
   },

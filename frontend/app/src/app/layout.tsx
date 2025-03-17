@@ -1,8 +1,7 @@
-// import type { Metadata } from "next";
-// import localFont from "next/font/local";
 import './globals.css'
 import { Providers } from './providers'
 import Sidebar from '@components/layout/Sidebar'
+import Header from '@components/layout/Header'
 
 export default function RootLayout({
   children,
@@ -11,14 +10,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="">
+      <body>
         <Providers>
-        <div className='w-32 flex items-center justify-center'>
-          <Sidebar />
-        </div>
-        <div className="flex-grow">
-          {children}
-        </div>
+          <div className="flex flex-col h-screen">
+            <div className="h-32">
+              <Header />
+            </div>
+            <div className="w-32 flex flex-grow h-full">
+              <Sidebar />
+              <div className="flex-grow">{children}</div>
+            </div>
+          </div>
         </Providers>
       </body>
     </html>
