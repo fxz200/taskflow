@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss"
-import {heroui} from "@heroui/react"
+import { heroui } from "@heroui/react"
 
 const config: Config = {
   content: [
@@ -13,12 +13,40 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        lightGray: "#E5E5E5",
-        lightBlue: "#C1D3E5",
+        lightgray: "#505050",
       },
     },
   },
   darkMode: "class",
-  plugins: [heroui()],
+  plugins: [
+    heroui({
+      prefix: "heroui", // prefix for themes variables
+      addCommonColors: false, // override common colors (e.g. "blue", "green", "pink").
+      defaultTheme: "light", // default theme from the themes object
+      defaultExtendTheme: "light", // default theme to extend on custom themes
+      layout: {}, // common layout tokens (applied to all themes)
+      themes: {
+        light: {
+          layout: {}, // light theme layout tokens
+          colors: {
+            "default": {
+              "foreground": "#1f1f1f",
+              "DEFAULT": "#e5e5e5"
+            },
+            "primary": {
+              "foreground": "#1f1f1f",
+              "DEFAULT": "#c1d3e5"
+            },
+          }, // light theme colors
+        },
+        dark: {
+          layout: {}, // dark theme layout tokens
+          colors: {}, // dark theme colors
+        },
+       
+      },
+    })
+  ],
 };
 export default config;
+

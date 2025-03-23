@@ -1,11 +1,12 @@
 'use client'
 
-import {HeroUIProvider} from '@heroui/react'
+import { HeroUIProvider } from '@heroui/react'
+import { ThemeProvider } from 'next-themes'
 
-export function Providers({children}: { children: React.ReactNode }) {
+export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <HeroUIProvider>
-      {children}
-    </HeroUIProvider>
+    <ThemeProvider attribute="class" defaultTheme="light">
+      <HeroUIProvider>{children}</HeroUIProvider>
+    </ThemeProvider>
   )
 }
