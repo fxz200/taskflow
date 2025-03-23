@@ -13,11 +13,13 @@ export default function RootLayout({
       <body>
         <Providers>
           <div className="flex flex-col h-screen">
-            <div className="h-32">
+            <div className="h-40">
               <Header />
             </div>
-            <div className="w-32 flex flex-grow h-full">
-              <Sidebar />
+            <div className="flex flex-grow">
+              <div className="w-32 h-full">
+                <Sidebar />
+              </div>
               <div className="flex-grow">{children}</div>
             </div>
           </div>
