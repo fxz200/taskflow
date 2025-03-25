@@ -8,7 +8,16 @@ import (
 
 	"gorm.io/gorm"
 )
-
+func GetMembersByIds(ids []string) ([]*model.Member) {
+    var members []*model.Member
+    err := sql.Connect.Debug().Model(&model.Member{}).Where("id IN ?", ids).Find(&members).Error
+    if err != nil {
+        fmt.Println("err", err)
+        return nil
+    }
+    fmt.Printf("GetMembersByIds: members = %v\n", members) 
+    return members
+}
 func GetMembers(role string, id string) (member []*model.Member, err error) {
     query := sql.Connect.Model(&model.Member{})
     if role != "" {

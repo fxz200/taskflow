@@ -3,9 +3,8 @@ package model
 import (
 	"time"
 
-	"gorm.io/gorm"
-
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 //the test model
@@ -30,9 +29,34 @@ type Member struct {
 	Name 	string `gorm:"not null;unique" json:"name" form:"name"  binding:"required" `
 	Role 	string `json:"role" form:"role"  binding:"required" `
 	Email 	string `gorm:"unique" json:"email" form:"email"  binding:"required" `
+	Tickets []Ticket  `gorm:"many2many:ticket_members;joinForeignKey:MemberID;joinReferences:TicketID" json:"tickets" form:"tickets"`
 }
 
 func (m *Member) BeforeCreate(tx *gorm.DB) (err error) {
-    m.Id = uuid.New().String()
+    if m.Id == "" { 
+        m.Id = uuid.New().String()
+    }
+    return
+}
+
+type Ticket struct {
+	Id 	string `gorm:"primaryKey;not null;unique" json:"id" form:"id"`
+	Type 	string `json:"type" form:"type"  binding:"required" `
+	Piority 	string `json:"piority" form:"piority"  binding:"required" `
+	Title 	string `gorm:"not null;unique" json:"title" form:"title"  binding:"required" `
+	Statement 	string `json:"statement" form:"statement"  binding:"required" `
+	Status 	string `json:"status" form:"status" `
+	JiraUrl 	string `json:"jira_url" form:"jira_url"  `
+	Summery 	string `json:"summery" form:"summery"  `
+ 	Members    []Member  `gorm:"many2many:ticket_members;joinForeignKey:TicketID;joinReferences:MemberID" json:"members" form:"members"`
+	MembersIDs []string  `gorm:"-" json:"members_ids,omitempty"`
+	Note 	string `json:"note" form:"note"`
+	gorm.Model `json:"-"`
+}
+
+func (t *Ticket) BeforeCreate(tx *gorm.DB) (err error) {
+    if t.Id == "" { 
+        t.Id = uuid.New().String()
+    }
     return
 }

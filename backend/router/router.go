@@ -28,5 +28,12 @@ func SetRouter(port int) *gin.Engine {
 		member.PUT("/", controller.UpdateMember)
 		member.DELETE("/", controller.DeleteMember)
 	}
+	ticket := r.Group("api/v1/ticket")
+	{
+		ticket.GET("/", controller.GetTickets)
+		ticket.POST("/", controller.CreateTicket)
+		ticket.PUT("/", controller.UpdateTicket)
+		ticket.DELETE("/", controller.DeleteTicket)
+	}
 	return r
 }

@@ -8,7 +8,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
-
 func GetMembers(c *gin.Context){
 	role := c.Query("role")
 	id := c.Query("id")
