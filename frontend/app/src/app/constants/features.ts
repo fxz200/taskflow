@@ -1,8 +1,8 @@
+import { UserIcon } from '@heroicons/react/20/solid'
 import {
   BarsArrowUpIcon,
   CalendarIcon,
   ClipboardDocumentListIcon,
-  ClockIcon,
   PresentationChartLineIcon,
 } from '@heroicons/react/24/solid'
 
@@ -17,5 +17,5 @@ export const featuresList: Feature[] = [
   { name: 'Backlog', href: '/backlog', icon: ClipboardDocumentListIcon },
   { name: 'Sprint', href: '/sprint', icon: PresentationChartLineIcon },
   { name: 'Priority', href: '/priority', icon: BarsArrowUpIcon },
-  { name: 'History', href: '/history', icon: ClockIcon },
+  { name: 'Member', href: '/member', icon: UserIcon },
 ]
