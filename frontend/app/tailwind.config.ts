@@ -31,7 +31,7 @@ const config: Config = {
           colors: {
             "default": {
               "foreground": "#1f1f1f",
-              "DEFAULT": "#e5e5e5"
+              "DEFAULT": "#e5e5e5",
             },
             "primary": {
               "foreground": "#1f1f1f",
@@ -41,7 +41,16 @@ const config: Config = {
         },
         dark: {
           layout: {}, // dark theme layout tokens
-          colors: {}, // dark theme colors
+          colors: {
+            "default": {
+              "foreground": "#1f1f1f",
+              "DEFAULT": "#e5e5e5",
+            },
+            "primary": {
+              "foreground": "#1f1f1f",
+              "DEFAULT": "#c1d3e5"
+            },
+          }, // dark theme colors
         },
        
       },
