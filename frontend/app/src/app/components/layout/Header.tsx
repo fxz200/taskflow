@@ -11,6 +11,7 @@ import {
 } from '@heroicons/react/20/solid'
 import { useTheme } from 'next-themes'
 import { SunIcon } from '@heroicons/react/24/solid'
+import SprintDialog from '@components/common/dialog/SprintDialog'
 
 const Header = () => {
   const { theme, setTheme } = useTheme()
@@ -19,6 +20,7 @@ const Header = () => {
     (feature) => feature.href === pathname
   )
   const [mounted, setMounted] = useState(false)
+  const [openDialog, setOpenDialog] = useState(false)
 
   useEffect(() => {
     setMounted(true)
@@ -58,24 +60,26 @@ const Header = () => {
         </div>
         <div className="flex justify-between items-center px-8 my-2">
           <span className="text-xl">{currentFeature?.name}</span>
-            <ButtonGroup>
-              <Button
-                isIconOnly
-                color="default"
-                className="w-11 data-[hover=true]:!opacity-100 hover:bg-primary"
-              >
-                <ChevronUpDownIcon className="w-5 h-5" />
-              </Button>
-              <Button
-                isIconOnly
-                color="default"
-                className="w-11 data-[hover=true]:!opacity-100 hover:bg-primary"
-              >
-                <PlusIcon className="w-5 h-5" />
-              </Button>
-            </ButtonGroup>
+          <ButtonGroup>
+            <Button
+              isIconOnly
+              color="default"
+              className="w-11 data-[hover=true]:!opacity-100 hover:bg-primary"
+            >
+              <ChevronUpDownIcon className="w-5 h-5" />
+            </Button>
+            <Button
+              isIconOnly
+              color="default"
+              className="w-11 data-[hover=true]:!opacity-100 hover:bg-primary"
+              onPress={() => setOpenDialog(true)}
+            >
+              <PlusIcon className="w-5 h-5" />
+            </Button>
+          </ButtonGroup>
         </div>
       </div>
+      <SprintDialog isOpen={openDialog} setIsOpen={setOpenDialog} />
     </>
   )
 }
