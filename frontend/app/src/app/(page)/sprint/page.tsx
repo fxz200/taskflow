@@ -1,11 +1,7 @@
 import React from 'react'
 
-const Page = () => {
-  return (
-    <div>
-      
-    </div>
-  )
+const Sprint = () => {
+  return <></>
 }
 
-export default Page
+export default Sprint
