@@ -10,7 +10,7 @@ import (
 )
 
 func GetTickets(sort string,ticketType string,statement string) (ticket []*model.Ticket,err error) {
-	query := sql.Connect.Model(&model.Ticket{}).Preload("Members") // 加載 Members 關聯
+	query := sql.Connect.Model(&model.Ticket{}).Preload("Members") 
 	if sort != "" {
 		query = query.Where("sort = ?", sort)
 	}
@@ -34,6 +34,20 @@ func CreateTicket(ticket *model.Ticket) (err error) {
 		if err != nil {
 			return err 
 		}
+		existingIDs := make(map[string]bool)
+		for _, member := range members {
+			existingIDs[member.Id] = true
+		}
+		var missingIDs []string
+		for _, id := range ticket.MembersIDs {
+			if !existingIDs[id] {
+				missingIDs = append(missingIDs, id)
+			}
+		}
+		if len(missingIDs) > 0 {
+			return fmt.Errorf("the following member IDs do not exist: %v", missingIDs)
+		}
+	
 		ticket.Members = members
 	}
 	err = sql.Connect.Create(ticket).Error
@@ -54,6 +68,19 @@ func UpdateTicket(ticket *model.Ticket) (err error) {
         if err != nil {
             return fmt.Errorf("failed to find members: %w", err)
         }
+		existingIDs := make(map[string]bool)
+		for _, member := range members {
+			existingIDs[member.Id] = true
+		}
+		var missingIDs []string
+		for _, id := range ticket.MembersIDs {
+			if !existingIDs[id] {
+				missingIDs = append(missingIDs, id)
+			}
+		}
+		if len(missingIDs) > 0 {
+			return fmt.Errorf("the following member IDs do not exist: %v", missingIDs)
+		}
         err = sql.Connect.Model(&existingTicket).Association("Members").Replace(members)
         if err != nil {
             return fmt.Errorf("failed to update members association: %w", err)
@@ -69,14 +96,19 @@ func UpdateTicket(ticket *model.Ticket) (err error) {
 }
 
 func DeleteTicket(id string) (err error) {
-	var ticket model.Ticket
-	err = sql.Connect.Where("id = ?",id).First(&ticket).Error
-	if err != nil {
-		if errors.Is(err,gorm.ErrRecordNotFound){
-			return fmt.Errorf("ticket does not exist")
-		}
-		return
-	}
-	err = sql.Connect.Delete(&ticket).Error
-	return
-} 
+    var ticket model.Ticket
+    err = sql.Connect.Where("id = ?", id).First(&ticket).Error
+    if err != nil {
+        if errors.Is(err, gorm.ErrRecordNotFound) {
+            return fmt.Errorf("ticket does not exist")
+        }
+        return
+    }
+	//delete related ticket members
+    err = sql.Connect.Table("ticket_members").Where("ticket_id = ?", id).Delete(nil).Error
+    if err != nil {
+        return fmt.Errorf("failed to delete related ticket members: %v", err)
+    }
+    err = sql.Connect.Unscoped().Delete(&ticket).Error
+    return
+}

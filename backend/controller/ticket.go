@@ -34,10 +34,6 @@ func CreateTicket(c *gin.Context)  {
 			JSONResponse(c, http.StatusConflict, http.StatusConflict, nil, "title already exists")
 			return
 		}
-		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") && strings.Contains(err.Error(), "jira_url") {
-			JSONResponse(c, http.StatusConflict, http.StatusConflict, nil, "jira url already exists")
-			return
-		}
 		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, err.Error())
 		return
 	}
@@ -51,10 +47,6 @@ func UpdateTicket(c *gin.Context)  {
 		return
 	}
 	if err := repository.UpdateTicket(&ticket); err != nil {
-		if strings.Contains(err.Error(), "ticket does not exist") {
-			JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, "ticket not found")
-			return
-		}
 		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, err.Error())
 		return
 	}
@@ -65,10 +57,6 @@ func DeleteTicket(c *gin.Context)  {
 	id := c.Query("id")
 	err := repository.DeleteTicket(id)
 	if err != nil {
-		if strings.Contains(err.Error(), "ticket does not exist") {
-			JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, "ticket not found")
-			return
-		}
 		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, err.Error())
 		return
 	}

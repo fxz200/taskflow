@@ -46,10 +46,6 @@ func UpdateMember(c *gin.Context){
 		return
 	}
 	if err := repository.UpdateMember(&member); err != nil {
-		if strings.Contains(err.Error(), "member does not exist") {
-			JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, "member not found")
-			return
-		}
 		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, err.Error())
 		return
 	}
@@ -60,10 +56,6 @@ func DeleteMember(c *gin.Context){
 	id := c.Query("id")
 	err := repository.DeleteMember(id)
 	if err != nil {
-		if strings.Contains(err.Error(), "member does not exist") {
-			JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, "member not found")
-			return
-		}
 		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, err.Error())
 		return
 	}

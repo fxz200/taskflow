@@ -29,7 +29,7 @@ type Member struct {
 	Name 	string `gorm:"not null;unique" json:"name" form:"name"  binding:"required" `
 	Role 	string `json:"role" form:"role"  binding:"required" `
 	Email 	string `gorm:"unique" json:"email" form:"email"  binding:"required" `
-	Tickets []Ticket  `gorm:"many2many:ticket_members;joinForeignKey:MemberID;joinReferences:TicketID" json:"tickets" form:"tickets"`
+	Tickets []Ticket  `gorm:"many2many:ticket_members;joinForeignKey:MemberID;joinReferences:TicketID" json:"-" `
 }
 
 func (m *Member) BeforeCreate(tx *gorm.DB) (err error) {
