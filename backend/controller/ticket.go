@@ -12,10 +12,10 @@ import (
 
 
 func GetTickets(c *gin.Context) {
-    sort := c.Query("sort")
+    sprint := c.Query("sprint")
     ticketType := c.Query("type")
     statement := c.Query("statement")
-    tickets, err := repository.GetTickets(sort, ticketType, statement)
+    tickets, err := repository.GetTickets(sprint, ticketType, statement)
     if err != nil {
         JSONResponse(c, http.StatusInternalServerError, http.StatusInternalServerError, nil, err.Error())
         return

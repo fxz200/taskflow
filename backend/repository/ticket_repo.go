@@ -9,13 +9,13 @@ import (
 	"gorm.io/gorm"
 )
 
-func GetTickets(sort string,ticketType string,statement string) (ticket []*model.Ticket,err error) {
+func GetTickets(sprint string,ticketType string,statement string) (ticket []*model.Ticket,err error) {
 	query := sql.Connect.Model(&model.Ticket{}).Preload("Members") 
-	if sort != "" {
-		query = query.Where("sort = ?", sort)
+	if sprint != "" {
+		query = query.Where("sprint = ?", sprint)
 	}
 	if ticketType != "" {
-		query = query.Where("ticketType = ?", ticketType)
+		query = query.Where("type = ?", ticketType)
 	}
 	if statement != "" {
 		query = query.Where("statement = ?", statement)

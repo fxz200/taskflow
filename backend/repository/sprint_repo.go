@@ -43,6 +43,6 @@ func DeleteSprint(sprint *model.Sprint, id string) (err error) {
         }
         return
     }
-    err = sql.Connect.Delete(&sprint).Error
+    err = sql.Connect.Unscoped().Delete(&sprint).Error
     return
 }
