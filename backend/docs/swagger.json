@@ -318,6 +318,117 @@
           }
         }
       }
+    },
+    "/api/v1/ticket": {
+      "get": {
+        "produces": ["application/json"],
+        "tags": ["Ticket"],
+        "summary": "Get all Tickets",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "description": "- 1: Feature\n- 2: Bug\n- 3: Improvement",
+            "required": false,
+            "type": "string",
+            "enum": [1, 2, 3]
+          },
+          {
+            "name": "sprint",
+            "in": "query",
+            "description": "the sprint name",
+            "required": false,
+            "type": "string",
+            "default": "ver2.55"
+          },
+          {
+            "name": "statement",
+            "in": "query",
+            "description": "- 1: in Backlog\n- 2: in Piority\n- 3: in Sprint",
+            "required": false,
+            "type": "string",
+            "enum": [1, 2, 3]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "$ref": "#/definitions/model.Ticket.responses"
+            }
+          }
+        }
+      },
+      "put": {
+        "produces": ["application/json"],
+        "tags": ["Ticket"],
+        "summary": "Update a Ticket",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "description": "傳整個object,沒有動到的空值可以不傳",
+            "schema": {
+              "$ref": "#/definitions/model.Ticket.put"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "post": {
+        "produces": ["application/json"],
+        "tags": ["Ticket"],
+        "summary": "Create a Ticket",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "description": "空值可以不傳",
+            "schema": {
+              "$ref": "#/definitions/model.Ticket.post"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "delete": {
+        "produces": ["application/json"],
+        "tags": ["Ticket"],
+        "summary": "Delete a Ticket",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "ticket id",
+            "name": "id",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -379,6 +490,172 @@
         "role": {
           "type": "string",
           "example": "RD"
+        }
+      }
+    },
+    "model.Ticket.responses": {
+      "type": "object",
+      "required": ["type", "title", "piority", "statement"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "231ecb24-ce65-4190-8850-ae22217cf17a"
+        },
+        "type": {
+          "type": "integer",
+          "example": 2,
+          "description": "- 1: Feature\n- 2: Bug\n- 3: Improvement"
+        },
+        "piority": {
+          "type": "integer",
+          "example": 0,
+          "description": "- 0: P0\n- 1: P1\n- 2: P2- 3: p3\n- 4: p4"
+        },
+        "title": {
+          "type": "string",
+          "example": "showmore一鍵關店"
+        },
+        "statement": {
+          "type": "integer",
+          "example": 1,
+          "description": "- 1: in Backlog\n- 2: in Piority\n- 3: in Sprint"
+        },
+        "status": {
+          "type": "integer",
+          "example": 1,
+          "description": "在Priority的狀態\n- 0: not in piority\n- 1: 待處理\n- 2: 進行中\n- 3: 已完成"
+        },
+        "sprint": {
+          "description": "statement=3的時候才會有值",
+          "type": "string",
+          "example": ""
+        },
+        "jira_url": {
+          "type": "string",
+          "example": "http://jira/KOL-5487"
+        },
+        "summary": {
+          "type": "string",
+          "example": "把你的店給關了"
+        },
+        "note": {
+          "type": "string",
+          "example": "風險: 這個功能會影響到所有的店"
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/model.Member"
+          }
+        }
+      }
+    },
+    "model.Ticket.post": {
+      "type": "object",
+      "required": ["type", "title", "piority", "statement"],
+      "properties": {
+        "members_ids": {
+          "type": "array",
+          "example": [
+            "d88b96e5-7e84-48ff-82de-cb66498bd49e",
+            "c0d62cd7-f926-427c-8c0d-fc5eddc27aba"
+          ]
+        },
+        "type": {
+          "type": "integer",
+          "example": 2,
+          "description": "- 1: Feature\n- 2: Bug\n- 3: Improvement"
+        },
+        "piority": {
+          "type": "integer",
+          "example": 0,
+          "description": "- 0: P0\n- 1: P1\n- 2: P2- 3: p3\n- 4: p4"
+        },
+        "title": {
+          "type": "string",
+          "example": "showmore一鍵關店"
+        },
+        "statement": {
+          "type": "integer",
+          "example": 1,
+          "description": "- 1: in Backlog\n- 2: in Piority\n- 3: in Sprint"
+        },
+        "status": {
+          "type": "integer",
+          "example": 1,
+          "description": "在Priority的狀態\n- 0: not in piority\n- 1: 待處理\n- 2: 進行中\n- 3: 已完成"
+        },
+        "sprint": {
+          "description": "statement=3的時候才會有值",
+          "type": "string",
+          "example": ""
+        },
+        "jira_url": {
+          "type": "string",
+          "example": "http://jira/KOL-5487"
+        },
+        "summary": {
+          "type": "string",
+          "example": "把你的店給關了"
+        },
+        "note": {
+          "type": "string",
+          "example": "風險: 這個功能會影響到所有的店"
+        }
+      }
+    },
+    "model.Ticket.put": {
+      "type": "object",
+      "required": ["type", "title", "piority", "statement"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "231ecb24-ce65-4190-8850-ae22217cf17a"
+        },
+        "members_ids": {
+          "type": "array",
+          "example": ["d88b96e5-7e84-48ff-82de-cb66498bd49e"]
+        },
+        "type": {
+          "type": "integer",
+          "example": 2,
+          "description": "- 1: Feature\n- 2: Bug\n- 3: Improvement"
+        },
+        "piority": {
+          "type": "integer",
+          "example": 0,
+          "description": "- 0: P0\n- 1: P1\n- 2: P2- 3: p3\n- 4: p4"
+        },
+        "title": {
+          "type": "string",
+          "example": "showmore一鍵關店"
+        },
+        "statement": {
+          "type": "integer",
+          "example": 2,
+          "description": "- 1: in Backlog\n- 2: in Piority\n- 3: in Sprint"
+        },
+        "status": {
+          "type": "integer",
+          "example": 3,
+          "description": "在Priority的狀態\n- 0: not in piority\n- 1: 待處理\n- 2: 進行中\n- 3: 已完成"
+        },
+        "sprint": {
+          "description": "statement=3的時候才會有值",
+          "type": "string",
+          "example": "ver2.55"
+        },
+        "jira_url": {
+          "type": "string",
+          "example": "http://jira/KOL-5487"
+        },
+        "summary": {
+          "type": "string",
+          "example": "把你的店給關了"
+        },
+        "note": {
+          "type": "string",
+          "example": "風險: 這個功能會影響到所有的店"
         }
       }
     }
