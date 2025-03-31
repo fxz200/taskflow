@@ -17,5 +17,5 @@ export const featuresList: Feature[] = [
   { name: 'Backlog', href: '/backlog', icon: ClipboardDocumentListIcon },
   { name: 'Sprint', href: '/sprint', icon: PresentationChartLineIcon },
   { name: 'Priority', href: '/priority', icon: BarsArrowUpIcon },
-  { name: 'Member', href: '/member', icon: UserIcon },
+  { name: 'Members', href: '/members', icon: UserIcon },
 ]
