@@ -473,7 +473,7 @@
     },
     "model.Member": {
       "type": "object",
-      "required": ["end_date", "name", "start_date"],
+      "required": ["email", "name", "role"],
       "properties": {
         "id": {
           "type": "string",
@@ -490,6 +490,11 @@
         "role": {
           "type": "string",
           "example": "RD"
+        },
+        "icon": {
+          "type": "integer",
+          "example": 2,
+          "description": "- 0: default\n- 1:鴨\n- 2:驢\n- 3:鹿\n- 4:牛 \n- 5:雞 \n- 6:貓\n- 7:水豚\n- 8:牛:(\n- 9:羊駝\n- 10:兔\n- 11:虎\n- 12:猴\n- 13:馬\n- 14:蛙"
         }
       }
     },
