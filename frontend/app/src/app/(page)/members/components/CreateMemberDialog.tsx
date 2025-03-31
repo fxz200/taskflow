@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Dialog from '../../../components/common/Dialog'
 import {
   Avatar,
   Button,
@@ -11,6 +10,7 @@ import {
 } from '@heroui/react'
 import { roles } from '@constants/member'
 import SelectAvatarDialog from './SelectAvatarDialog'
+import Dialog from '@components/common/Dialog'
 
 interface Props {
   isOpen: boolean
@@ -18,7 +18,7 @@ interface Props {
 }
 
 const CreateMemberDialog = ({ isOpen, setIsOpen }: Props) => {
-  const [isAvatarDialogOpen, setIsAvatarDialogOpen] = useState(true)
+  const [isAvatarDialogOpen, setIsAvatarDialogOpen] = useState(false)
   return (
     <>
       <Dialog title="新增成員" isOpen={isOpen} onClose={() => setIsOpen(false)}>
@@ -58,10 +58,10 @@ const CreateMemberDialog = ({ isOpen, setIsOpen }: Props) => {
           </div>
         </Form>
       </Dialog>
-      {/* <SelectAvatarDialog
+      <SelectAvatarDialog
         isOpen={isAvatarDialogOpen}
         setIsOpen={setIsAvatarDialogOpen}
-      /> */}
+      />
     </>
   )
 }

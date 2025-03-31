@@ -13,22 +13,31 @@ interface Props {
   children: React.ReactNode
   isOpen: boolean
   onClose: () => void
-  footerAlignment?: "items-center" | "items-end"
+  size?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "full"
+  footerAlignment?: 'justify-center' | 'justify-end'
 }
 
-const Dialog = ({ title, children, isOpen, onClose, footerAlignment = "items-center" }: Props) => {
+const Dialog = ({
+  title,
+  children,
+  isOpen,
+  onClose,
+  size = "md",
+  footerAlignment = 'justify-center',
+}: Props) => {
   return (
     <Modal
       isDismissable={true}
       isKeyboardDismissDisabled={true}
       isOpen={isOpen}
       hideCloseButton={true}
+      size={size}
       className="rounded-[40px]"
       classNames={{
-        base:'flex p-5',
+        base: 'flex p-6',
         header: 'font-normal text-xl',
-        body: 'mt-5',
-        footer: `flex items-center justify-center mt-6 gap-6 ${footerAlignment}`,
+        body: 'mt-4',
+        footer: `flex items-center ${footerAlignment} mt-6 px-8 gap-6 `,
       }}
     >
       <ModalContent>
