@@ -13,9 +13,10 @@ interface Props {
   children: React.ReactNode
   isOpen: boolean
   onClose: () => void
+  footerAlignment?: "items-center" | "items-end"
 }
 
-const Dialog = ({ title, children, isOpen, onClose }: Props) => {
+const Dialog = ({ title, children, isOpen, onClose, footerAlignment = "items-center" }: Props) => {
   return (
     <Modal
       isDismissable={true}
@@ -27,7 +28,7 @@ const Dialog = ({ title, children, isOpen, onClose }: Props) => {
         base:'flex p-5',
         header: 'font-normal text-xl',
         body: 'mt-5',
-        footer: 'flex items-center justify-center mt-6 gap-6',
+        footer: `flex items-center justify-center mt-6 gap-6 ${footerAlignment}`,
       }}
     >
       <ModalContent>

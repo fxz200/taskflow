@@ -1,14 +1,14 @@
 import React from 'react'
-import Dialog from './Dialog'
 import { DatePicker, Form, Input } from '@heroui/react'
 import { CalendarDaysIcon } from '@heroicons/react/20/solid'
+import Dialog from '@components/common/Dialog'
 
 interface Props {
   isOpen: boolean
   setIsOpen: (open: boolean) => void
 }
 
-const SprintDialog = ({ isOpen, setIsOpen }: Props) => {
+const CreateSprintDialog = ({ isOpen, setIsOpen }: Props) => {
   return (
     <Dialog title="新增時程" isOpen={isOpen} onClose={() => setIsOpen(false)}>
       <Form className="gap-9">
@@ -52,4 +52,4 @@ const SprintDialog = ({ isOpen, setIsOpen }: Props) => {
   )
 }
 
-export default SprintDialog
+export default CreateSprintDialog
