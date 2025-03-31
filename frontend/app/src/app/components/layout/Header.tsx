@@ -11,7 +11,7 @@ import {
 } from '@heroicons/react/20/solid'
 import { useTheme } from 'next-themes'
 import { SunIcon } from '@heroicons/react/24/solid'
-import SprintDialog from '@components/common/dialog/SprintDialog'
+import CreateEventDialog from './components/CreateEventDialog'
 
 const Header = () => {
   const { theme, setTheme } = useTheme()
@@ -79,7 +79,7 @@ const Header = () => {
           </ButtonGroup>
         </div>
       </div>
-      <SprintDialog isOpen={openDialog} setIsOpen={setOpenDialog} />
+      <CreateEventDialog isOpen={openDialog} setIsOpen={setOpenDialog} />
     </>
   )
 }
