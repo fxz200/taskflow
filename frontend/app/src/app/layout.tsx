@@ -1,7 +1,10 @@
+'use client'
 import './globals.css'
 import { Providers } from './providers'
 import Sidebar from '@components/layout/Sidebar'
 import Header from '@components/layout/Header'
+import store from './store'
+import { Store } from 'redux'
 
 export default function RootLayout({
   children,
@@ -11,7 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Providers>
+        <Providers store={store as Store}>
           <div className="flex flex-col h-screen">
             <div className="h-40">
               <Header />
