@@ -1,14 +1,20 @@
 import axios from 'axios'
 
-const API_HOST = process.env.API_HOST
+const API_HOST = `${process.env.NEXT_PUBLIC_API_HOST}/api`
 const config = {
   baseURL: API_HOST,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  withCredentials: true,
 }
 
-const api = axios.create(config)
+export const api = axios.create(config)
 
 api.interceptors.request.use(
-  (config) => config,
+  (config) => {
+    return config
+  },
   (error) => Promise.reject(error)
 )
 
@@ -19,7 +25,7 @@ api.interceptors.response.use(
     }
     return response.data
   },
-    (error) => {
-      return Promise.reject(error)
-    }
-  )
+  (error) => {
+    return Promise.reject(error)
+  }
+)
