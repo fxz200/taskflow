@@ -17,24 +17,24 @@ func SetRouter(port int) *gin.Engine {
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 	sprint := r.Group("api/v1/sprint")
 	{
-		sprint.GET("/", controller.GetAllSprint)
-		sprint.POST("/", controller.CreateSprint)
-		sprint.PUT("/", controller.UpdateSprint)
-		sprint.DELETE("/", controller.DeleteSprint)
+		sprint.GET("", controller.GetAllSprint)
+		sprint.POST("", controller.CreateSprint)
+		sprint.PUT("", controller.UpdateSprint)
+		sprint.DELETE("", controller.DeleteSprint)
 	}
 	member := r.Group("api/v1/member")
 	{
-		member.GET("/", controller.GetMembers)
-		member.POST("/", controller.CreateMember)
-		member.PUT("/", controller.UpdateMember)
-		member.DELETE("/", controller.DeleteMember)
+		member.GET("", controller.GetMembers)
+		member.POST("", controller.CreateMember)
+		member.PUT("", controller.UpdateMember)
+		member.DELETE("", controller.DeleteMember)
 	}
 	ticket := r.Group("api/v1/ticket")
 	{
-		ticket.GET("/", controller.GetTickets)
-		ticket.POST("/", controller.CreateTicket)
-		ticket.PUT("/", controller.UpdateTicket)
-		ticket.DELETE("/", controller.DeleteTicket)
+		ticket.GET("", controller.GetTickets)
+		ticket.POST("", controller.CreateTicket)
+		ticket.PUT("", controller.UpdateTicket)
+		ticket.DELETE("", controller.DeleteTicket)
 	}
 	return r
 }
