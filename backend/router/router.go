@@ -12,8 +12,9 @@ import (
 func SetRouter(port int) *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
+	r.RedirectTrailingSlash = false
 	url := ginSwagger.URL(fmt.Sprintf("http://localhost:%d/swagger/doc.json", port))
-		r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 	sprint := r.Group("api/v1/sprint")
 	{
 		sprint.GET("/", controller.GetAllSprint)
