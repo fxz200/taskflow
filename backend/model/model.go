@@ -27,7 +27,7 @@ type Sprint struct {
 type Member struct {
 	Id       string   `gorm:"primaryKey;not null;unique" json:"id" form:"id"`
 	Name     string   `gorm:"not null;unique" json:"name" form:"name"  binding:"required" `
-	Role     string   `json:"role" form:"role"  binding:"required" `
+	Role     uint8    `json:"role" form:"role"  binding:"required" `
 	IconType uint8    `json:"icon" form:"icon" `
 	Email    string   `gorm:"unique" json:"email" form:"email"  binding:"required" `
 	Tickets  []Ticket `gorm:"many2many:ticket_members;joinForeignKey:MemberID;joinReferences:TicketID" json:"-" `
