@@ -1,9 +1,9 @@
 import React from 'react'
 import { Button } from '@heroui/react'
-import Dialog from '@components/common/Dialog'
 import Image from 'next/image'
 import { UserIcon } from '@heroicons/react/20/solid'
 import { avatarList } from '@constants/member'
+import Dialog from '@components/common/Dialog'
 
 interface Props {
   isOpen: boolean

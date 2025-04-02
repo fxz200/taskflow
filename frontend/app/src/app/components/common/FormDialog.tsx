@@ -14,15 +14,17 @@ interface Props {
   children: React.ReactNode
   isOpen: boolean
   onClose: () => void
+  onSubmit?: () => void
   size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | 'full'
   footerAlignment?: 'justify-center' | 'justify-end'
 }
 
-const Dialog = ({
+const FormDialog = ({
   title,
   children,
   isOpen,
   onClose,
+  onSubmit,
   size = 'md',
   footerAlignment = 'justify-center',
 }: Props) => {
@@ -37,24 +39,27 @@ const Dialog = ({
       classNames={{
         base: 'flex p-6',
         header: 'font-normal text-xl',
-        body: 'mt-4',
+        body: 'mt-4 flex-col gap-9',
         footer: `flex items-center ${footerAlignment} mt-6 px-8 gap-6 `,
       }}
     >
-      <ModalContent>
-        <ModalHeader>{title}</ModalHeader>
+      <Form>
+        <ModalContent>
+          <ModalHeader>{title}</ModalHeader>
+
           <ModalBody>{children}</ModalBody>
           <ModalFooter>
             <Button color="default" onPress={onClose}>
               取消
             </Button>
-            <Button color="primary" onPress={onClose}>
+            <Button color="primary" type="submit" onPress={onSubmit}>
               確認
             </Button>
           </ModalFooter>
-      </ModalContent>
+        </ModalContent>
+      </Form>
     </Modal>
   )
 }
 
-export default Dialog
+export default FormDialog
