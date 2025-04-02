@@ -8,17 +8,21 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
-func GetMembers(c *gin.Context){
+
+func GetMembers(c *gin.Context) {
 	role := c.Query("role")
 	id := c.Query("id")
-	member,err := repository.GetMembers(role,id)
-	if err !=nil{
-		JSONResponse(c,http.StatusBadRequest,http.StatusBadRequest,nil,err.Error())
+	member, err := repository.GetMembers(role, id)
+	if err != nil {
+		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, err.Error())
 	}
-	JSONResponse(c,http.StatusOK,http.StatusOK,member,"OK")
-} 
+	data := map[string]interface{}{
+		"members": member,
+	}
+	JSONResponse(c, http.StatusOK, http.StatusOK, data, "OK")
+}
 
-func CreateMember(c *gin.Context){
+func CreateMember(c *gin.Context) {
 	var member model.Member
 	if err := c.Bind(&member); err != nil {
 		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, err.Error())
@@ -39,7 +43,7 @@ func CreateMember(c *gin.Context){
 	JSONResponse(c, http.StatusOK, http.StatusOK, nil, "OK")
 }
 
-func UpdateMember(c *gin.Context){
+func UpdateMember(c *gin.Context) {
 	var member model.Member
 	if err := c.Bind(&member); err != nil {
 		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, err.Error())
@@ -52,7 +56,7 @@ func UpdateMember(c *gin.Context){
 	JSONResponse(c, http.StatusOK, http.StatusOK, nil, "OK")
 }
 
-func DeleteMember(c *gin.Context){
+func DeleteMember(c *gin.Context) {
 	id := c.Query("id")
 	err := repository.DeleteMember(id)
 	if err != nil {

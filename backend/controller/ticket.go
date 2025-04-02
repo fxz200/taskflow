@@ -9,21 +9,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-
-
 func GetTickets(c *gin.Context) {
-    sprint := c.Query("sprint")
-    ticketType := c.Query("type")
-    statement := c.Query("statement")
-    tickets, err := repository.GetTickets(sprint, ticketType, statement)
-    if err != nil {
-        JSONResponse(c, http.StatusInternalServerError, http.StatusInternalServerError, nil, err.Error())
-        return
-    }
-	JSONResponse(c, http.StatusOK, http.StatusOK, tickets, "OK")
+	sprint := c.Query("sprint")
+	ticketType := c.Query("type")
+	statement := c.Query("statement")
+	tickets, err := repository.GetTickets(sprint, ticketType, statement)
+	if err != nil {
+		JSONResponse(c, http.StatusInternalServerError, http.StatusInternalServerError, nil, err.Error())
+		return
+	}
+	data := map[string]interface{}{
+		"tickets": tickets,
+	}
+	JSONResponse(c, http.StatusOK, http.StatusOK, data, "OK")
 }
-	
-func CreateTicket(c *gin.Context)  {
+
+func CreateTicket(c *gin.Context) {
 	var ticket model.Ticket
 	if err := c.Bind(&ticket); err != nil {
 		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, err.Error())
@@ -38,9 +39,9 @@ func CreateTicket(c *gin.Context)  {
 		return
 	}
 	JSONResponse(c, http.StatusOK, http.StatusOK, nil, "OK")
-} 
+}
 
-func UpdateTicket(c *gin.Context)  {
+func UpdateTicket(c *gin.Context) {
 	var ticket model.Ticket
 	if err := c.Bind(&ticket); err != nil {
 		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, err.Error())
@@ -51,9 +52,9 @@ func UpdateTicket(c *gin.Context)  {
 		return
 	}
 	JSONResponse(c, http.StatusOK, http.StatusOK, nil, "OK")
-} 
+}
 
-func DeleteTicket(c *gin.Context)  {
+func DeleteTicket(c *gin.Context) {
 	id := c.Query("id")
 	err := repository.DeleteTicket(id)
 	if err != nil {
@@ -61,4 +62,4 @@ func DeleteTicket(c *gin.Context)  {
 		return
 	}
 	JSONResponse(c, http.StatusOK, http.StatusOK, nil, "OK")
-} 
+}
