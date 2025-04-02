@@ -11,7 +11,7 @@ import {
 } from '@heroicons/react/20/solid'
 import { useTheme } from 'next-themes'
 import { SunIcon } from '@heroicons/react/24/solid'
-import CreateEventDialog from './components/CreateEventDialog'
+import CreateEventDialog from './CreateEventDialog'
 
 const Header = () => {
   const { theme, setTheme } = useTheme()
