@@ -27,7 +27,7 @@ const CreateMemberDialog = ({ isOpen, setIsOpen }: Props) => {
             isRequired
             label="Role"
             labelPlacement="outside"
-            defaultSelectedKeys={['1']}
+            placeholder='Select a role'
           >
             {roles.map((role) => (
               <SelectItem key={role.id}>{role.label}</SelectItem>

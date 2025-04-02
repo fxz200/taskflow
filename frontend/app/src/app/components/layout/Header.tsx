@@ -15,12 +15,12 @@ import CreateEventDialog from './components/CreateEventDialog'
 
 const Header = () => {
   const { theme, setTheme } = useTheme()
-  const pathname = usePathname()
-  const currentFeature = featuresList.find(
-    (feature) => feature.href === pathname
-  )
   const [mounted, setMounted] = useState(false)
   const [openDialog, setOpenDialog] = useState(false)
+  const pathname = usePathname()
+  const currentFeature = mounted
+    ? featuresList.find((feature) => feature.href === pathname)
+    : null
 
   useEffect(() => {
     setMounted(true)
@@ -51,7 +51,7 @@ const Header = () => {
               )
             }
           >
-            {theme === 'light' ? (
+            {mounted && theme === 'light' ? (
               <MoonIcon className="w-5 h-5" />
             ) : (
               <SunIcon className="w-5 h-5" />

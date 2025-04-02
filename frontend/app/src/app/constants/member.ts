@@ -1,19 +1,19 @@
 interface Roles {
-  id: string
+  id: number
   label: string
 }
+
+export const roles: Roles[] = [
+  { id: 1, label: 'PM' },
+  { id: 2, label: 'RD/Backend' },
+  { id: 3, label: 'RD/Frontend' },
+  { id: 4, label: 'QA' },
+]
 
 interface avatarList {
   id: number
   src: string
 }
-
-export const roles: Roles[] = [
-  { id: '1', label: 'PM' },
-  { id: '2', label: 'RD/Backend' },
-  { id: '3', label: 'RD/Frontend' },
-  { id: '4', label: 'QA' },
-]
 
 export const avatarList: avatarList[] = [
   { id: 1, src: '/img/avatar_1.jpg' },
