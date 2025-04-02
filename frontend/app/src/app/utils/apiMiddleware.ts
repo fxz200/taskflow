@@ -20,10 +20,10 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   (response) => {
-    if (response.data.code !== 200) {
-      return response
-    }
-    return response.data
+    // if (response.data.code !== 200) {
+    //   return response
+    // }
+    return response
   },
   (error) => {
     return Promise.reject(error)
