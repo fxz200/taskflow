@@ -193,8 +193,8 @@
             "in": "query",
             "description": "role",
             "required": false,
-            "type": "string",
-            "enum": ["RD", "QA", "PM"]
+            "type": "integer",
+            "enum": [1, 2, 3, 4]
           },
           {
             "name": "id",
@@ -235,9 +235,14 @@
                   "example": "Riven Huang"
                 },
                 "role": {
-                  "type": "string",
+                  "type": "integer",
 
-                  "example": "FROG"
+                  "example": "1"
+                },
+                "icon": {
+                  "type": "integer",
+
+                  "example": "2"
                 },
                 "email": {
                   "type": "string",
@@ -279,8 +284,12 @@
                   "example": "riven.huang@showmore.cc"
                 },
                 "role": {
-                  "type": "string",
-                  "example": "RD"
+                  "type": "integer",
+                  "example": "1"
+                },
+                "icon": {
+                  "type": "integer",
+                  "example": "8"
                 }
               },
               "required": ["name", "email", "role"]
@@ -328,10 +337,10 @@
           {
             "name": "type",
             "in": "query",
-            "description": "- 1: Feature\n- 2: Bug\n- 3: Improvement",
+            "description": "- 1: New Feature\n- 2: Bug\n- 3: Improvement\n- 4: Story\n- 5: Task \n- 6: Epic",
             "required": false,
             "type": "string",
-            "enum": [1, 2, 3]
+            "enum": [1, 2, 3, 4, 5, 6]
           },
           {
             "name": "sprint",
@@ -429,6 +438,31 @@
           }
         }
       }
+    },
+    "/api/v1/ticket/export": {
+      "get": {
+        "produces": ["application/json"],
+        "tags": ["Ticket"],
+        "summary": "Get ExportList.xslx",
+        "parameters": [
+          {
+            "name": "sprint",
+            "in": "query",
+            "description": "the sprint name",
+            "required": true,
+            "type": "string",
+            "default": "ver2.55"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -488,8 +522,9 @@
           "example": "riven.huang@showmore.cc"
         },
         "role": {
-          "type": "string",
-          "example": "RD"
+          "type": "integer",
+          "example": "1",
+          "description": "- 1:PM\n- 2:RD/backend\n- 3:RD/frontend\n- 4:QA"
         },
         "icon": {
           "type": "integer",
@@ -509,12 +544,12 @@
         "type": {
           "type": "integer",
           "example": 2,
-          "description": "- 1: Feature\n- 2: Bug\n- 3: Improvement"
+          "description": "- 1: New Feature\n- 2: Bug\n- 3: Improvement\n- 4: Story\n- 5: Task \n- 6: Epic"
         },
         "piority": {
           "type": "integer",
           "example": 0,
-          "description": "- 0: P0\n- 1: P1\n- 2: P2- 3: p3\n- 4: p4"
+          "description": "- 0: P0\n- 1: P1\n- 2: P2\n- 3: p3\n- 4: p4"
         },
         "title": {
           "type": "string",
@@ -569,7 +604,7 @@
         "type": {
           "type": "integer",
           "example": 2,
-          "description": "- 1: Feature\n- 2: Bug\n- 3: Improvement"
+          "description": "- 1: New Feature\n- 2: Bug\n- 3: Improvement\n- 4: Story\n- 5: Task \n- 6: Epic"
         },
         "piority": {
           "type": "integer",
@@ -624,7 +659,7 @@
         "type": {
           "type": "integer",
           "example": 2,
-          "description": "- 1: Feature\n- 2: Bug\n- 3: Improvement"
+          "description": "- 1: New Feature\n- 2: Bug\n- 3: Improvement\n- 4: Story\n- 5: Task \n- 6: Epic"
         },
         "piority": {
           "type": "integer",
