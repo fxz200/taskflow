@@ -62,3 +62,10 @@ func (t *Ticket) BeforeCreate(tx *gorm.DB) (err error) {
 	}
 	return
 }
+
+type CheckList struct {
+	Type     uint8
+	Title    string
+	JiraUrl  string
+	RDMember []string
+}

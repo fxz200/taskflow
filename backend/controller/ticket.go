@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/xuri/excelize/v2"
 )
 
 func GetTickets(c *gin.Context) {
@@ -62,4 +63,66 @@ func DeleteTicket(c *gin.Context) {
 		return
 	}
 	JSONResponse(c, http.StatusOK, http.StatusOK, nil, "OK")
+}
+
+func ExportChecklist(c *gin.Context) {
+	sprint := c.Query("sprint")
+	memberdata, sprintdata, checklistdata, err := fetchExportData(sprint)
+	if err != nil {
+		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, err.Error())
+		return
+	}
+	releaseDate := sprintdata[0].EndDate
+	formattedDate := releaseDate.AddDate(0, 0, 1).Format("2006/1/2")
+	sheet := "Sprint " + sprint
+	time := "預計上線日期 :  " + formattedDate + " 2:00"
+
+	memberList := []string{}
+	for _, member := range memberdata {
+		memberList = append(memberList, member.Name)
+	}
+	checklistMap := map[int][]*model.CheckList{}
+	for _, checklist := range checklistdata {
+		checklistMap[int(checklist.Type)] = append(checklistMap[int(checklist.Type)], checklist)
+	}
+	f := excelize.NewFile()
+	f.SetSheetName("Sheet1", sheet)
+	f.SetColWidth(sheet, "A", "A", 90)
+	f.SetColWidth(sheet, "B", "E", 30)
+	f.SetCellValue(sheet, "A1", time)
+	typeNames := map[int]string{
+		1: "New Feature",
+		2: "Bug",
+		3: "Imp",
+		4: "Story",
+		5: "Task",
+		6: "Epic",
+	}
+	row := 2
+
+	for id, typeName := range typeNames {
+		if len(checklistMap[id]) != 0 {
+			TypeBar(f, sheet, typeName, row)
+			ReadySelectBox(f, sheet, row+2, row+2+len(checklistMap[id]))
+			MemberSelectBox(f, sheet, row+2, row+2+len(checklistMap[id]), memberList)
+			for _, checklist := range checklistMap[id] {
+				titleCell(f, sheet, checklist.Title, checklist.JiraUrl, row+2)
+				MemberCell(f, sheet, checklist.RDMember, row+2)
+				row++
+			}
+			row += 2
+		}
+	}
+	//TODO: 後續功能
+	TypeBar(f, sheet, "HotfixDoubleCheck", row)
+	TypeBar(f, sheet, "RevertCheck", row+2)
+
+	c.Header("Content-Disposition", `attachment; filename="CheckList.xlsx"`)
+	c.Header("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	c.Header("Cache-Control", "no-cache")
+	c.Header("Pragma", "no-cache")
+	if err := f.Write(c.Writer); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to write Excel file"})
+		return
+	}
 }
