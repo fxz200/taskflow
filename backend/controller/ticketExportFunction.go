@@ -177,3 +177,18 @@ func MemberCell(f *excelize.File, sheet string, members []string, locate int) {
 	f.SetCellStyle(sheet, locateCell, locateCell, style)
 	f.SetCellValue(sheet, locateCell, mamberstext)
 }
+
+func ReleaseDateCell(f *excelize.File, sheet string, sprintdata *model.Sprint) {
+	style, _ := f.NewStyle(&excelize.Style{
+		Font: &excelize.Font{
+			Family: "Arial",
+			Size:   11,
+			Color:  "#000",
+		},
+	})
+	f.SetCellStyle(sheet, "A1", "A1", style)
+	releaseDate := sprintdata.EndDate
+	formattedDate := releaseDate.AddDate(0, 0, 1).Format("2006/1/2")
+	time := "預計上線日期 :  " + formattedDate + " 2:00"
+	f.SetCellValue(sheet, "A1", time)
+}

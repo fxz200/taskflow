@@ -72,11 +72,6 @@ func ExportChecklist(c *gin.Context) {
 		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, err.Error())
 		return
 	}
-	releaseDate := sprintdata[0].EndDate
-	formattedDate := releaseDate.AddDate(0, 0, 1).Format("2006/1/2")
-	sheet := "Sprint " + sprint
-	time := "預計上線日期 :  " + formattedDate + " 2:00"
-
 	memberList := []string{}
 	for _, member := range memberdata {
 		memberList = append(memberList, member.Name)
@@ -85,11 +80,12 @@ func ExportChecklist(c *gin.Context) {
 	for _, checklist := range checklistdata {
 		checklistMap[int(checklist.Type)] = append(checklistMap[int(checklist.Type)], checklist)
 	}
+	sheet := "Sprint " + sprint
 	f := excelize.NewFile()
 	f.SetSheetName("Sheet1", sheet)
 	f.SetColWidth(sheet, "A", "A", 90)
 	f.SetColWidth(sheet, "B", "E", 30)
-	f.SetCellValue(sheet, "A1", time)
+	ReleaseDateCell(f, sheet, sprintdata[0])
 	typeNames := map[int]string{
 		1: "New Feature",
 		2: "Bug",
@@ -99,7 +95,6 @@ func ExportChecklist(c *gin.Context) {
 		6: "Epic",
 	}
 	row := 2
-
 	for id, typeName := range typeNames {
 		if len(checklistMap[id]) != 0 {
 			TypeBar(f, sheet, typeName, row)
