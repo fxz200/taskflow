@@ -42,9 +42,9 @@ func GetChecklistData(sprint string) (checklists []*model.CheckList, err error) 
 		// mambers_name
 		for _, member := range ticket.Members {
 			if member.Role == 2 || member.Role == 3 {
-				checklist.RDMember = append(checklist.RDMember, member.Name)
+				checklist.RDMembers = append(checklist.RDMembers, member.Name)
 			}
-
+			checklist.Members = append(checklist.Members, member.Name)
 		}
 		checklists = append(checklists, checklist)
 	}

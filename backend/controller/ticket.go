@@ -84,7 +84,7 @@ func ExportChecklist(c *gin.Context) {
 	f := excelize.NewFile()
 	f.SetSheetName("Sheet1", sheet)
 	f.SetColWidth(sheet, "A", "A", 90)
-	f.SetColWidth(sheet, "B", "E", 30)
+	f.SetColWidth(sheet, "B", "F", 30)
 	ReleaseDateCell(f, sheet, sprintdata[0])
 	typeNames := map[int]string{
 		1: "New Feature",
@@ -94,19 +94,34 @@ func ExportChecklist(c *gin.Context) {
 		5: "Task",
 		6: "Epic",
 	}
+	keys := []int{1, 6, 2, 3, 4, 5} //sort
 	row := 2
-	for id, typeName := range typeNames {
-		if len(checklistMap[id]) != 0 {
+	for _, id := range keys {
+		typeName := typeNames[id]
+		if len(checklistMap[id]) == 0 {
+			continue
+		}
+		// 1 => "New Feature" 6 => "Epic"
+		if id == 1 || id == 6 {
+			for _, checklist := range checklistMap[id] {
+				TypeBar(f, sheet, typeName, row)
+				FeatureHead(f, sheet, row+1, checklist)
+				FeatureBody(f, sheet, row+5, checklist, memberList)
+				row += 22
+			}
+		} else {
 			TypeBar(f, sheet, typeName, row)
-			ReadySelectBox(f, sheet, row+2, row+2+len(checklistMap[id]))
+			formatBar(f, sheet, row+1, "default")
+			ReadySelectBox(f, sheet, row+2, row+2+len(checklistMap[id]), false)
 			MemberSelectBox(f, sheet, row+2, row+2+len(checklistMap[id]), memberList)
 			for _, checklist := range checklistMap[id] {
-				titleCell(f, sheet, checklist.Title, checklist.JiraUrl, row+2)
-				MemberCell(f, sheet, checklist.RDMember, row+2)
+				titleCell(f, sheet, checklist.Title, checklist.JiraUrl, row+2, false)
+				MemberCell(f, sheet, checklist.RDMembers, row+2)
 				row++
 			}
 			row += 2
 		}
+
 	}
 	//TODO: 後續功能
 	TypeBar(f, sheet, "HotfixDoubleCheck", row)
