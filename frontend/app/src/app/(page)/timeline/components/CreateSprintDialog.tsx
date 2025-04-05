@@ -25,7 +25,7 @@ const CreateSprintDialog = ({ isOpen, setIsOpen }: Props) => {
         type="text"
         startContent={
           <div className="pointer-events-none flex items-center">
-            <span className="text-small text-default-400">v</span>
+            <span className="text-small text-default-600">v</span>
           </div>
         }
       />
@@ -33,7 +33,7 @@ const CreateSprintDialog = ({ isOpen, setIsOpen }: Props) => {
         <DatePicker
           isRequired
           endContent={
-            <CalendarDaysIcon className="w-5 h-5 text-default-400 pointer-events-none flex-shrink-0" />
+            <CalendarDaysIcon className="w-5 h-5 text-default-600 pointer-events-none flex-shrink-0" />
           }
           label="Start Date"
           labelPlacement="outside"
@@ -43,7 +43,7 @@ const CreateSprintDialog = ({ isOpen, setIsOpen }: Props) => {
         <DatePicker
           isRequired
           endContent={
-            <CalendarDaysIcon className="w-5 h-5 text-default-400 pointer-events-none flex-shrink-0" />
+            <CalendarDaysIcon className="w-5 h-5 text-default-600 pointer-events-none flex-shrink-0" />
           }
           label="End Date"
           labelPlacement="outside"
