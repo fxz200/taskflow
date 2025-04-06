@@ -19,11 +19,11 @@ export default function RootLayout({
             <div className="h-40">
               <Header />
             </div>
-            <div className="flex flex-grow">
-              <div className="w-32 h-full">
+            <div className="grid grid-cols-[auto_1fr] h-full">
+              <div className="w-32">
                 <Sidebar />
               </div>
-              <div className="flex-grow">{children}</div>
+              <div>{children}</div>
             </div>
           </div>
         </Providers>

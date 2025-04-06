@@ -1,6 +1,5 @@
 import {
   Button,
-  Form,
   Modal,
   ModalBody,
   ModalContent,
@@ -10,10 +9,11 @@ import {
 import React from 'react'
 
 interface Props {
-  title: string
+  title?: string
   children: React.ReactNode
   isOpen: boolean
   onClose: () => void
+  onSubmit?: () => void
   size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | 'full'
   footerAlignment?: 'justify-center' | 'justify-end'
 }
@@ -23,6 +23,9 @@ const Dialog = ({
   children,
   isOpen,
   onClose,
+  onSubmit = () => {
+    onClose()
+  },
   size = 'md',
   footerAlignment = 'justify-center',
 }: Props) => {
@@ -37,21 +40,23 @@ const Dialog = ({
       classNames={{
         base: 'flex p-6',
         header: 'font-normal text-xl',
-        body: 'mt-4',
-        footer: `flex items-center ${footerAlignment} mt-6 px-8 gap-6 `,
+        body: 'my-4',
+        footer: `flex items-center ${footerAlignment} px-8 gap-6 `,
       }}
     >
       <ModalContent>
-        <ModalHeader>{title}</ModalHeader>
-          <ModalBody>{children}</ModalBody>
-          <ModalFooter>
-            <Button color="default" onPress={onClose}>
-              取消
-            </Button>
-            <Button color="primary" onPress={onClose}>
-              確認
-            </Button>
-          </ModalFooter>
+        {title && (
+          <ModalHeader>{title}</ModalHeader>
+        )}
+        <ModalBody>{children}</ModalBody>
+        <ModalFooter>
+          <Button color="default" onPress={onClose}>
+            取消
+          </Button>
+          <Button color="primary" onPress={onSubmit}>
+            確認
+          </Button>
+        </ModalFooter>
       </ModalContent>
     </Modal>
   )

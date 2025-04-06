@@ -14,7 +14,7 @@ interface Props {
   children: React.ReactNode
   isOpen: boolean
   onClose: () => void
-  onSubmit?: () => void
+  onSubmit: () => void
   size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | 'full'
   footerAlignment?: 'justify-center' | 'justify-end'
 }
@@ -43,16 +43,15 @@ const FormDialog = ({
         footer: `flex items-center ${footerAlignment} mt-6 px-8 gap-6 `,
       }}
     >
-      <Form>
+      <Form onSubmit={()=>{onSubmit()}}>
         <ModalContent>
           <ModalHeader>{title}</ModalHeader>
-
           <ModalBody>{children}</ModalBody>
           <ModalFooter>
             <Button color="default" onPress={onClose}>
               取消
             </Button>
-            <Button color="primary" type="submit" onPress={onSubmit}>
+            <Button color="primary" type="submit">
               確認
             </Button>
           </ModalFooter>

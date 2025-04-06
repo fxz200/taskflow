@@ -12,10 +12,12 @@ export const roles: Roles[] = [
 
 interface avatarList {
   id: number
-  src: string
+  src?: string
+  isDefault?: boolean
 }
 
 export const avatarList: avatarList[] = [
+  { id: 0, isDefault: true },
   { id: 1, src: '/img/avatar_1.jpg' },
   { id: 2, src: '/img/avatar_2.jpg' },
   { id: 3, src: '/img/avatar_3.jpg' },

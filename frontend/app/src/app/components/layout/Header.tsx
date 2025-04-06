@@ -12,11 +12,13 @@ import {
 import { useTheme } from 'next-themes'
 import { SunIcon } from '@heroicons/react/24/solid'
 import CreateEventDialog from './CreateEventDialog'
+import MemberDialog from 'app/(page)/members/components/MemberDialog'
 
 const Header = () => {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  const [openDialog, setOpenDialog] = useState(false)
+  const [openEventDialog, setOpenEventDialog] = useState(false)
+  const [openMemberDialog, setOpenMemberDialog] = useState(false)
   const pathname = usePathname()
   const currentFeature = mounted
     ? featuresList.find((feature) => feature.href === pathname)
@@ -60,26 +62,45 @@ const Header = () => {
         </div>
         <div className="flex justify-between items-center px-8 my-2">
           <span className="text-xl">{currentFeature?.name}</span>
-          <ButtonGroup>
+          {currentFeature?.name === 'Timeline' ||
+          currentFeature?.name === 'Sprint' ? (
+            <ButtonGroup>
+              <Button
+                isIconOnly
+                color="default"
+                className="w-11 data-[hover=true]:!opacity-100 hover:bg-primary"
+              >
+                <ChevronUpDownIcon className="w-5 h-5" />
+              </Button>
+              <Button
+                isIconOnly
+                color="default"
+                className="w-11 data-[hover=true]:!opacity-100 hover:bg-primary"
+                onPress={() => setOpenEventDialog(true)}
+              >
+                <PlusIcon className="w-5 h-5" />
+              </Button>
+            </ButtonGroup>
+          ) : (
             <Button
               isIconOnly
               color="default"
               className="w-11 data-[hover=true]:!opacity-100 hover:bg-primary"
-            >
-              <ChevronUpDownIcon className="w-5 h-5" />
-            </Button>
-            <Button
-              isIconOnly
-              color="default"
-              className="w-11 data-[hover=true]:!opacity-100 hover:bg-primary"
-              onPress={() => setOpenDialog(true)}
+              onPress={() => setOpenMemberDialog(true)}
             >
               <PlusIcon className="w-5 h-5" />
             </Button>
-          </ButtonGroup>
+          )}
         </div>
       </div>
-      <CreateEventDialog isOpen={openDialog} setIsOpen={setOpenDialog} />
+      <CreateEventDialog
+        isOpen={openEventDialog}
+        setIsOpen={setOpenEventDialog}
+      />
+      <MemberDialog
+        isOpen={openMemberDialog}
+        setIsOpen={setOpenMemberDialog}
+      />
     </>
   )
 }
