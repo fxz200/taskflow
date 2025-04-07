@@ -10,10 +10,10 @@ import (
 )
 
 func JSONResponse(c *gin.Context, httpcode int, errorcode int, data interface{}, msg string) {
-	c.JSON(httpcode, model.Response{
-		Code: errorcode,
-		Data: data,
-		Msg:  msg,
+	c.JSON(httpcode, gin.H{
+		"code": errorcode,
+		"data": data,
+		"msg":  msg,
 	})
 }
 func GetAllSprint(c *gin.Context) {
