@@ -41,33 +41,39 @@ const Members = () => {
                       return <MemberCard member={member} key={member.id} />
                     })}
                   </div>
+                  {(BEList.length > 0 ||
+                    FEList.length > 0 ||
+                    QAList.length > 0) && <Divider className="mb-4" />}
                 </>
               )}
               {BEList.length > 0 && (
                 <>
-                  <Divider className="mb-4" />
                   <p className="font-light text-2xl">BE</p>
                   <div className="flex flex-row flex-wrap gap-x-32 mt-4 mx-4">
                     {BEList?.map((member) => {
                       return <MemberCard member={member} key={member.id} />
                     })}
                   </div>
+                  {(FEList.length > 0 || QAList.length > 0) && (
+                    <Divider className="mb-4" />
+                  )}
                 </>
               )}
               {FEList.length > 0 && (
                 <>
-                  <Divider className="mb-4" />
                   <p className="font-light text-2xl">FE</p>
                   <div className="flex flex-row flex-wrap gap-x-32 mt-4 mx-4">
                     {FEList?.map((member) => {
                       return <MemberCard member={member} key={member.id} />
                     })}
                   </div>
+                  {(QAList.length > 0) && (
+                    <Divider className="mb-4" />
+                  )}
                 </>
               )}
               {QAList.length > 0 && (
                 <>
-                  <Divider className="mb-4" />
                   <p className="font-light text-2xl">QA</p>
                   <div className="flex flex-row flex-wrap gap-x-32 mt-4 mx-4">
                     {QAList?.map((member) => {
@@ -96,10 +102,7 @@ const Members = () => {
           </Card>
         )}
       </div>
-      <MemberDialog
-        isOpen={openDialog}
-        setIsOpen={setOpenDialog}
-      />
+      <MemberDialog isOpen={openDialog} setIsOpen={setOpenDialog} />
     </>
   )
 }
