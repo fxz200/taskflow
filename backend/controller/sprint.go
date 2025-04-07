@@ -10,6 +10,13 @@ import (
 )
 
 func JSONResponse(c *gin.Context, httpcode int, errorcode int, data interface{}, msg string) {
+	origin := c.Request.Header.Get("Origin")
+	if origin == "http://localhost:3001" || origin == "null" {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", origin) // 僅允許 localhost:3001
+	}
+	c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+	c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, X-Requested-With, Accept, Authorization, Sec-Ch-Ua, Sec-Ch-Ua-Mobile, Sec-Ch-Ua-Platform")
+	c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 	c.JSON(httpcode, gin.H{
 		"code": errorcode,
 		"data": data,
