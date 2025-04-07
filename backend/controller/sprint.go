@@ -21,7 +21,6 @@ func JSONResponse(c *gin.Context, httpcode int, errorcode int, data interface{},
 		c.AbortWithStatus(204)
 		return
 	}
-	c.Next()
 	c.JSON(httpcode, gin.H{
 		"code": errorcode,
 		"data": data,
