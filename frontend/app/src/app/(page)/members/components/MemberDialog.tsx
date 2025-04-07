@@ -7,11 +7,13 @@ import { z } from 'zod'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAppDispatch } from 'app/hooks'
-import { postMember } from '@api/actions/member'
+import { postMember, putMember } from '@api/actions/member'
 
 interface Props {
   isOpen: boolean
   setIsOpen: (open: boolean) => void
+  isEdit?: boolean
+  initialData?: Partial<SchemaType> & { id?: number }
 }
 
 const Schema = z.object({
@@ -28,6 +30,8 @@ type SchemaType = z.infer<typeof Schema>
 const MemberDialog = ({
   isOpen,
   setIsOpen,
+  isEdit = false,
+  initialData = {},
 }: Props) => {
   const dispatch = useAppDispatch()
   const [isAvatarDialogOpen, setIsAvatarDialogOpen] = useState(false)
@@ -40,10 +44,11 @@ const MemberDialog = ({
     formState: { errors },
     reset,
     control,
-    getValues,
   } = useForm<SchemaType>({
     resolver: zodResolver(Schema),
-    defaultValues: {
+    defaultValues: isEdit
+      ? initialData
+      : {
           role: 0,
           name: '',
           email: '',
@@ -52,10 +57,9 @@ const MemberDialog = ({
   })
 
   const onSubmit = (data: SchemaType) => {
-    dispatch(postMember({ body: data })).then((res) => {
-      console.log(res)
-      onClose()
-    })
+    const action = isEdit ? putMember : postMember
+    const payload = isEdit ? { ...data, id: initialData?.id } : data
+    dispatch(action({ body: payload })).then(() => onClose())
   }
 
   const onClose = () => {
@@ -66,7 +70,7 @@ const MemberDialog = ({
   return (
     <>
       <FormDialog
-        title='新增成員'
+        title={isEdit ? '編輯成員' : '新增成員'}
         isOpen={isOpen}
         onClose={onClose}
         onSubmit={handleSubmit(onSubmit)}
@@ -82,6 +86,7 @@ const MemberDialog = ({
               label="Role"
               labelPlacement="outside"
               placeholder="Select a role"
+              defaultSelectedKeys={field.value === 0 ? '' :[String(field.value)]}
               onChange={(e) => {
                 const selected = e.target.value
                 field.onChange(Number(selected))
@@ -141,6 +146,7 @@ const MemberDialog = ({
       <SelectAvatarDialog
         isOpen={isAvatarDialogOpen}
         setIsOpen={setIsAvatarDialogOpen}
+        avatarId={watch('icon')}
         onSelect={(avatarId: number) => {
           setValue('icon', avatarId)
         }}

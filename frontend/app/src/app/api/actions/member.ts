@@ -30,7 +30,7 @@ export const getAllMembers = () => (dispatch: AppDispatch) => {
     .catch((error) => {
       dispatch({
         type: actionType.getAllMembers.failure,
-        payload: error.response ?? { msg: 'server_error' },
+        payload: error,
       })
     })
 }
@@ -42,12 +42,12 @@ export const postMember =
     return api
       .post(`/v1/member`, body)
       .then((res) => {
-        console.log('res', res)
         if (res.data?.code === 200) {
           dispatch({
             type: actionType.postMember.success,
             payload: res.data?.data,
           })
+          return res.data?.data
         } else {
           dispatch({
             type: actionType.postMember.failure,
@@ -59,7 +59,39 @@ export const postMember =
       .catch((error) => {
         dispatch({
           type: actionType.postMember.failure,
-          payload: error.response ?? { msg: 'server_error' },
+          payload: error,
+        })
+      })
+      .finally(() => {
+        dispatch(getAllMembers())
+      })
+  }
+
+export const putMember =
+  ({ body }: Props) =>
+  (dispatch: AppDispatch) => {
+    dispatch({ type: actionType.putMember.request })
+    return api
+      .put(`/v1/member`, body)
+      .then((res) => {
+        if (res.data?.code === 200) {
+          dispatch({
+            type: actionType.putMember.success,
+            payload: res.data?.data,
+          })
+          return res.data?.data
+        } else {
+          dispatch({
+            type: actionType.putMember.failure,
+            payload: res.data,
+          })
+          return Promise.resolve('error')
+        }
+      })
+      .catch((error) => {
+        dispatch({
+          type: actionType.putMember.failure,
+          payload: error,
         })
       })
       .finally(() => {
@@ -90,7 +122,7 @@ export const deleteMember =
       .catch((error) => {
         dispatch({
           type: actionType.deleteMember.failure,
-          payload: error.response ?? { msg: 'server_error' },
+          payload: error,
         })
       })
       .finally(() => {

@@ -9,11 +9,12 @@ import ReactFocusLock from 'react-focus-lock'
 interface Props {
   isOpen: boolean
   setIsOpen: (open: boolean) => void
+  avatarId?: number
   onSelect: (avatarId: number) => void
 }
 
-const SelectAvatarDialog = ({ isOpen, setIsOpen, onSelect }: Props) => {
-  const [selectedAvatar, setSelectedAvatar] = useState<number>(0)
+const SelectAvatarDialog = ({ isOpen, setIsOpen, avatarId = 0, onSelect }: Props) => {
+  const [selectedAvatar, setSelectedAvatar] = useState<number>(avatarId)
   const onSubmit = () => {
     if (selectedAvatar !== null) {
       onSelect(selectedAvatar)

@@ -5,6 +5,7 @@ import { PencilIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import { Avatar, Button, Card } from '@heroui/react'
 import { useAppDispatch } from 'app/hooks'
 import React, { useState } from 'react'
+import MemberDialog from './MemberDialog'
 
 interface Props {
   member: {
@@ -18,6 +19,7 @@ interface Props {
 const MemberCard = ({ member }: Props) => {
   const dispatch = useAppDispatch()
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const roleLabel = roles.find((role) => role.id === member.role)?.label
 
   const handleDeleteSubmit = () => {
@@ -25,6 +27,7 @@ const MemberCard = ({ member }: Props) => {
       setIsDeleteDialogOpen(false)
     })
   }
+
   return (
     <>
       <Card
@@ -50,7 +53,7 @@ const MemberCard = ({ member }: Props) => {
           <Button
             isIconOnly
             className="bg-transparent min-h-4 min-w-[14px] h-[14px] w-[14px]"
-            // onPress={}
+            onPress={() => setIsEditDialogOpen(true)}
           >
             <PencilIcon className="w-4 h-4" />
           </Button>
@@ -73,7 +76,7 @@ const MemberCard = ({ member }: Props) => {
         <p className="flex items-center justify-center">確認刪除？</p>
       </Dialog>
       {/* edit member dialog */}
-      
+      <MemberDialog isOpen={isEditDialogOpen} setIsOpen={setIsEditDialogOpen} isEdit={true} initialData={member} />
     </>
   )
 }

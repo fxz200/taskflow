@@ -10,6 +10,12 @@ export const postMember = {
   failure: 'POST_MEMBER_FAILURE',
 }
 
+export const putMember = {
+  request: 'PUT_MEMBER_REQUEST',
+  success: 'PUT_MEMBER_SUCCESS',
+  failure: 'PUT_MEMBER_FAILURE',
+}
+
 export const deleteMember = {
   request: 'DELETE_MEMBER_REQUEST',
   success: 'DELETE_MEMBER_SUCCESS',

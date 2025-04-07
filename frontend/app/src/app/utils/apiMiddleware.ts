@@ -20,12 +20,17 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   (response) => {
-    // if (response.data.code !== 200) {
-    //   return response
-    // }
+    if (response.data.code !== 200) {
+      return response
+    }
     return response
   },
   (error) => {
-    return Promise.reject(error)
+    const serializedError = {
+      status: error.response?.status,
+      data: error.response?.data,
+      message: error.message,
+    }
+    return Promise.reject(serializedError)
   }
 )
