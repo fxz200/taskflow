@@ -3,6 +3,7 @@ package controller
 import (
 	"backend/model"
 	"backend/repository"
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -44,6 +45,8 @@ func CreateMember(c *gin.Context) {
 }
 
 func UpdateMember(c *gin.Context) {
+	id := c.Query("id")
+	fmt.Println(id)
 	var member model.Member
 	if err := c.Bind(&member); err != nil {
 		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, err.Error())
