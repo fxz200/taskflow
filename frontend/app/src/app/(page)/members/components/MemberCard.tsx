@@ -1,6 +1,6 @@
 import { deleteMember } from '@api/actions/member'
 import Dialog from '@components/common/Dialog'
-import { roles } from '@constants/member'
+import { ROLES } from '@constants/member'
 import { PencilIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import { Avatar, Button, Card } from '@heroui/react'
 import { useAppDispatch } from 'app/hooks'
@@ -20,7 +20,7 @@ const MemberCard = ({ member }: Props) => {
   const dispatch = useAppDispatch()
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
-  const roleLabel = roles.find((role) => role.id === member.role)?.label
+  const roleLabel = ROLES.find((role) => role.id === member.role)?.label
 
   const handleDeleteSubmit = () => {
     dispatch(deleteMember({ query: { id: member.id } })).then(() => {

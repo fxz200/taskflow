@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button } from '@heroui/react'
 import Image from 'next/image'
 import { UserIcon } from '@heroicons/react/20/solid'
-import { avatarList } from '@constants/member'
+import { AVATAR_LIST } from '@constants/member'
 import Dialog from '@components/common/Dialog'
 import ReactFocusLock from 'react-focus-lock'
 
@@ -33,7 +33,7 @@ const SelectAvatarDialog = ({ isOpen, setIsOpen, avatarId = 0, onSelect }: Props
     >
       <ReactFocusLock>
         <div className="grid grid-cols-5 gap-7 py-2 px-1 max-h-52 overflow-y-scroll">
-          {avatarList.map((avatar, index) => (
+          {AVATAR_LIST.map((avatar, index) => (
             <Button
               isIconOnly={avatar.id === 0}
               key={index}

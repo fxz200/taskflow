@@ -3,20 +3,20 @@ interface Roles {
   label: string
 }
 
-export const roles: Roles[] = [
+export const ROLES: Roles[] = [
   { id: 1, label: 'PM' },
   { id: 2, label: 'RD/Backend' },
   { id: 3, label: 'RD/Frontend' },
   { id: 4, label: 'QA' },
 ]
 
-interface avatarList {
+interface AvatarList {
   id: number
   src?: string
   isDefault?: boolean
 }
 
-export const avatarList: avatarList[] = [
+export const AVATAR_LIST: AvatarList[] = [
   { id: 0, isDefault: true },
   { id: 1, src: '/img/avatar_1.jpg' },
   { id: 2, src: '/img/avatar_2.jpg' },

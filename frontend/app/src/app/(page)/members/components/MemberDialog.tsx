@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Avatar, Button, Card, Input, Select, SelectItem } from '@heroui/react'
-import { roles } from '@constants/member'
+import { ROLES } from '@constants/member'
 import SelectAvatarDialog from './SelectAvatarDialog'
 import FormDialog from '@components/common/FormDialog'
 import { z } from 'zod'
@@ -92,7 +92,7 @@ const MemberDialog = ({
                 field.onChange(Number(selected))
               }}
             >
-              {roles.map((role) => (
+              {ROLES.map((role) => (
                 <SelectItem key={role.id}>{role.label}</SelectItem>
               ))}
             </Select>
