@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { Button, ButtonGroup } from '@heroui/react'
-import { featuresList } from '@constants/features'
+import { FEATURES_LIST } from '@constants/features'
 import { usePathname } from 'next/navigation'
 import {
   ArrowUpTrayIcon,
@@ -21,7 +21,7 @@ const Header = () => {
   const [openMemberDialog, setOpenMemberDialog] = useState(false)
   const pathname = usePathname()
   const currentFeature = mounted
-    ? featuresList.find((feature) => feature.href === pathname)
+    ? FEATURES_LIST.find((feature) => feature.href === pathname)
     : null
 
   useEffect(() => {

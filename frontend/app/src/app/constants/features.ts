@@ -12,7 +12,7 @@ interface Feature {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
 }
 
-export const featuresList: Feature[] = [
+export const FEATURES_LIST: Feature[] = [
   { name: 'Timeline', href: '/timeline', icon: CalendarIcon },
   { name: 'Backlog', href: '/backlog', icon: ClipboardDocumentListIcon },
   { name: 'Sprint', href: '/sprint', icon: PresentationChartLineIcon },

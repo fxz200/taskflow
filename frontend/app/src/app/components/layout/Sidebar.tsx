@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import { Button, Link } from '@heroui/react'
-import { featuresList } from '@constants/features'
+import { FEATURES_LIST } from '@constants/features'
 import { usePathname } from 'next/navigation'
 
 const Sidebar: React.FC = () => {
@@ -9,7 +9,7 @@ const Sidebar: React.FC = () => {
 
   return (
     <div className={containerClassName}>
-      {featuresList.map((feature) => {
+      {FEATURES_LIST.map((feature) => {
         const isActive = feature.href === pathname
         return (
           <div key={feature.name} className="relative group">
