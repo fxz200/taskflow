@@ -7,6 +7,6 @@ default:
 local:
   host: localhost
   username: postgres
-  password: df963880
+  password: postgres
   dbname: postgres
   port: 5432
