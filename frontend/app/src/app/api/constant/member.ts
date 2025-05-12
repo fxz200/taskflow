@@ -4,6 +4,12 @@ export const getAllMembers = {
   failure: 'GET_ALL_MEMBERS_FAILURE',
 }
 
+export const getSpecificMembers = {
+  request: 'GET_SPECIFIC_MEMBERS_REQUEST',
+  success: 'GET_SPECIFIC_MEMBERS_SUCCESS',
+  failure: 'GET_SPECIFIC_MEMBERS_FAILURE',
+}
+
 export const postMember = {
   request: 'POST_MEMBER_REQUEST',
   success: 'POST_MEMBER_SUCCESS',
