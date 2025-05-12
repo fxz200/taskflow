@@ -38,7 +38,7 @@ const Dialog = ({
       size={size}
       className="rounded-[40px]"
       classNames={{
-        base: 'flex p-6 max-h-[70vh] overflow-y-auto',
+        base: 'flex p-6',
         header: 'font-normal text-xl',
         body: 'my-4',
         footer: `flex items-center ${footerAlignment} px-8 gap-6 `,
