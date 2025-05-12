@@ -36,11 +36,11 @@ const Dialog = ({
       isOpen={isOpen}
       hideCloseButton={true}
       size={size}
-      className="rounded-[40px]"
+      className="rounded-[40px] max-h-[90vh]"
       classNames={{
         base: 'flex p-6',
         header: 'font-normal text-xl',
-        body: 'my-4',
+        body: 'my-4 overflow-y-auto',
         footer: `flex items-center ${footerAlignment} px-8 gap-6 `,
       }}
     >

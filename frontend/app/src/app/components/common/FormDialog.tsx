@@ -35,11 +35,11 @@ const FormDialog = ({
       isOpen={isOpen}
       hideCloseButton={true}
       size={size}
-      className="rounded-[40px]"
+      className="rounded-[40px] max-h-[90vh]"
       classNames={{
         base: 'flex p-6',
         header: 'font-normal text-xl',
-        body: 'mt-4 flex-col gap-9',
+        body: 'mt-4 flex-col gap-9 overflow-y-auto',
         footer: `flex items-center ${footerAlignment} mt-6 px-8 gap-6 `,
       }}
     >
