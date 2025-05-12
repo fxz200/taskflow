@@ -35,35 +35,6 @@ export const getAllMembers = () => (dispatch: AppDispatch) => {
     })
 }
 
-export const getSpecificMembers =
-  ({ query = {} }: Props) =>
-  (dispatch: AppDispatch) => {
-    dispatch({ type: actionType.getSpecificMembers.request })
-    return api
-      .get(`/v1/member?${qs.stringify(query)}`)
-      .then((res) => {
-        if (res.data?.code === 200) {
-          dispatch({
-            type: actionType.getSpecificMembers.success,
-            payload: res.data?.data,
-          })
-          return res.data?.data
-        } else {
-          dispatch({
-            type: actionType.getSpecificMembers.failure,
-            payload: res.data,
-          })
-          return Promise.resolve('error')
-        }
-      })
-      .catch((error) => {
-        dispatch({
-          type: actionType.getSpecificMembers.failure,
-          payload: error,
-        })
-      })
-  }
-
 export const postMember =
   ({ body }: Props) =>
   (dispatch: AppDispatch) => {
