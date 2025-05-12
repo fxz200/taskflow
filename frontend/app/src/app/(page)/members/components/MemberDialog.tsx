@@ -13,7 +13,7 @@ interface Props {
   isOpen: boolean
   setIsOpen: (open: boolean) => void
   isEdit?: boolean
-  initialData?: Partial<SchemaType> & { id?: number }
+  initialData?: Partial<SchemaType> & { id?: string }
 }
 
 const Schema = z.object({

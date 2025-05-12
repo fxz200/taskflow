@@ -10,18 +10,17 @@ import MemberCard from './components/MemberCard'
 const Members = () => {
   const dispatch = useAppDispatch()
   const members = useAppSelector((state) => state.member?.members)
+  const PMList = useAppSelector((state) => state.member?.PMList) || []
+  const BEList = useAppSelector((state) => state.member?.BEList) || []
+  const FEList = useAppSelector((state) => state.member?.FEList) || []
+  const QAList = useAppSelector((state) => state.member?.QAList) || []
   const [openDialog, setOpenDialog] = useState(false)
 
   useEffect(() => {
     if (!members || members.length === 0) {
       dispatch(getAllMembers())
     }
-  }, [])
-
-  const PMList = members?.filter((member) => member.role === 1) || []
-  const BEList = members?.filter((member) => member.role === 2) || []
-  const FEList = members?.filter((member) => member.role === 3) || []
-  const QAList = members?.filter((member) => member.role === 4) || []
+  }, [members])
 
   return (
     <>
@@ -67,9 +66,7 @@ const Members = () => {
                       return <MemberCard member={member} key={member.id} />
                     })}
                   </div>
-                  {(QAList.length > 0) && (
-                    <Divider className="mb-4" />
-                  )}
+                  {QAList.length > 0 && <Divider className="mb-4" />}
                 </>
               )}
               {QAList.length > 0 && (

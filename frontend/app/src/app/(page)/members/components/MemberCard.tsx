@@ -9,7 +9,7 @@ import MemberDialog from './MemberDialog'
 
 interface Props {
   member: {
-    id: number
+    id: string
     name: string
     role: number
     icon: number

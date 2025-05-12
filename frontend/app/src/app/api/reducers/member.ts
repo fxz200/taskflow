@@ -1,7 +1,12 @@
 import * as actionType from '@api/constant/member'
+import { Member } from '@constants/member'
 
 interface State {
-  members: any[]
+  members: Member[]
+  PMList: Member[]
+  BEList: Member[]
+  FEList: Member[]
+  QAList: Member[]
   loading: boolean
   error: string | null
 }
@@ -13,6 +18,10 @@ interface Action {
 
 const initialState: State = {
   members: [],
+  PMList: [],
+  BEList: [],
+  FEList: [],
+  QAList: [],
   loading: false,
   error: null,
 }
@@ -25,7 +34,19 @@ export default function memberReducer(
     case actionType.getAllMembers.success:
       return {
         ...state,
-        ...action.payload,
+        members: action.payload?.members || [],
+        PMList: (action.payload?.members || []).filter(
+          (member: Member) => member.role === 1
+        ),
+        BEList: (action.payload?.members || []).filter(
+          (member: Member) => member.role === 2
+        ),
+        FEList: (action.payload?.members || []).filter(
+          (member: Member) => member.role === 3
+        ),
+        QAList: (action.payload?.members || []).filter(
+          (member: Member) => member.role === 4
+        ),
       }
     default:
       return state

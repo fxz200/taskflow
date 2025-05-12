@@ -1,3 +1,11 @@
+export interface Member {
+  id: string
+  name: string
+  role: number
+  icon: number
+  email: string
+}
+
 interface Roles {
   id: number
   label: string
