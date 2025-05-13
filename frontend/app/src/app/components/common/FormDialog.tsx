@@ -43,7 +43,13 @@ const FormDialog = ({
         footer: `flex items-center ${footerAlignment} mt-6 px-8 gap-6 `,
       }}
     >
-      <Form onSubmit={()=>{onSubmit()}}>
+      <Form
+        onSubmit={(e) => {
+          e.preventDefault()
+          onSubmit()
+        }}
+        validationBehavior="aria"
+      >
         <ModalContent>
           <ModalHeader>{title}</ModalHeader>
           <ModalBody>{children}</ModalBody>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Avatar, Button, Card, Input, Select, SelectItem } from '@heroui/react'
 import { ROLES } from '@constants/member'
 import SelectAvatarDialog from './SelectAvatarDialog'
@@ -17,9 +17,12 @@ interface Props {
 }
 
 const Schema = z.object({
-  role: z.number().refine((value) => [1, 2, 3, 4].includes(value), {
-    message: 'Please select a valid role',
-  }),
+  role: z
+    .number()
+    .refine(
+      (value) => [1, 2, 3, 4].includes(value),
+      'Please select a valid role'
+    ),
   name: z.string().nonempty('Please enter a name'),
   email: z.string().email('Please enter a valid email'),
   icon: z.number().min(0),
@@ -78,15 +81,18 @@ const MemberDialog = ({
         <Controller
           control={control}
           name="role"
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <Select
               {...field}
               isRequired
-              errorMessage={errors.role?.message}
+              errorMessage={fieldState.error?.message}
+              isInvalid={!!fieldState.error}
               label="Role"
               labelPlacement="outside"
               placeholder="Select a role"
-              defaultSelectedKeys={field.value === 0 ? '' :[String(field.value)]}
+              defaultSelectedKeys={
+                field.value === 0 ? '' : [String(field.value)]
+              }
               onChange={(e) => {
                 const selected = e.target.value
                 field.onChange(Number(selected))
@@ -101,7 +107,8 @@ const MemberDialog = ({
         <Input
           isRequired
           {...register('name')}
-          errorMessage={errors.name?.message}
+          errorMessage={errors.name?.message || ''}
+          isInvalid={!!errors.name}
           label="Name"
           labelPlacement="outside"
           name="name"
@@ -111,7 +118,8 @@ const MemberDialog = ({
         <Input
           isRequired
           {...register('email')}
-          errorMessage={errors.email?.message}
+          errorMessage={errors?.email?.message}
+          isInvalid={!!errors.email}
           label="Email"
           labelPlacement="outside"
           name="email"
