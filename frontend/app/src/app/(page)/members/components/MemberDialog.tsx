@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Avatar, Button, Card, Input, Select, SelectItem } from '@heroui/react'
 import { ROLES } from '@constants/member'
 import SelectAvatarDialog from './SelectAvatarDialog'
@@ -17,9 +17,11 @@ interface Props {
 }
 
 const Schema = z.object({
-  role: z.number().refine((value) => [1, 2, 3, 4].includes(value), {
-    message: 'Please select a valid role',
-  }),
+  role: z
+    .number()
+    .refine((value) => ROLES.map((role) => role.id).includes(value), {
+      message: 'Please select a valid role',
+    }),
   name: z.string().nonempty({ message: 'Please enter a name' }),
   email: z.string().email({ message: 'Please enter a valid email' }),
   icon: z.number().min(0),
