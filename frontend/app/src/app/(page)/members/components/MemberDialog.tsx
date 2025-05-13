@@ -17,14 +17,11 @@ interface Props {
 }
 
 const Schema = z.object({
-  role: z
-    .number()
-    .refine(
-      (value) => [1, 2, 3, 4].includes(value),
-      'Please select a valid role'
-    ),
-  name: z.string().nonempty('Please enter a name'),
-  email: z.string().email('Please enter a valid email'),
+  role: z.number().refine((value) => [1, 2, 3, 4].includes(value), {
+    message: 'Please select a valid role',
+  }),
+  name: z.string().nonempty({ message: 'Please enter a name' }),
+  email: z.string().email({ message: 'Please enter a valid email' }),
   icon: z.number().min(0),
 })
 
