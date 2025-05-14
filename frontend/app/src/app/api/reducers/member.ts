@@ -31,6 +31,11 @@ export default function memberReducer(
   action: Action
 ): State {
   switch (action.type) {
+    case actionType.getAllMembers.request:
+      return {
+        ...state,
+        loading: true,
+      }
     case actionType.getAllMembers.success:
       return {
         ...state,
@@ -47,6 +52,12 @@ export default function memberReducer(
         QAList: (action.payload?.members || []).filter(
           (member: Member) => member.role === 4
         ),
+      }
+    case actionType.getAllMembers.failure:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
       }
     default:
       return state
