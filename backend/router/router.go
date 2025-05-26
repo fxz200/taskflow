@@ -48,10 +48,10 @@ func SetRouter(port int) *gin.Engine {
 	}
 	ticket := r.Group("api/v1/ticket")
 	{
-		ticket.GET("/", controller.GetTickets)
-		ticket.POST("/", controller.CreateTicket)
-		ticket.PUT("/", controller.UpdateTicket)
-		ticket.DELETE("/", controller.DeleteTicket)
+		ticket.GET("", controller.GetTickets)
+		ticket.POST("", controller.CreateTicket)
+		ticket.PUT("", controller.UpdateTicket)
+		ticket.DELETE("", controller.DeleteTicket)
 		ticket.GET("/export", controller.ExportChecklist)
 	}
 	return r
