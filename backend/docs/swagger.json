@@ -544,7 +544,7 @@
         "type": {
           "type": "integer",
           "example": 2,
-          "description": "- 1: New Feature\n- 2: Bug\n- 3: Improvement\n- 4: Story\n- 5: Task \n- 6: Epic"
+          "description": "- 0:System Maintaince\n - 1: New Feature\n- 2: Bug\n- 3: Improvement\n- 4: Story\n- 5: Task \n- 6: Epic"
         },
         "piority": {
           "type": "integer",
@@ -558,7 +558,7 @@
         "statement": {
           "type": "integer",
           "example": 1,
-          "description": "- 1: in Backlog\n- 2: in Piority\n- 3: in Sprint"
+          "description": "- 0: in Backlog\n- 1: in Piority\n- 2: in Sprint"
         },
         "status": {
           "type": "integer",
@@ -592,7 +592,7 @@
     },
     "model.Ticket.post": {
       "type": "object",
-      "required": ["type", "title", "piority", "statement"],
+      "required": ["type", "title", "statement"],
       "properties": {
         "members_ids": {
           "type": "array",
@@ -604,7 +604,7 @@
         "type": {
           "type": "integer",
           "example": 2,
-          "description": "- 1: New Feature\n- 2: Bug\n- 3: Improvement\n- 4: Story\n- 5: Task \n- 6: Epic"
+          "description": "- 0:System Maintaince\n - 1: New Feature\n- 2: Bug\n- 3: Improvement\n- 4: Story\n- 5: Task \n- 6: Epic"
         },
         "piority": {
           "type": "integer",
@@ -618,7 +618,7 @@
         "statement": {
           "type": "integer",
           "example": 1,
-          "description": "- 1: in Backlog\n- 2: in Piority\n- 3: in Sprint"
+          "description": "- 0: in Backlog\n- 1: in Piority\n- 2: in Sprint"
         },
         "status": {
           "type": "integer",
@@ -646,7 +646,7 @@
     },
     "model.Ticket.put": {
       "type": "object",
-      "required": ["type", "title", "piority", "statement"],
+      "required": ["id", "title", "statement", "type"],
       "properties": {
         "id": {
           "type": "string",
@@ -659,7 +659,7 @@
         "type": {
           "type": "integer",
           "example": 2,
-          "description": "- 1: New Feature\n- 2: Bug\n- 3: Improvement\n- 4: Story\n- 5: Task \n- 6: Epic"
+          "description": "- 0: System Maintaince\n - 1: New Feature\n- 2: Bug\n- 3: Improvement\n- 4: Story\n- 5: Task \n- 6: Epic"
         },
         "piority": {
           "type": "integer",
@@ -673,7 +673,7 @@
         "statement": {
           "type": "integer",
           "example": 2,
-          "description": "- 1: in Backlog\n- 2: in Piority\n- 3: in Sprint"
+          "description": "- 0: in Backlog\n- 1: in Piority\n- 2: in Sprint"
         },
         "status": {
           "type": "integer",

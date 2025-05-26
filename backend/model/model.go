@@ -42,17 +42,18 @@ func (m *Member) BeforeCreate(tx *gorm.DB) (err error) {
 
 type Ticket struct {
 	Id         string   `gorm:"primaryKey;not null;unique" json:"id" form:"id"`
-	Type       uint8    `json:"type" form:"type"  binding:"required" `
-	Piority    *uint8   `json:"piority" form:"piority"  binding:"required" `
+	Type       uint8    `json:"type" form:"type"  binding:"gte=0,lte=5"  `
+	Piority    *uint8   `json:"piority" form:"piority"   `
 	Title      string   `gorm:"not null;unique" json:"title" form:"title"  binding:"required" `
-	Statement  uint8    `json:"statement" form:"statement"  binding:"required" `
-	Status     uint8    `json:"status" form:"status" `
+	Statement  uint8    `json:"statement" form:"statement"  binding:"gte=0,lte=5" `
+	Status     *uint8   `json:"status" form:"status" `
 	JiraUrl    string   `json:"jira_url" form:"jira_url"  `
 	Summery    string   `json:"summary" form:"summary"  `
 	Members    []Member `gorm:"many2many:ticket_members;joinForeignKey:TicketID;joinReferences:MemberID" json:"members" form:"members"`
 	MembersIDs []string `gorm:"-" json:"members_ids,omitempty"`
 	Note       string   `json:"note" form:"note"`
 	Sprint     string   `json:"sprint" form:"sprint"`
+	Required   bool     `json:"required" form:"required"`
 	gorm.Model `json:"-"`
 }
 
