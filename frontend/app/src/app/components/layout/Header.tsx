@@ -14,7 +14,7 @@ import { useTheme } from 'next-themes'
 import { SunIcon } from '@heroicons/react/24/solid'
 import CreateEventDialog from './CreateEventDialog'
 import MemberDialog from 'app/(page)/members/components/MemberDialog'
-import TicketDialog from 'app/(page)/backlog/components/TicketDialog'
+import TicketDialog from '@components/ticket/TicketDialog'
 import { useAppDispatch } from 'app/hooks'
 import { deleteTicket } from '@api/actions/ticket'
 

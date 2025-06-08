@@ -19,7 +19,7 @@ import {
   TICKET_STATEMENTS,
   TICKET_TYPES,
 } from '@constants/ticket'
-import TicketDialog from './components/TicketDialog'
+import TicketDialog from '@components/ticket/TicketDialog'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { getAllTickets, putTicket } from '@api/actions/ticket'
 import {
