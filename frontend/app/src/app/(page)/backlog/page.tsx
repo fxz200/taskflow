@@ -21,15 +21,19 @@ import {
 } from '@constants/ticket'
 import TicketDialog from './components/TicketDialog'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
-import { getAllTickets } from '@api/actions/ticket'
+import { getAllTickets, putTicket } from '@api/actions/ticket'
 import {
   ArrowUturnRightIcon,
   PencilIcon,
   ChevronDownIcon,
 } from '@heroicons/react/20/solid'
 import { PlusIcon } from '@heroicons/react/24/solid'
+interface BacklogProps {
+  selectedTableKeys: string[]
+  setSelectedTableKeys: (keys: string[]) => void
+}
 
-const Backlog = () => {
+const Backlog = ({ selectedTableKeys, setSelectedTableKeys }: BacklogProps) => {
   const dispatch = useAppDispatch()
   const allTickets = useAppSelector((state) => state?.ticket?.tickets)
   const [openDialog, setOpenDialog] = useState(false)
@@ -43,21 +47,23 @@ const Backlog = () => {
     }
   }, [])
 
-  // useEffect(() => {
-  //   if (isEditTicket && currentTicket) {
-  //     setOpenDialog(true)
-  //   }
-  // }, [isEditTicket, currentTicket])
-
   return (
     <>
       <div className="flex mr-8 h-full">
         <Table
           aria-label="Example static collection table"
           color="default"
-          selectionMode="multiple"
           radius="lg"
           shadow="none"
+          selectionMode="multiple"
+          selectedKeys={selectedTableKeys}
+          onSelectionChange={(keys) => {
+            if (keys === 'all') {
+              setSelectedTableKeys(allTickets.map((t: Ticket) => t.id))
+            } else {
+              setSelectedTableKeys(Array.from(keys as Set<string>))
+            }
+          }}
           classNames={{
             wrapper: 'shadow-[4px_4px_4px_0_rgba(0,0,0,0.25)] h-full mb-8 ',
             table: allTickets.length === 0 ? 'h-full' : '',
@@ -121,7 +127,9 @@ const Backlog = () => {
                     {TICKET_TYPES[row.type]?.label}
                   </TableCell>
                   <TableCell className="text-left">{row.title}</TableCell>
-                  <TableCell className="text-center">{TICKET_PRIORITIES[row.priority]?.label}</TableCell>
+                  <TableCell className="text-center">
+                    {TICKET_PRIORITIES[row.priority]?.label}
+                  </TableCell>
                   <TableCell>{row.sprint}</TableCell>
                   <TableCell>
                     {row.members.find((member) => member.role === 1)?.name ||
@@ -145,10 +153,22 @@ const Backlog = () => {
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent className="text-left">
-                        <Button className="w-full bg-transparent">
+                        <Button
+                          className="w-full bg-transparent"
+                          onPress={() => {
+                            const payload = { ...row, statement: 1 }
+                            dispatch(putTicket({ body: payload }))
+                          }}
+                        >
                           排進priority
                         </Button>
-                        <Button className="w-full bg-transparent">
+                        <Button
+                          className="w-full bg-transparent"
+                          onPress={() => {
+                            const payload = { ...row, statement: 2 }
+                            dispatch(putTicket({ body: payload }))
+                          }}
+                        >
                           排進sprint
                         </Button>
                       </PopoverContent>

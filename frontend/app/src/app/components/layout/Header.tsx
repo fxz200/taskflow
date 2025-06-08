@@ -15,14 +15,21 @@ import { SunIcon } from '@heroicons/react/24/solid'
 import CreateEventDialog from './CreateEventDialog'
 import MemberDialog from 'app/(page)/members/components/MemberDialog'
 import TicketDialog from 'app/(page)/backlog/components/TicketDialog'
+import { useAppDispatch } from 'app/hooks'
+import { deleteTicket } from '@api/actions/ticket'
 
-const Header = () => {
+interface HeaderProps {
+  selectedTableKeys: string[]
+}
+
+const Header = ({ selectedTableKeys }: HeaderProps) => {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [openEventDialog, setOpenEventDialog] = useState(false)
   const [openMemberDialog, setOpenMemberDialog] = useState(false)
   const [openTicketDialog, setOpenTicketDialog] = useState(false)
   const pathname = usePathname()
+  const dispatch = useAppDispatch()
   const currentFeature = mounted
     ? FEATURES_LIST.find((feature) => feature.href === pathname)
     : null
@@ -91,7 +98,9 @@ const Header = () => {
                   isIconOnly
                   color="default"
                   className="w-11 data-[hover=true]:!opacity-100 hover:bg-primary"
-                  // onPress={}
+                  onPress={() => {
+                    dispatch(deleteTicket({ body: selectedTableKeys }))
+                  }}
                 >
                   <TrashIcon className="w-5 h-5" />
                 </Button>
