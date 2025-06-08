@@ -1,7 +1,8 @@
 import * as actionType from '@api/constant/ticket'
+import { Ticket } from '@constants/ticket'
 
 interface State {
-  tickets: any[]
+  tickets: Ticket[]
   loading: boolean
   error: string | null
 }
@@ -22,18 +23,18 @@ export default function ticketReducer(
   action: Action
 ): State {
   switch (action.type) {
-    case actionType.getTickets.request:
+    case actionType.getAllTickets.request:
       return {
         ...state,
         loading: true,
       }
-    case actionType.getTickets.success:
+    case actionType.getAllTickets.success:
       return {
         ...state,
-        tickets: action.payload,
+        tickets: action.payload.tickets || [],
         loading: false,
       }
-    case actionType.getTickets.failure:
+    case actionType.getAllTickets.failure:
       return {
         ...state,
         loading: false,

@@ -8,17 +8,20 @@ import {
   ChevronUpDownIcon,
   MoonIcon,
   PlusIcon,
+  TrashIcon,
 } from '@heroicons/react/20/solid'
 import { useTheme } from 'next-themes'
 import { SunIcon } from '@heroicons/react/24/solid'
 import CreateEventDialog from './CreateEventDialog'
 import MemberDialog from 'app/(page)/members/components/MemberDialog'
+import TicketDialog from 'app/(page)/backlog/components/TicketDialog'
 
 const Header = () => {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [openEventDialog, setOpenEventDialog] = useState(false)
   const [openMemberDialog, setOpenMemberDialog] = useState(false)
+  const [openTicketDialog, setOpenTicketDialog] = useState(false)
   const pathname = usePathname()
   const currentFeature = mounted
     ? FEATURES_LIST.find((feature) => feature.href === pathname)
@@ -82,14 +85,34 @@ const Header = () => {
               </Button>
             </ButtonGroup>
           ) : (
-            <Button
-              isIconOnly
-              color="default"
-              className="w-11 data-[hover=true]:!opacity-100 hover:bg-primary"
-              onPress={() => setOpenMemberDialog(true)}
-            >
-              <PlusIcon className="w-5 h-5" />
-            </Button>
+            <div className="flex flex-row gap-3">
+              {currentFeature?.name === 'Backlog' && (
+                <Button
+                  isIconOnly
+                  color="default"
+                  className="w-11 data-[hover=true]:!opacity-100 hover:bg-primary"
+                  // onPress={}
+                >
+                  <TrashIcon className="w-5 h-5" />
+                </Button>
+              )}
+              <Button
+                isIconOnly
+                color="default"
+                className="w-11 data-[hover=true]:!opacity-100 hover:bg-primary"
+                onPress={() => {
+                  if (currentFeature?.name === 'Backlog') {
+                    setOpenTicketDialog(true)
+                    return
+                  } else {
+                    setOpenMemberDialog(true)
+                    return
+                  }
+                }}
+              >
+                <PlusIcon className="w-5 h-5" />
+              </Button>
+            </div>
           )}
         </div>
       </div>
@@ -97,10 +120,8 @@ const Header = () => {
         isOpen={openEventDialog}
         setIsOpen={setOpenEventDialog}
       />
-      <MemberDialog
-        isOpen={openMemberDialog}
-        setIsOpen={setOpenMemberDialog}
-      />
+      <MemberDialog isOpen={openMemberDialog} setIsOpen={setOpenMemberDialog} />
+      <TicketDialog isOpen={openTicketDialog} setIsOpen={setOpenTicketDialog} />
     </>
   )
 }

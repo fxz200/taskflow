@@ -1,7 +1,13 @@
-export const getTickets = {
-  request: 'GET_TICKETS_REQUEST',
-  success: 'GET_TICKETS_SUCCESS',
-  failure: 'GET_TICKETS_FAILURE',
+export const getAllTickets = {
+  request: 'GET_ALL_TICKETS_REQUEST',
+  success: 'GET_ALL_TICKETS_SUCCESS',
+  failure: 'GET_ALL_TICKETS_FAILURE',
+}
+
+export const getSpecificTickets = {
+  request: 'GET_SPECIFIC_TICKETS_REQUEST',
+  success: 'GET_SPECIFIC_TICKETS_SUCCESS',
+  failure: 'GET_SPECIFIC_TICKETS_FAILURE',
 }
 
 export const postTicket = {
