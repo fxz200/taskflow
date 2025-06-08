@@ -110,7 +110,7 @@ const Header = ({ selectedTableKeys }: HeaderProps) => {
                 color="default"
                 className="w-11 data-[hover=true]:!opacity-100 hover:bg-primary"
                 onPress={() => {
-                  if (currentFeature?.name === 'Backlog') {
+                  if (currentFeature?.name === 'Backlog' || currentFeature?.name === 'Priority') {
                     setOpenTicketDialog(true)
                     return
                   } else {
