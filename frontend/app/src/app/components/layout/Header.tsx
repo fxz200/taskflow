@@ -1,22 +1,15 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { Button, ButtonGroup } from '@heroui/react'
+import { Button } from '@heroui/react'
 import { FEATURES_LIST } from '@constants/features'
 import { usePathname } from 'next/navigation'
-import {
-  ArrowUpTrayIcon,
-  ChevronUpDownIcon,
-  MoonIcon,
-  PlusIcon,
-  TrashIcon,
-} from '@heroicons/react/20/solid'
+import { ArrowUpTrayIcon, MoonIcon } from '@heroicons/react/20/solid'
 import { useTheme } from 'next-themes'
 import { SunIcon } from '@heroicons/react/24/solid'
-import CreateEventDialog from './CreateEventDialog'
-import MemberDialog from 'app/(page)/members/components/MemberDialog'
-import TicketDialog from '@components/ticket/TicketDialog'
-import { useAppDispatch } from 'app/hooks'
-import { deleteTicket } from '@api/actions/ticket'
+import TimelineButton from './header/TimelineButton'
+import TicketButton from './header/TicketButton'
+import MemberButton from './header/MemberButton'
+import SprintButton from './header/SprintButton'
 
 interface HeaderProps {
   selectedTableKeys: string[]
@@ -25,11 +18,7 @@ interface HeaderProps {
 const Header = ({ selectedTableKeys }: HeaderProps) => {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  const [openEventDialog, setOpenEventDialog] = useState(false)
-  const [openMemberDialog, setOpenMemberDialog] = useState(false)
-  const [openTicketDialog, setOpenTicketDialog] = useState(false)
   const pathname = usePathname()
-  const dispatch = useAppDispatch()
   const currentFeature = mounted
     ? FEATURES_LIST.find((feature) => feature.href === pathname)
     : null
@@ -72,65 +61,15 @@ const Header = ({ selectedTableKeys }: HeaderProps) => {
         </div>
         <div className="flex justify-between items-center px-8 my-2">
           <span className="text-xl">{currentFeature?.name}</span>
-          {currentFeature?.name === 'Timeline' ||
-          currentFeature?.name === 'Sprint' ? (
-            <ButtonGroup>
-              <Button
-                isIconOnly
-                color="default"
-                className="w-11 data-[hover=true]:!opacity-100 hover:bg-primary"
-              >
-                <ChevronUpDownIcon className="w-5 h-5" />
-              </Button>
-              <Button
-                isIconOnly
-                color="default"
-                className="w-11 data-[hover=true]:!opacity-100 hover:bg-primary"
-                onPress={() => setOpenEventDialog(true)}
-              >
-                <PlusIcon className="w-5 h-5" />
-              </Button>
-            </ButtonGroup>
-          ) : (
-            <div className="flex flex-row gap-3">
-              {currentFeature?.name === 'Backlog' && (
-                <Button
-                  isIconOnly
-                  color="default"
-                  className="w-11 data-[hover=true]:!opacity-100 hover:bg-primary"
-                  onPress={() => {
-                    dispatch(deleteTicket({ body: selectedTableKeys }))
-                  }}
-                >
-                  <TrashIcon className="w-5 h-5" />
-                </Button>
-              )}
-              <Button
-                isIconOnly
-                color="default"
-                className="w-11 data-[hover=true]:!opacity-100 hover:bg-primary"
-                onPress={() => {
-                  if (currentFeature?.name === 'Backlog' || currentFeature?.name === 'Priority') {
-                    setOpenTicketDialog(true)
-                    return
-                  } else {
-                    setOpenMemberDialog(true)
-                    return
-                  }
-                }}
-              >
-                <PlusIcon className="w-5 h-5" />
-              </Button>
-            </div>
-          )}
+          {currentFeature?.name === 'Timeline' && <TimelineButton />}
+          {currentFeature?.name === 'Backlog' ||
+            (currentFeature?.name === 'Priority' && (
+              <TicketButton selectedTableKeys={selectedTableKeys} />
+            ))}
+          {currentFeature?.name === 'Members' && <MemberButton />}
+          {currentFeature?.name === 'Sprint' && <SprintButton />}
         </div>
       </div>
-      <CreateEventDialog
-        isOpen={openEventDialog}
-        setIsOpen={setOpenEventDialog}
-      />
-      <MemberDialog isOpen={openMemberDialog} setIsOpen={setOpenMemberDialog} />
-      <TicketDialog isOpen={openTicketDialog} setIsOpen={setOpenTicketDialog} />
     </>
   )
 }
