@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Avatar, Button, Card, Input, Select, SelectItem } from '@heroui/react'
-import { ROLES } from '@constants/member'
+import { Member, ROLES } from '@constants/member'
 import SelectAvatarDialog from './SelectAvatarDialog'
 import FormDialog from '@components/common/FormDialog'
 import { z } from 'zod'
@@ -13,7 +13,7 @@ interface Props {
   isOpen: boolean
   setIsOpen: (open: boolean) => void
   isEdit?: boolean
-  initialData?: Partial<SchemaType> & { id?: string }
+  initialData?: Partial<Member>
 }
 
 const Schema = z.object({
