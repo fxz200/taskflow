@@ -11,7 +11,7 @@ const MemberButton = () => {
         <Button
           isIconOnly
           color="default"
-          className="w-11 data-[hover=true]:!opacity-100 hover:bg-primary"
+          className="min-w-9 w-9 h-9 data-[hover=true]:!opacity-100 hover:bg-primary"
           onPress={() => setOpenMemberDialog(true)}
         >
           <PlusIcon className="w-5 h-5" />

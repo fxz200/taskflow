@@ -62,10 +62,10 @@ const Header = ({ selectedTableKeys }: HeaderProps) => {
         <div className="flex justify-between items-center px-8 my-2">
           <span className="text-xl">{currentFeature?.name}</span>
           {currentFeature?.name === 'Timeline' && <TimelineButton />}
-          {currentFeature?.name === 'Backlog' ||
-            (currentFeature?.name === 'Priority' && (
-              <TicketButton selectedTableKeys={selectedTableKeys} />
-            ))}
+          {(currentFeature?.name === 'Backlog' ||
+            currentFeature?.name === 'Priority') && (
+            <TicketButton selectedTableKeys={selectedTableKeys} />
+          )}
           {currentFeature?.name === 'Members' && <MemberButton />}
           {currentFeature?.name === 'Sprint' && <SprintButton />}
         </div>
