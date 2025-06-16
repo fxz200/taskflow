@@ -1,37 +1,33 @@
 import * as actionType from '@api/constant/sprint'
+import { Sprint } from '@constants/sprint'
 
-interface SprintState {
-  sprints: any[]
+interface State {
+  sprints: Sprint[]
   loading: boolean
   error: string | null
 }
 
-interface SprintAction {
+interface Action {
   type: string
   payload?: any
 }
 
-const initialState: SprintState = {
+const initialState: State = {
   sprints: [],
   loading: false,
   error: null,
 }
 
 export default function sprintReducer(
-  state: SprintState = initialState,
-  action: SprintAction
-): SprintState {
+  state: State = initialState,
+  action: Action
+): State {
   switch (action.type) {
     case actionType.getAllSprints.success:
       return {
         ...state,
-        sprints: action.payload,
+        sprints: action.payload.sprints || [],
       }
-    // case actionType.getSprint.success:
-    //   return {
-    //     ...state,
-    //     sprints: action.payload,
-    //   }
     default:
       return state
   }

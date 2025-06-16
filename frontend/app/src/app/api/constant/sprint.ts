@@ -15,3 +15,9 @@ export const postSprint = {
   success: 'POST_SPRINT_SUCCESS',
   failure: 'POST_SPRINT_FAILURE',
 }
+
+export const putSprint = {
+  request: 'PUT_SPRINT_REQUEST',
+  success: 'PUT_SPRINT_SUCCESS',
+  failure: 'PUT_SPRINT_FAILURE',
+}

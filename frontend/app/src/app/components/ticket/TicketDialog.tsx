@@ -115,6 +115,7 @@ const TicketDialog = ({
         release: initialData?.sprint || '',
         assignee:
           initialData?.members?.find((member) => member.role === 1)?.id || '',
+        status: pathname === '/priority' ? initialData?.status || 0 : undefined,
         summary: initialData?.summary || '',
       })
     }
@@ -130,6 +131,8 @@ const TicketDialog = ({
         sprint: data.release,
         summary: data.summary,
         members_ids: [data.assignee],
+        status: pathname === '/priority' ? data.status : undefined,
+        statement: pathname === '/priority' ? 1 : 0,
       },
       ...(isEdit && { id: initialData?.id }),
     }

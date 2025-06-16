@@ -46,9 +46,9 @@ const config: Config = {
             "primary": {
               "foreground": "#1f1f1f",
               "DEFAULT": "#c1d3e5",
-              "50": "#F2F7FB",
-              "100": "#DCEAF5",
-              "200": "#B8D5EB",
+              "50": "#F0F4F8",
+              "100": "#DFE8F1",
+              "200": "#CBDDF0",
               "300": "#96B8DA",
               "400": "#6A9AC8",
               "500": "#4A7FB6",
