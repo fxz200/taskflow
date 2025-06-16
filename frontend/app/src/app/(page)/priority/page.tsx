@@ -25,11 +25,13 @@ import {
   ChevronDownIcon,
 } from '@heroicons/react/20/solid'
 import { PlusIcon } from '@heroicons/react/24/solid'
+import SprintTicketDialog from '@components/ticket/SprintTicketDialog'
 
 const Priority = () => {
   const dispatch = useAppDispatch()
   const [priorityTickets, setPriorityTickets] = useState<Ticket[]>([])
   const [openDialog, setOpenDialog] = useState(false)
+  const [openSprintDialog, setOpenSprintDialog] = useState(false)
   const [isEditTicket, setIsEditTicket] = useState(false)
   const [currentTicket, setCurrentTicket] = useState<Ticket | null>(null)
   const [expandedRow, setExpandedRow] = useState<string | null>(null)
@@ -134,8 +136,8 @@ const Priority = () => {
                     <Button
                       className="bg-transparent min-w-4 px-2"
                       onPress={() => {
-                        const payload = { ...row, statement: 2 }
-                        dispatch(putTicket({ body: payload }))
+                        setOpenSprintDialog(true)
+                        setCurrentTicket(row)
                       }}
                     >
                       <ArrowUturnRightIcon className="w-4 h-4" />
@@ -175,6 +177,7 @@ const Priority = () => {
         isEdit={isEditTicket}
         initialData={currentTicket || undefined}
       />
+      <SprintTicketDialog isOpen={openSprintDialog} setIsOpen={setOpenSprintDialog} isEdit initialData={currentTicket || undefined} />
     </>
   )
 }

@@ -1,8 +1,8 @@
 'use client'
 import React from 'react'
 import { Button, Link } from '@heroui/react'
-import { FEATURES_LIST } from '@constants/features'
 import { usePathname } from 'next/navigation'
+import { FEATURES_LIST } from '@constants/features'
 
 const Sidebar: React.FC = () => {
   const pathname = usePathname()

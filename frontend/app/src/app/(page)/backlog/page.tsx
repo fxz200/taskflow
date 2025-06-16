@@ -40,6 +40,7 @@ const Backlog = ({ selectedTableKeys, setSelectedTableKeys }: BacklogProps) => {
   const [isEditTicket, setIsEditTicket] = useState(false)
   const [currentTicket, setCurrentTicket] = useState<Ticket | null>(null)
   const [expandedRow, setExpandedRow] = useState<string | null>(null)
+  const [openPopoverId, setOpenPopoverId] = useState<string | null>(null)
 
   useEffect(() => {
     if (!allTickets || allTickets.length === 0) {
@@ -111,11 +112,11 @@ const Backlog = ({ selectedTableKeys, setSelectedTableKeys }: BacklogProps) => {
                   <TableCell>
                     <span
                       className={`rounded-lg px-3 ${
-                        row.status === 0
+                        row.statement === 0
                           ? 'bg-[#484848] text-white'
-                          : row.status === 1
+                          : row.statement === 1
                           ? 'bg-[#FFCB6C] text-black'
-                          : row.status === 2
+                          : row.statement === 2
                           ? 'bg-[#9FDB6E] text-black'
                           : 'bg-white text-black'
                       }`}
@@ -146,7 +147,14 @@ const Backlog = ({ selectedTableKeys, setSelectedTableKeys }: BacklogProps) => {
                     >
                       <PencilIcon className="w-4 h-4" />
                     </Button>
-                    <Popover key={row.id} placement="bottom">
+                    <Popover
+                      key={row.id}
+                      placement="bottom"
+                      isOpen={openPopoverId === row.id}
+                      onOpenChange={(isOpen) => {
+                        setOpenPopoverId(isOpen ? row.id : null)
+                      }}
+                    >
                       <PopoverTrigger>
                         <Button className="bg-transparent min-w-4 px-2">
                           <ArrowUturnRightIcon className="w-4 h-4" />
@@ -156,7 +164,8 @@ const Backlog = ({ selectedTableKeys, setSelectedTableKeys }: BacklogProps) => {
                         <Button
                           className="w-full bg-transparent"
                           onPress={() => {
-                            const payload = { ...row, statement: 1 }
+                            const payload = { ...row, statement: 1, status: 1 }
+                            setOpenPopoverId(null)
                             dispatch(putTicket({ body: payload }))
                           }}
                         >
@@ -166,6 +175,7 @@ const Backlog = ({ selectedTableKeys, setSelectedTableKeys }: BacklogProps) => {
                           className="w-full bg-transparent"
                           onPress={() => {
                             const payload = { ...row, statement: 2 }
+                            setOpenPopoverId(null)
                             dispatch(putTicket({ body: payload }))
                           }}
                         >
