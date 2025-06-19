@@ -72,9 +72,8 @@ const MemberCard = ({ member }: Props) => {
         isOpen={isDeleteDialogOpen}
         onClose={() => setIsDeleteDialogOpen(false)}
         onSubmit={handleDeleteSubmit}
-      >
-        <p className="flex items-center justify-center">確認刪除？</p>
-      </Dialog>
+        content='確認刪除？'
+      />
       {/* edit member dialog */}
       <MemberDialog isOpen={isEditDialogOpen} setIsOpen={setIsEditDialogOpen} isEdit={true} initialData={member} />
     </>

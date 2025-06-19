@@ -10,7 +10,8 @@ import React from 'react'
 
 interface Props {
   title?: string
-  children: React.ReactNode
+  children?: React.ReactNode
+  content?: string
   isOpen: boolean
   onClose: () => void
   onSubmit?: () => void
@@ -21,6 +22,7 @@ interface Props {
 const Dialog = ({
   title,
   children,
+  content,
   isOpen,
   onClose,
   onSubmit = () => {
@@ -48,7 +50,7 @@ const Dialog = ({
         {title && (
           <ModalHeader>{title}</ModalHeader>
         )}
-        <ModalBody>{children}</ModalBody>
+        <ModalBody>{children || <p className="flex items-center justify-center">{content}</p>}</ModalBody>
         <ModalFooter>
           <Button color="default" onPress={onClose}>
             取消
