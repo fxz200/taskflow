@@ -8,9 +8,11 @@ import { getAllSprints } from '@api/actions/sprint'
 import { getAllTickets } from '@api/actions/ticket'
 import { TICKET_TYPES } from '@constants/ticket'
 import { PencilIcon } from '@heroicons/react/20/solid'
+import { useSprint } from 'app/hooks/useSprint'
 
 const Sprint = () => {
   const dispatch = useAppDispatch()
+  const { currentSprint } = useSprint()
   const allSprints = useAppSelector((state) => state?.sprint?.sprints)
   const allTickets = useAppSelector((state) => state?.ticket?.tickets)
   const sprintTickets = allTickets.filter((ticket) => ticket.statement === 2)
@@ -37,7 +39,7 @@ const Sprint = () => {
             className="flex flex-row items-center justify-center bg-white w-full mb-8 shadow-[4px_4px_4px_0_rgba(0,0,0,0.25)]"
           >
             <div className="flex flex-col gap-4 h-full py-4 w-[50%] overflow-y-auto">
-              <p className="flex items-center justify-center">v2.51</p>
+              <p className="flex items-center justify-center">{currentSprint}</p>
               {sprintTickets.map((ticket) => (
                 <Card
                   key={ticket.id}
