@@ -1,117 +1,124 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { Button, Card, CardBody, Divider } from '@heroui/react'
-import { PencilSquareIcon, PlusIcon } from '@heroicons/react/24/outline'
-import CreateSprintDialog from './components/CreateSprintDialog'
-import { useDispatch } from 'react-redux'
-import { getAllSprints, getSprint } from '@api/actions/sprint'
-import { AppDispatch } from 'app/store'
+import { Card, CardBody, Divider } from '@heroui/react'
+import { getAllSprints } from '@api/actions/sprint'
+import { useAppDispatch, useAppSelector } from 'app/hooks'
+import {
+  addDays,
+  addMonths,
+  endOfMonth,
+  format,
+  isAfter,
+  isSameMonth,
+  startOfMonth,
+  startOfWeek,
+} from 'date-fns'
+import EventCards from './components/EventCards'
 
-const days: string[] = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
+const getWeekdaysOnly = (year: number, month: number): Date[][] => {
+  // Adjust month for zero-based index, ensure the first day is a Monday
+  const firstDayOfMonth = startOfMonth(new Date(year, month - 1))
+  const lastDayOfMonth = endOfMonth(firstDayOfMonth)
+  let current = startOfWeek(firstDayOfMonth, { weekStartsOn: 1 })
+  const result: Date[][] = []
+  while (current <= lastDayOfMonth) {
+    const week: Date[] = []
+    for (let i = 0; i < 7; i++) {
+      const day = addDays(current, i)
+      if (day.getDay() >= 1 && day.getDay() <= 5) {
+        week.push(day)
+      }
+    }
+    result.push(week)
+    current = addDays(current, 7)
+  }
+  return result
+}
 
 const Timeline = () => {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useAppDispatch()
+  const allSprints = useAppSelector((state) => state.sprint?.sprints)
   const [openDialog, setOpenDialog] = useState(false)
+  const startDate = new Date(2025, 0) // Jan 2025
+  const endDate = addMonths(new Date(), 12) // today + 1 year
+
+  const months = []
+  let current = startDate
+  while (!isAfter(current, endDate)) {
+    months.push(current)
+    current = addMonths(current, 1)
+  }
 
   useEffect(() => {
-    dispatch(getAllSprints()).then((res) => {
-      console.log(res)
-    })
+    dispatch(getAllSprints())
   }, [])
 
   return (
     <>
-      {/* <div className="flex mr-8 h-full">
-        <Card radius="sm" className="flex items-center justify-center bg-primary/60 dark:bg-primary/90 rounded-tl-3xl rounded-br-3xl w-full mb-8 shadow-[4px_4px_4px_0_rgba(0,0,0,0.25)]">
-          <Button
-            radius="sm"
-            className="flex flex-col items-center justify-center bg-white/90 rounded-tl-3xl rounded-br-3xl h-36 w-60 border-dashed border-2 border-primary"
-            onPress={() => setOpenDialog(true)}
-          >
-            <div>
-              <PlusIcon className="w-18 h-14" />
-            </div>
-
-            <p className="font-light text-xl text-black">新增時程</p>
-          </Button>
-        </Card>
-      </div> */}
-      <div className="flex flex-col mr-8 gap-4">
+      <div className="flex pr-8 w-full h-[80vh]">
         <Card
           radius="sm"
           shadow="none"
-          className="flex flex-col bg-primary w-full h-[464px] rounded-tl-3xl rounded-br-3xl p-4 gap-4"
+          className="flex flex-col bg-primary w-full rounded-tl-3xl rounded-br-3xl p-4 gap-4 overflow-y-auto"
         >
-          <div className="flex flex-row items-end justify-between">
-            <div className="flex items-center">
-              <span className="text-xl font-light px-2">v2.50</span>
-              <Button
-                isIconOnly
-                className="bg-transparent min-h-4 min-w-4 h-4 w-4"
-              >
-                <PencilSquareIcon className="w-4 h-4" />
-              </Button>
-            </div>
-            <span className="text-xs">2025.02.13 - 2025.02.27</span>
-          </div>
-          <div className="flex flex-col gap-6 h-full pb-2">
-            <Card className="flex items-center w-full h-1/2 bg-white shadow-[4px_4px_4px_0_rgba(0,0,0,0.25)]">
-              <CardBody className="flex-row items-start justify-between">
-                {days.map((day, index) => (
-                  <React.Fragment key={index}>
-                    <div className="flex flex-col items-center justify-center w-full">
-                      <div>
-                        <span className="">{day}</span>
-                        <span className="text-xs text-lightgray font-light px-1">
-                          2/12
-                        </span>
-                      </div>
-                      <div className="flex-col gap-1"></div>
-                    </div>
-                    {day !== days?.at(-1) && (
-                      <Divider
-                        orientation="vertical"
-                        className="bg-black/40 h-4/5 mt-auto"
-                      />
-                    )}
-                  </React.Fragment>
-                ))}
-              </CardBody>
-            </Card>
-            <Card className="flex items-center w-full h-1/2 bg-white shadow-[4px_4px_4px_0_rgba(0,0,0,0.25)]">
-              <CardBody className="flex-row items-start justify-between">
-                {days.map((day, index) => (
-                  <React.Fragment key={index}>
-                    <div className="flex flex-col items-center justify-center w-full">
-                      <div>
-                        <span className="">{day}</span>
-                        <span className="text-xs text-lightgray font-light px-1">
-                          2/12
-                        </span>
-                      </div>
-                      <div className="flex-col gap-1"></div>
-                    </div>
-                    {day !== days?.at(-1) && (
-                      <Divider
-                        orientation="vertical"
-                        className="bg-black/40 h-4/5 mt-auto"
-                      />
-                    )}
-                  </React.Fragment>
-                ))}
-              </CardBody>
-            </Card>
-          </div>
+          {months.map((date, monthIndex) => {
+            const year = date.getFullYear()
+            const month = date.getMonth() + 1
+            const weeks = getWeekdaysOnly(year, month)
+            return (
+              <div key={monthIndex}>
+                <p className="text-xl font-light px-2">
+                  {format(date, 'yyyy/MM')}
+                </p>
+                <div className="flex flex-col gap-6 pb-2">
+                  {weeks.map((week, weekIndex) => (
+                    <Card
+                      key={weekIndex}
+                      className="flex items-center w-full h-44 bg-white shadow-[4px_4px_4px_0_rgba(0,0,0,0.25)]"
+                    >
+                      <CardBody className="flex-row items-start justify-between p-0">
+                        {week.map((day, dayIndex) => (
+                          <div
+                            key={dayIndex}
+                            className={`relative flex items-center justify-start w-full h-full ${
+                              isSameMonth(day, date)
+                                ? 'bg-white'
+                                : 'bg-[#e6e6e6]'
+                            }`}
+                          >
+                            <div className="flex flex-col items-center justify-start w-full h-full">
+                              <div className="p-3">
+                                <span className="">{format(day, 'EEE')}</span>
+                                <span className="text-xs text-lightgray font-light px-1">
+                                  {format(day, 'M/dd')}
+                                </span>
+                              </div>
+                              {allSprints && (
+                                <div className="flex flex-col items-center justify-center gap-2 text-sm font-light w-full p-2">
+                                  <EventCards day={day} sprints={allSprints} />
+                                </div>
+                              )}
+                            </div>
+                            {!isSameMonth(day, date) && (
+                              <div className="absolute inset-0 bg-[#e6e6e6] opacity-60" />
+                            )}
+                            {dayIndex !== week.length - 1 && (
+                              <Divider
+                                orientation="vertical"
+                                className="bg-black/40 h-3/5 mt-12"
+                              />
+                            )}
+                          </div>
+                        ))}
+                      </CardBody>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            )
+          })}
         </Card>
-        <Button
-          radius="md"
-          className="w-full bg-primary/60"
-          onPress={() => setOpenDialog(true)}
-        >
-          <PlusIcon className="w-6 h-6" />
-        </Button>
       </div>
-      <CreateSprintDialog isOpen={openDialog} setIsOpen={setOpenDialog} />
     </>
   )
 }

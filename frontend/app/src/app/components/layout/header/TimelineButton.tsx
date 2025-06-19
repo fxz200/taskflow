@@ -8,24 +8,14 @@ const TimelineButton = () => {
 
   return (
     <>
-      {' '}
-      <ButtonGroup>
-        <Button
-          isIconOnly
-          color="default"
-          className="min-w-9 w-9 h-9 data-[hover=true]:!opacity-100 hover:bg-primary"
-        >
-          <ChevronUpDownIcon className="w-5 h-5" />
-        </Button>
-        <Button
-          isIconOnly
-          color="default"
-          className="min-w-9 w-9 h-9 data-[hover=true]:!opacity-100 hover:bg-primary"
-          onPress={() => setOpenEventDialog(true)}
-        >
-          <PlusIcon className="w-5 h-5" />
-        </Button>
-      </ButtonGroup>
+      <Button
+        isIconOnly
+        color="default"
+        className="min-w-9 w-9 h-9 data-[hover=true]:!opacity-100 hover:bg-primary"
+        onPress={() => setOpenEventDialog(true)}
+      >
+        <PlusIcon className="w-5 h-5" />
+      </Button>
       <CreateEventDialog
         isOpen={openEventDialog}
         setIsOpen={setOpenEventDialog}

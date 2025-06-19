@@ -22,6 +22,7 @@ interface Props {
   setIsOpen: (open: boolean) => void
   isEdit?: boolean
   initialData?: Partial<Ticket> | undefined
+  onConfirm?: () => void
 }
 
 const Schema = z.object({
@@ -62,6 +63,7 @@ const TicketDialog = ({
   setIsOpen,
   isEdit = false,
   initialData = {},
+  onConfirm,
 }: Props) => {
   const dispatch = useAppDispatch()
   const pathname = usePathname()
@@ -88,39 +90,6 @@ const TicketDialog = ({
     },
   })
 
-  useEffect(() => {
-    if (allSprints.length === 0) {
-      dispatch(getAllSprints())
-    }
-  }, [allSprints])
-
-  useEffect(() => {
-    if (originalPMList.length === 0) {
-      dispatch(getSpecificMembers({ query: { role: 1 } })).then((res) => {
-        if (res?.members) {
-          setPmList(res.members)
-        }
-      })
-    } else {
-      setPmList(originalPMList)
-    }
-  }, [originalPMList])
-
-  useEffect(() => {
-    if (isOpen) {
-      reset({
-        type: initialData?.type || 0,
-        title: initialData?.title || '',
-        priority: initialData?.priority || 0,
-        release: initialData?.sprint || '',
-        assignee:
-          initialData?.members?.find((member) => member.role === 1)?.id || '',
-        status: pathname === '/priority' ? initialData?.status || 0 : undefined,
-        summary: initialData?.summary || '',
-      })
-    }
-  }, [isOpen])
-
   const onSubmit = (data: SchemaType) => {
     const action = isEdit ? putTicket : postTicket
     const payload = {
@@ -138,12 +107,49 @@ const TicketDialog = ({
     }
     dispatch(action({ body: payload })).then(() => {
       onClose()
+      if (onConfirm) {
+        onConfirm()
+      }
     })
   }
 
   const onClose = () => {
     setIsOpen(false)
+    reset()
   }
+
+  useEffect(() => {
+    if (isOpen) {
+      reset({
+        type: initialData?.type || 0,
+        title: initialData?.title || '',
+        priority: initialData?.priority || 0,
+        release: initialData?.sprint || '',
+        assignee:
+          initialData?.members?.find((member) => member.role === 1)?.id || '',
+        status: pathname === '/priority' ? initialData?.status || 0 : undefined,
+        summary: initialData?.summary || '',
+      })
+    }
+  }, [isOpen])
+
+  useEffect(() => {
+    if (allSprints.length === 0) {
+      dispatch(getAllSprints())
+    }
+  }, [allSprints])
+
+  useEffect(() => {
+    if (originalPMList.length === 0) {
+      dispatch(getSpecificMembers({ query: { role: 1 } })).then((res) => {
+        if (res?.members) {
+          setPmList(res.members)
+        }
+      })
+    } else {
+      setPmList(originalPMList)
+    }
+  }, [originalPMList])
 
   return (
     <FormDialog
@@ -269,10 +275,14 @@ const TicketDialog = ({
               label="Status"
               labelPlacement="outside"
               placeholder="Status"
-              defaultSelectedKeys={field.value ? [field.value] : []}
+              defaultSelectedKeys={field.value ? [String(field.value)] : []}
+              onChange={(e) => {
+                const selected = e.target.value
+                field.onChange(Number(selected))
+              }}
             >
               {Object.entries(TICKET_STATUSES)
-                .filter(([key]) => key !== '0')
+                .filter(([key]) => key !== '0') // Exclude 'not in priority' status
                 .map(([key, status]) => (
                   <SelectItem key={key}>{status.label}</SelectItem>
                 ))}
