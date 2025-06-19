@@ -587,6 +587,10 @@
           "items": {
             "$ref": "#/definitions/model.Member"
           }
+        },
+        "required": {
+          "type": "string",
+          "example": true
         }
       }
     },
@@ -641,6 +645,10 @@
         "note": {
           "type": "string",
           "example": "風險: 這個功能會影響到所有的店"
+        },
+        "required": {
+          "type": "string",
+          "example": true
         }
       }
     },
@@ -696,6 +704,10 @@
         "note": {
           "type": "string",
           "example": "風險: 這個功能會影響到所有的店"
+        },
+        "required": {
+          "type": "string",
+          "example": true
         }
       }
     }
