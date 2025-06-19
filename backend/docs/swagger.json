@@ -353,7 +353,7 @@
           {
             "name": "statement",
             "in": "query",
-            "description": "- 1: in Backlog\n- 2: in Piority\n- 3: in Sprint",
+            "description": "- 1: in Backlog\n- 2: in priority\n- 3: in Sprint",
             "required": false,
             "type": "string",
             "enum": [1, 2, 3]
@@ -535,7 +535,7 @@
     },
     "model.Ticket.responses": {
       "type": "object",
-      "required": ["type", "title", "piority", "statement"],
+      "required": ["type", "title", "priority", "statement"],
       "properties": {
         "id": {
           "type": "string",
@@ -546,7 +546,7 @@
           "example": 2,
           "description": "- 0:System Maintaince\n - 1: New Feature\n- 2: Bug\n- 3: Improvement\n- 4: Story\n- 5: Task \n- 6: Epic"
         },
-        "piority": {
+        "priority": {
           "type": "integer",
           "example": 0,
           "description": "- 0: P0\n- 1: P1\n- 2: P2\n- 3: p3\n- 4: p4"
@@ -558,12 +558,12 @@
         "statement": {
           "type": "integer",
           "example": 1,
-          "description": "- 0: in Backlog\n- 1: in Piority\n- 2: in Sprint"
+          "description": "- 0: in Backlog\n- 1: in priority\n- 2: in Sprint"
         },
         "status": {
           "type": "integer",
           "example": 1,
-          "description": "在Priority的狀態\n- 0: not in piority\n- 1: 待處理\n- 2: 進行中\n- 3: 已完成"
+          "description": "在Priority的狀態\n- 0: not in priority\n- 1: 待處理\n- 2: 進行中\n- 3: 已完成"
         },
         "sprint": {
           "description": "statement=3的時候才會有值",
@@ -610,7 +610,7 @@
           "example": 2,
           "description": "- 0:System Maintaince\n - 1: New Feature\n- 2: Bug\n- 3: Improvement\n- 4: Story\n- 5: Task \n- 6: Epic"
         },
-        "piority": {
+        "priority": {
           "type": "integer",
           "example": 0,
           "description": "- 0: P0\n- 1: P1\n- 2: P2- 3: p3\n- 4: p4"
@@ -622,12 +622,12 @@
         "statement": {
           "type": "integer",
           "example": 1,
-          "description": "- 0: in Backlog\n- 1: in Piority\n- 2: in Sprint"
+          "description": "- 0: in Backlog\n- 1: in priority\n- 2: in Sprint"
         },
         "status": {
           "type": "integer",
           "example": 1,
-          "description": "在Priority的狀態\n- 0: not in piority\n- 1: 待處理\n- 2: 進行中\n- 3: 已完成"
+          "description": "在Priority的狀態\n- 0: not in priority\n- 1: 待處理\n- 2: 進行中\n- 3: 已完成"
         },
         "sprint": {
           "description": "statement=3的時候才會有值",
@@ -669,7 +669,7 @@
           "example": 2,
           "description": "- 0: System Maintaince\n - 1: New Feature\n- 2: Bug\n- 3: Improvement\n- 4: Story\n- 5: Task \n- 6: Epic"
         },
-        "piority": {
+        "priority": {
           "type": "integer",
           "example": 0,
           "description": "- 0: P0\n- 1: P1\n- 2: P2- 3: p3\n- 4: p4"
@@ -681,12 +681,12 @@
         "statement": {
           "type": "integer",
           "example": 2,
-          "description": "- 0: in Backlog\n- 1: in Piority\n- 2: in Sprint"
+          "description": "- 0: in Backlog\n- 1: in priority\n- 2: in Sprint"
         },
         "status": {
           "type": "integer",
           "example": 3,
-          "description": "在Priority的狀態\n- 0: not in piority\n- 1: 待處理\n- 2: 進行中\n- 3: 已完成"
+          "description": "在Priority的狀態\n- 0: not in priority\n- 1: 待處理\n- 2: 進行中\n- 3: 已完成"
         },
         "sprint": {
           "description": "statement=3的時候才會有值",

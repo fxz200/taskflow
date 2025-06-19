@@ -43,7 +43,7 @@ func (m *Member) BeforeCreate(tx *gorm.DB) (err error) {
 type Ticket struct {
 	Id         string   `gorm:"primaryKey;not null;unique" json:"id" form:"id"`
 	Type       uint8    `json:"type" form:"type"  binding:"gte=0,lte=5"  `
-	Piority    *uint8   `json:"piority" form:"piority"   `
+	Priority   *uint8   `json:"priority" form:"priority"   `
 	Title      string   `gorm:"not null;unique" json:"title" form:"title"  binding:"required" `
 	Statement  uint8    `json:"statement" form:"statement"  binding:"gte=0,lte=5" `
 	Status     *uint8   `json:"status" form:"status" `
