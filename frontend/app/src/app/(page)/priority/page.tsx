@@ -17,7 +17,7 @@ import {
   TICKET_TYPES,
 } from '@constants/ticket'
 import TicketDialog from '@components/ticket/TicketDialog'
-import { useAppDispatch } from 'app/hooks'
+import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { getSpecificTickets, putTicket } from '@api/actions/ticket'
 import {
   ArrowUturnRightIcon,
@@ -29,6 +29,7 @@ import SprintTicketDialog from '@components/ticket/SprintTicketDialog'
 
 const Priority = () => {
   const dispatch = useAppDispatch()
+  const allTickets = useAppSelector((state) => state?.ticket?.tickets)
   const [priorityTickets, setPriorityTickets] = useState<Ticket[]>([])
   const [openDialog, setOpenDialog] = useState(false)
   const [openSprintDialog, setOpenSprintDialog] = useState(false)
@@ -58,7 +59,9 @@ const Priority = () => {
             tr: 'bg-primary-100 data-[hover=true]:!opacity-100 hover:bg-primary-50',
             th: 'bg-primary-200 text-center',
             td: `${
-              priorityTickets.length === 0 ? 'flex w-full h-full' : 'text-center'
+              priorityTickets.length === 0
+                ? 'flex w-full h-full'
+                : 'text-center'
             } font-light`,
             tfoot: '',
             emptyWrapper: '',
@@ -176,8 +179,20 @@ const Priority = () => {
         setIsOpen={setOpenDialog}
         isEdit={isEditTicket}
         initialData={currentTicket || undefined}
+        onConfirm={() => {
+          dispatch(getSpecificTickets({ query: { statement: 1 } })).then(
+            (res) => {
+              setPriorityTickets(res?.tickets)
+            }
+          )
+        }}
       />
-      <SprintTicketDialog isOpen={openSprintDialog} setIsOpen={setOpenSprintDialog} isEdit initialData={currentTicket || undefined} />
+      <SprintTicketDialog
+        isOpen={openSprintDialog}
+        setIsOpen={setOpenSprintDialog}
+        isEdit
+        initialData={currentTicket || undefined}
+      />
     </>
   )
 }
