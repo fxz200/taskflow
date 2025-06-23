@@ -1,11 +1,13 @@
 import { putSprint } from '@api/actions/sprint'
 import Dialog from '@components/common/Dialog'
+import CreateEventDialog from '@components/layout/CreateEventDialog'
 import { Sprint } from '@constants/sprint'
 import { PencilIcon, XMarkIcon } from '@heroicons/react/20/solid'
-import { Button, Card } from '@heroui/react'
+import { Card } from '@heroui/react'
 import { useAppDispatch } from 'app/hooks'
 import { format, isSameDay } from 'date-fns'
 import React, { useState } from 'react'
+import { CalendarDateTime } from '@internationalized/date'
 
 interface EventType {
   key: string
@@ -16,25 +18,26 @@ interface EventType {
 
 const eventTypes: EventType[] = [
   {
-    key: 'plan',
+    key: '0',
     label: 'planning',
     dateField: 'plan_date',
     bgColor: 'bg-[#A7C4E1]',
   },
   {
-    key: 'test',
-    label: 'QA進測',
-    dateField: 'test_date',
-    bgColor: 'bg-[#F57D61]',
-  },
-  {
-    key: 'end',
+    key: '1',
     label: 'release',
     dateField: 'end_date',
     bgColor: 'bg-[#F9AC9A]',
   },
   {
-    key: 'retro',
+    key: '2',
+    label: 'QA進測',
+    dateField: 'test_date',
+    bgColor: 'bg-[#F57D61]',
+  },
+  
+  {
+    key: '3',
     label: 'Retro',
     dateField: 'retro_date',
     bgColor: 'bg-[#7E94BA]',
@@ -52,8 +55,8 @@ const EventCards = ({ day, sprints }: EventCardsProps) => {
   const [selectedEventType, setSelectedEventType] = useState<EventType | null>(
     null
   )
-
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [isOpenEventDialog, setIsOpenEventDialog] = useState(false)
 
   const handleDeleteSubmit = () => {
     if (selectSprint && selectedEventType) {
@@ -79,14 +82,21 @@ const EventCards = ({ day, sprints }: EventCardsProps) => {
               <div className="flex justify-center items-center w-full">
                 <span>{sprint.name}</span>
                 <span>&nbsp;{type.label}</span>
-                {(type.key === 'plan' || type.key === 'retro') && (
+                {(type.key === '0' || type.key === '3') && (
                   <span>
                     &nbsp;{format(new Date(sprint[type.dateField]), 'p')}
                   </span>
                 )}
               </div>
               <div className="absolute right-0 flex items-center gap-1 pr-2">
-                <PencilIcon className="w-3 h-3 cursor-pointer" />
+                <PencilIcon
+                  className="w-3 h-3 cursor-pointer"
+                  onClick={() => {
+                    setSelectSprint(sprint)
+                    setSelectedEventType(type)
+                    setIsOpenEventDialog(true)
+                  }}
+                />
                 <XMarkIcon
                   className="w-4 h-4 cursor-pointer"
                   onClick={() => {
@@ -113,6 +123,33 @@ const EventCards = ({ day, sprints }: EventCardsProps) => {
         onClose={() => setIsDeleteDialogOpen(false)}
         onSubmit={handleDeleteSubmit}
         content="確認刪除？"
+      />
+      <CreateEventDialog
+        isOpen={isOpenEventDialog}
+        setIsOpen={setIsOpenEventDialog}
+        isEdit
+        initialData={
+          selectSprint &&
+          selectedEventType &&
+          selectSprint[selectedEventType.dateField]
+            ? (() => {
+                const dateValue = new Date(
+                  selectSprint[selectedEventType.dateField]
+                )
+                return {
+                  name: selectSprint.name,
+                  type: selectedEventType.key,
+                  date: new CalendarDateTime(
+                    dateValue.getFullYear(),
+                    dateValue.getMonth() + 1,
+                    dateValue.getDate(),
+                    dateValue.getHours(),
+                    dateValue.getMinutes()
+                  ),
+                }
+              })()
+            : undefined
+        }
       />
     </>
   )

@@ -1,19 +1,28 @@
-import React, { useEffect } from 'react'
-import { DatePicker, DateValue } from '@heroui/react'
-import { CalendarDaysIcon } from '@heroicons/react/20/solid'
+import React from 'react'
 import FormDialog from '@components/common/FormDialog'
 import { EVENT_TYPES, Sprint } from '@constants/sprint'
-import { CalendarDateTime, getLocalTimeZone, now } from '@internationalized/date'
+import {
+  CalendarDateTime,
+  getLocalTimeZone,
+  now,
+} from '@internationalized/date'
 import { z } from 'zod'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import SelectField from '@components/common/SelectField'
 import { putSprint } from '@api/actions/sprint'
+import DateField from '@components/common/DateField'
 
 interface Props {
   isOpen: boolean
   setIsOpen: (open: boolean) => void
+  isEdit?: boolean
+  initialData?: {
+    name?: string
+    type?: string
+    date?: CalendarDateTime
+  }
 }
 
 const Schema = z.object({
@@ -28,7 +37,12 @@ const Schema = z.object({
 
 type SchemaType = z.infer<typeof Schema>
 
-const CreateEventDialog = ({ isOpen, setIsOpen }: Props) => {
+const CreateEventDialog = ({
+  isOpen,
+  setIsOpen,
+  isEdit = false,
+  initialData,
+}: Props) => {
   const dispatch = useAppDispatch()
   const allSprints = useAppSelector((state) => state.sprint?.sprints) || []
 
@@ -42,23 +56,21 @@ const CreateEventDialog = ({ isOpen, setIsOpen }: Props) => {
   )
 
   const nowDate = new Date()
-  const defaultSprintName =
-    allSprints?.find((sprint: Sprint) => {
-      const start = new Date(sprint.start_date)
-      const end = new Date(sprint.end_date)
-      return start <= nowDate && nowDate <= end
-    })?.name || allSprints[0]?.name
-
-  const {
-    handleSubmit,
-    reset,
-    control,
-  } = useForm<SchemaType>({
+  const defaultSprintName = initialData?.name
+    ? initialData?.name
+    : allSprints?.find((sprint: Sprint) => {
+        const start = new Date(sprint.start_date)
+        const end = new Date(sprint.end_date)
+        return start <= nowDate && nowDate <= end
+      })?.name
+  
+  console.log('defaultSprintName', defaultSprintName)
+  const { handleSubmit, reset, control } = useForm<SchemaType>({
     resolver: zodResolver(Schema),
     defaultValues: {
       name: defaultSprintName || '',
-      type: '0',
-      date: currentCalendarDateTime,
+      type: '',
+      date: initialData?.date || currentCalendarDateTime,
     },
   })
 
@@ -68,7 +80,7 @@ const CreateEventDialog = ({ isOpen, setIsOpen }: Props) => {
       data.date.month - 1,
       data.date.day,
       data.date.hour,
-      data.date.minute,
+      data.date.minute
     ).toISOString()
     const currentSprint =
       allSprints.find((sprint) => sprint.name === data.name) || {}
@@ -85,21 +97,16 @@ const CreateEventDialog = ({ isOpen, setIsOpen }: Props) => {
     })
   }
 
-  useEffect(() => {
-    if (allSprints.length > 0) {
-      reset({
-        name: allSprints[0].name,
-        type: '0',
-        date: currentCalendarDateTime,
-      })
-    }
-  }, [allSprints])
+  const onClose = () => {
+    reset()
+    setIsOpen(false)
+  }
 
   return (
     <FormDialog
-      title="新增事件"
+      title={isEdit ? '編輯事件' : '新增事件'}
       isOpen={isOpen}
-      onClose={() => setIsOpen(false)}
+      onClose={onClose}
       onSubmit={handleSubmit(onSubmit)}
     >
       <SelectField
@@ -111,7 +118,24 @@ const CreateEventDialog = ({ isOpen, setIsOpen }: Props) => {
           key: sprint.name,
           value: sprint.name,
         }))}
-        defaultSelectedKeys={allSprints.length >  0 ? [defaultSprintName] : []}
+        defaultSelectedKeys={allSprints.length > 0 && defaultSprintName ? [defaultSprintName] : []}
+        onChange={(value) => {
+          const selectedSprint = allSprints.find((sprint) => sprint.name === value)
+          if (selectedSprint) {
+            const dateField = isEdit ? initialData?.date : currentCalendarDateTime
+            reset({
+              name: value,
+              type: initialData?.type || '0',
+              date: dateField || new CalendarDateTime(
+                currentZoned.year,
+                currentZoned.month,
+                currentZoned.day,
+                currentZoned.hour,
+                currentZoned.minute
+              ),
+            })
+          }
+        }}
       />
       <SelectField
         control={control}
@@ -122,32 +146,15 @@ const CreateEventDialog = ({ isOpen, setIsOpen }: Props) => {
           key: type.id.toString(),
           value: type.label,
         }))}
-        defaultSelectedKeys={[EVENT_TYPES[0].id]}
+        defaultSelectedKeys={initialData?.type ? [initialData.type] : ['0']}
       />
-      <Controller
+      <DateField
         control={control}
         name="date"
-        render={({ field, fieldState }) => (
-          <DatePicker
-            {...field}
-            isRequired
-            errorMessage={fieldState.error?.message}
-            isInvalid={!!fieldState.error}
-            endContent={
-              <CalendarDaysIcon className="w-5 h-5 text-default-600 pointer-events-none flex-shrink-0" />
-            }
-            label="Date"
-            labelPlacement="outside"
-            showMonthAndYearPickers
-            popoverProps={{ placement: 'bottom' }}
-            hideTimeZone
-            defaultValue={currentCalendarDateTime}
-            onChange={(value) => {
-              field.onChange(value as DateValue)
-              field.onBlur()
-            }}
-          />
-        )}
+        label="Date"
+        isRequired
+        showMonthAndYearPickers
+        hideTimeZone
       />
     </FormDialog>
   )
