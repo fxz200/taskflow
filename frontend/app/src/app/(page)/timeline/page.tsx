@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Card, CardBody, Divider } from '@heroui/react'
 import { getAllSprints } from '@api/actions/sprint'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
@@ -37,8 +37,8 @@ const getWeekdaysOnly = (year: number, month: number): Date[][] => {
 
 const Timeline = () => {
   const dispatch = useAppDispatch()
+  const currentMonthRef = useRef<HTMLDivElement>(null)
   const allSprints = useAppSelector((state) => state.sprint?.sprints)
-  const [openDialog, setOpenDialog] = useState(false)
   const startDate = new Date(2025, 0) // Jan 2025
   const endDate = addMonths(new Date(), 12) // today + 1 year
 
@@ -53,6 +53,12 @@ const Timeline = () => {
     dispatch(getAllSprints())
   }, [])
 
+  useEffect(() => {
+    if (currentMonthRef.current) {
+      currentMonthRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [])
+
   return (
     <>
       <div className="flex pr-8 w-full h-[80vh]">
@@ -65,8 +71,11 @@ const Timeline = () => {
             const year = date.getFullYear()
             const month = date.getMonth() + 1
             const weeks = getWeekdaysOnly(year, month)
+            const today = new Date()
+            const isCurrentMonth =
+              today.getFullYear() === year && today.getMonth() + 1 === month
             return (
-              <div key={monthIndex}>
+              <div key={monthIndex} ref={isCurrentMonth ? currentMonthRef : undefined}>
                 <p className="text-xl font-light px-2">
                   {format(date, 'yyyy/MM')}
                 </p>
