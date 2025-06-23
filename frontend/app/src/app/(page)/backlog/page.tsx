@@ -28,15 +28,8 @@ import {
   ChevronDownIcon,
 } from '@heroicons/react/20/solid'
 import { PlusIcon } from '@heroicons/react/24/solid'
-interface BacklogProps {
-  selectedTableKeys: string[]
-  setSelectedTableKeys: (keys: string[]) => void
-}
 
-const Backlog = ({
-  selectedTableKeys,
-  setSelectedTableKeys = () => {},
-}: BacklogProps) => {
+const Backlog = () => {
   const dispatch = useAppDispatch()
   const allTickets = useAppSelector((state) => state?.ticket?.tickets)
   const [openDialog, setOpenDialog] = useState(false)
@@ -44,6 +37,7 @@ const Backlog = ({
   const [currentTicket, setCurrentTicket] = useState<Ticket | null>(null)
   const [expandedRow, setExpandedRow] = useState<string | null>(null)
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null)
+  const [selectedTableKeys, setSelectedTableKeys] = useState<string[]>([])
 
   useEffect(() => {
     if (!allTickets || allTickets.length === 0) {
