@@ -14,7 +14,7 @@ func SetRouter(port int) *gin.Engine {
 	r := gin.Default()
 	r.Use(func(c *gin.Context) {
 		origin := c.Request.Header.Get("Origin")
-		if origin == "http://localhost:3001" || origin == "null" {
+		if origin == "http://localhost:3001" || origin == "null" || origin == "http://18.179.3.51:4001" {
 			c.Writer.Header().Set("Access-Control-Allow-Origin", origin) // 僅允許 localhost:3001
 		}
 		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
