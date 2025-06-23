@@ -26,6 +26,10 @@ ENV NODE_ENV=production
 WORKDIR /app
 # 複製 standalone 文件和 public 資源
 COPY --from=builder /app/standalone ./
+COPY --from=builder /app/standalone/.next/static ./.next/static
+COPY --from=builder /app/.env.* ./
+COPY --from=builder /app/setupEnv.js ./setupEnv.js
+
 # 暴露端口
 EXPOSE 3000
 
