@@ -23,7 +23,7 @@ RUN yarn build && \
 
 # 第三階段：運行階段
 FROM node:20-alpine AS runner
-ENV NODE_ENV production
+ENV NODE_ENV=production
 WORKDIR /app
 
 # 複製 standalone 文件和 public 資源
