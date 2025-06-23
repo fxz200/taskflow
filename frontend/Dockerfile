@@ -14,7 +14,7 @@ WORKDIR /app
 # 複製依賴和源代碼
 COPY --from=deps /app/node_modules ./node_modules
 COPY app ./
-
+ENV NODE_ENV=production
 # 構建應用並啟用 standalone 模式
 RUN yarn build && \
     yarn install --production --ignore-scripts --prefer-offline && \
@@ -23,7 +23,6 @@ RUN yarn build && \
 
 # 第三階段：運行階段
 FROM node:20-alpine AS runner
-ENV NODE_ENV=production
 WORKDIR /app
 
 # 複製 standalone 文件和 public 資源
