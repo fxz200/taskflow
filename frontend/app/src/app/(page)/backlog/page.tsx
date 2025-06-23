@@ -33,7 +33,10 @@ interface BacklogProps {
   setSelectedTableKeys: (keys: string[]) => void
 }
 
-const Backlog = ({ selectedTableKeys, setSelectedTableKeys }: BacklogProps) => {
+const Backlog = ({
+  selectedTableKeys,
+  setSelectedTableKeys = () => {},
+}: BacklogProps) => {
   const dispatch = useAppDispatch()
   const allTickets = useAppSelector((state) => state?.ticket?.tickets)
   const [openDialog, setOpenDialog] = useState(false)
@@ -62,6 +65,7 @@ const Backlog = ({ selectedTableKeys, setSelectedTableKeys }: BacklogProps) => {
             if (keys === 'all') {
               setSelectedTableKeys(allTickets.map((t: Ticket) => t.id))
             } else {
+              console.log('keys', keys)
               setSelectedTableKeys(Array.from(keys as Set<string>))
             }
           }}

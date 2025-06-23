@@ -17,8 +17,8 @@ import {
   TICKET_TYPES,
 } from '@constants/ticket'
 import TicketDialog from '@components/ticket/TicketDialog'
-import { useAppDispatch, useAppSelector } from 'app/hooks'
-import { getSpecificTickets, putTicket } from '@api/actions/ticket'
+import { useAppDispatch } from 'app/hooks'
+import { getSpecificTickets } from '@api/actions/ticket'
 import {
   ArrowUturnRightIcon,
   PencilIcon,
@@ -29,7 +29,6 @@ import SprintTicketDialog from '@components/ticket/SprintTicketDialog'
 
 const Priority = () => {
   const dispatch = useAppDispatch()
-  const allTickets = useAppSelector((state) => state?.ticket?.tickets)
   const [priorityTickets, setPriorityTickets] = useState<Ticket[]>([])
   const [openDialog, setOpenDialog] = useState(false)
   const [openSprintDialog, setOpenSprintDialog] = useState(false)

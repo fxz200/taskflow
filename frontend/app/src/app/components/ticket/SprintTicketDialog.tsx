@@ -66,6 +66,34 @@ const SprintTicketDialog = ({
     },
   })
 
+  const onSubmit = (data: SchemaType) => {
+    const action = isEdit ? putTicket : postTicket
+    const payload = {
+      ...{
+        type: data.type,
+        title: data.title,
+        summary: data.summary,
+        members_ids: [
+          data.PM,
+          ...data.RD.split(',')
+            .map((id) => id.trim())
+            .filter((id) => id !== ''),
+          data.QA,
+        ],
+        statement: 2,
+      },
+      ...(isEdit && { id: initialData?.id }),
+    }
+    dispatch(action({ body: payload })).then(() => {
+      onClose()
+    })
+  }
+
+  const onClose = () => {
+    setIsOpen(false)
+    reset()
+  }
+
   useEffect(() => {
     if (allSprints.length === 0) {
       dispatch(getAllSprints())
@@ -94,34 +122,6 @@ const SprintTicketDialog = ({
       })
     }
   }, [isOpen])
-
-  const onSubmit = (data: SchemaType) => {
-    const action = isEdit ? putTicket : postTicket
-    const payload = {
-      ...{
-        type: data.type,
-        title: data.title,
-        summary: data.summary,
-        members_ids: [
-          data.PM,
-          ...data.RD.split(',')
-            .map((id) => id.trim())
-            .filter((id) => id !== ''),
-          data.QA,
-        ],
-        statement: 2,
-      },
-      ...(isEdit && { id: initialData?.id }),
-    }
-    dispatch(action({ body: payload })).then(() => {
-      onClose()
-    })
-  }
-
-  const onClose = () => {
-    setIsOpen(false)
-    reset()
-  }
 
   return (
     <FormDialog
