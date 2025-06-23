@@ -34,4 +34,4 @@ COPY --from=builder /app/setupEnv.js ./setupEnv.js
 EXPOSE 3000
 
 # 啟動應用
-CMD ["node", "server.js"]
+CMD ["sh", "-c", "node createEnv.js ; node server.js"]
