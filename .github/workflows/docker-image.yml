@@ -27,7 +27,7 @@ jobs:
 
     - name: Build and push frontend image
       run: |
-        NEXT_PUBLIC_API_HOST = http://18.179.3.51:4000
+        echo "API_URL=${{ secrets.API_URL }}" > .env.local
         IMAGE_NAME=fxzfrog/nextjs_frontend
         docker build ./frontend -f ./frontend/Dockerfile -t $IMAGE_NAME:latest
         docker push $IMAGE_NAME:latest
