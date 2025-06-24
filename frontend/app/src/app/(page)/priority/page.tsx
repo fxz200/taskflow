@@ -52,7 +52,7 @@ const Priority = () => {
           shadow="none"
           selectionMode="multiple"
           classNames={{
-            wrapper: 'shadow-[4px_4px_4px_0_rgba(0,0,0,0.25)] h-full mb-8 ',
+            wrapper: 'shadow-[2px_4px_4px_0_rgba(0,0,0,0.25)] h-full mb-8 ',
             table: priorityTickets.length === 0 ? 'h-full' : '',
             tbody: '',
             tr: 'bg-primary-100 data-[hover=true]:!opacity-100 hover:bg-primary-50',

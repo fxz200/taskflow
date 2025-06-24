@@ -34,11 +34,11 @@ const MemberCard = ({ member }: Props) => {
         key={member.id}
         radius="lg"
         shadow="none"
-        className="relative flex flex-row items-center p-7 bg-white/90 w-[308px] h-32 mb-8 shadow-[4px_4px_4px_0_rgba(0,0,0,0.25)]"
+        className="relative flex flex-row items-center p-7 bg-white/90 w-[308px] h-32 mb-8 shadow-[2px_4px_4px_0_rgba(0,0,0,0.25)]"
       >
         <Avatar
           radius="sm"
-          className="w-[72px] h-[72px] bg-white shadow-[4px_4px_4px_0_rgba(0,0,0,0.25)] border-1.5 border-primary-300"
+          className="w-[72px] h-[72px] bg-white shadow-[2px_4px_4px_0_rgba(0,0,0,0.25)] border-1.5 border-primary-300"
           src={member.icon === 0 ? undefined : `/img/avatar_${member.icon}.jpg`}
         />
         <div className="flex flex-col ml-4 h-full flex-1">

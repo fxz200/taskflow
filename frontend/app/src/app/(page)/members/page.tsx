@@ -29,7 +29,7 @@ const Members = () => {
           <Card
             radius="sm"
             shadow="none"
-            className="flex flex-col bg-primary/60 rounded-tl-3xl rounded-br-3xl w-full py-12 mb-8 shadow-[4px_4px_4px_0_rgba(0,0,0,0.25)] max-h-[80vh]"
+            className="flex flex-col bg-primary/60 rounded-tl-3xl rounded-br-3xl w-full py-12 mb-8 shadow-[2px_4px_4px_0_rgba(0,0,0,0.25)] max-h-[80vh]"
           >
             <div className="px-[60px] mr-2 overflow-y-auto">
               {PMList.length > 0 && (
@@ -84,7 +84,7 @@ const Members = () => {
         ) : (
           <Card
             radius="sm"
-            className="flex items-center justify-center bg-primary/60 rounded-tl-3xl rounded-br-3xl w-full mb-8 shadow-[4px_4px_4px_0_rgba(0,0,0,0.25)]"
+            className="flex items-center justify-center bg-primary/60 rounded-tl-3xl rounded-br-3xl w-full mb-8 shadow-[2px_4px_4px_0_rgba(0,0,0,0.25)]"
           >
             <Button
               radius="sm"

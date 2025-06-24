@@ -37,7 +37,7 @@ const SelectAvatarDialog = ({ isOpen, setIsOpen, avatarId = 0, onSelect }: Props
             <Button
               isIconOnly={avatar.id === 0}
               key={index}
-              className={`w-20 h-20 shadow-[4px_4px_4px_0_rgba(0,0,0,0.25)] bg-white ${
+              className={`w-20 h-20 shadow-[2px_4px_4px_0_rgba(0,0,0,0.25)] bg-white ${
                 selectedAvatar === avatar.id
                   ? 'border-2 border-primary-300'
                   : ''

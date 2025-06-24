@@ -36,7 +36,7 @@ const Sprint = () => {
         {allSprints?.length > 0 ? (
           <Card
             radius="sm"
-            className="flex flex-row items-center justify-center bg-white w-full mb-8 shadow-[4px_4px_4px_0_rgba(0,0,0,0.25)]"
+            className="flex flex-row items-center justify-center bg-white w-full mb-8 shadow-[2px_4px_4px_0_rgba(0,0,0,0.25)]"
           >
             <div className="flex flex-col gap-4 h-full py-4 w-[50%] overflow-y-auto">
               <p className="flex items-center justify-center">{currentSprint}</p>
@@ -133,7 +133,7 @@ const Sprint = () => {
         ) : (
           <Card
             radius="sm"
-            className="flex items-center justify-center bg-white rounded-tl-3xl rounded-br-3xl w-full mb-8 shadow-[4px_4px_4px_0_rgba(0,0,0,0.25)]"
+            className="flex items-center justify-center bg-white rounded-tl-3xl rounded-br-3xl w-full mb-8 shadow-[2px_4px_4px_0_rgba(0,0,0,0.25)]"
           >
             <div>
               <Button

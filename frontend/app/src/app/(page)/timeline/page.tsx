@@ -83,7 +83,7 @@ const Timeline = () => {
                   {weeks.map((week, weekIndex) => (
                     <Card
                       key={weekIndex}
-                      className="flex items-center w-full h-44 bg-white shadow-[4px_4px_4px_0_rgba(0,0,0,0.25)]"
+                      className="flex items-center w-full h-44 bg-white shadow-[2px_4px_4px_0_rgba(0,0,0,0.25)]"
                     >
                       <CardBody className="flex-row items-start justify-between p-0">
                         {week.map((day, dayIndex) => (
