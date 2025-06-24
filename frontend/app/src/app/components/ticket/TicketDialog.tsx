@@ -225,7 +225,6 @@ const TicketDialog = ({
         render={({ field, fieldState }) => (
           <Select
             {...field}
-            isRequired
             errorMessage={fieldState.error?.message}
             isInvalid={!!fieldState.error}
             name="release"
