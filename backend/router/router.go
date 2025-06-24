@@ -53,6 +53,7 @@ func SetRouter(port int) *gin.Engine {
 		ticket.PUT("", controller.UpdateTicket)
 		ticket.DELETE("", controller.DeleteTicket)
 		ticket.GET("/export", controller.ExportChecklist)
+		ticket.GET("/cpoy", controller.CopyCheckList)
 	}
 	return r
 }

@@ -3,6 +3,7 @@ package controller
 import (
 	"backend/model"
 	"backend/repository"
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -135,4 +136,47 @@ func ExportChecklist(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to write Excel file"})
 		return
 	}
+}
+
+func CopyCheckList(c *gin.Context) {
+	sprint := c.Query("sprint")
+	if sprint == "" {
+		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, "sprint is required")
+		return
+	}
+	tickets, err := repository.GetTickets(sprint, "", "")
+	if err != nil {
+		JSONResponse(c, http.StatusInternalServerError, http.StatusInternalServerError, nil, err.Error())
+		return
+	}
+	if len(tickets) == 0 {
+		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, "No tickets found for the specified sprint")
+		return
+	}
+	text := "Checklist for sprint " + sprint
+	typeMap := make(map[uint8][]model.Ticket)
+	for _, ticket := range tickets {
+		typeMap[ticket.Type] = append(typeMap[ticket.Type], *ticket)
+	}
+	typeNames := map[uint8]string{
+		0: "System Maintaince",
+		1: "New Feature",
+		2: "Bug",
+		3: "Improvement",
+		4: "Story",
+		5: "Task",
+		6: "Epic",
+	}
+	for ticketType, groupedTickets := range typeMap {
+		typeName := typeNames[ticketType]
+		if typeName == "" {
+			typeName = fmt.Sprintf("Type %d", ticketType)
+		}
+		text += fmt.Sprintf("\n%s\n", typeName)
+		for _, ticket := range groupedTickets {
+			text += fmt.Sprintf("%s %s\n", ticket.Title, ticket.JiraUrl)
+		}
+	}
+	c.Header("Content-Type", "text/plain; charset=utf-8")
+	JSONResponse(c, http.StatusOK, http.StatusOK, text, "OK")
 }
