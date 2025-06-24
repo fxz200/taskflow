@@ -1,6 +1,6 @@
 'use client'
 
-import { HeroUIProvider } from '@heroui/react'
+import { HeroUIProvider, ToastProvider } from '@heroui/react'
 import { ThemeProvider } from 'next-themes'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
@@ -15,7 +15,10 @@ export function Providers({
   return (
     <Provider store={store}>
       <ThemeProvider attribute="class" defaultTheme="light">
-        <HeroUIProvider>{children}</HeroUIProvider>
+        <HeroUIProvider>
+          <ToastProvider />
+          {children}
+        </HeroUIProvider>
       </ThemeProvider>
     </Provider>
   )

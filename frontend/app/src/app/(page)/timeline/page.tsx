@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useRef } from 'react'
-import { Card, CardBody, Divider } from '@heroui/react'
+import { addToast, Alert, Card, CardBody, Divider } from '@heroui/react'
 import { getAllSprints } from '@api/actions/sprint'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import {
@@ -14,6 +14,7 @@ import {
   startOfWeek,
 } from 'date-fns'
 import EventCards from './components/EventCards'
+import { PlusIcon } from '@heroicons/react/20/solid'
 
 const getWeekdaysOnly = (year: number, month: number): Date[][] => {
   // Adjust month for zero-based index, ensure the first day is a Monday
@@ -38,6 +39,7 @@ const getWeekdaysOnly = (year: number, month: number): Date[][] => {
 const Timeline = () => {
   const dispatch = useAppDispatch()
   const currentMonthRef = useRef<HTMLDivElement>(null)
+  const toastShownRef = useRef(false)
   const allSprints = useAppSelector((state) => state.sprint?.sprints)
   const startDate = new Date(2025, 0) // Jan 2025
   const endDate = addMonths(new Date(), 12) // today + 1 year
@@ -55,13 +57,32 @@ const Timeline = () => {
 
   useEffect(() => {
     if (currentMonthRef.current) {
-      currentMonthRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      currentMonthRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!toastShownRef.current) {
+    addToast({
+      title: (
+        <p className="flex items-center justify-center">
+          點擊右上方
+          <PlusIcon className="bg-default w-5 h-5 mx-1 rounded-md" />
+          按鈕來新增事件
+        </p>
+      ),
+      timeout: 5000,
+    })
+      toastShownRef.current = true
     }
   }, [])
 
   return (
     <>
-      <div className="flex pr-8 w-full h-[80vh]">
+      <div className="flex pr-8 w-full h-[83vh]">
         <Card
           radius="sm"
           shadow="none"
@@ -75,7 +96,10 @@ const Timeline = () => {
             const isCurrentMonth =
               today.getFullYear() === year && today.getMonth() + 1 === month
             return (
-              <div key={monthIndex} ref={isCurrentMonth ? currentMonthRef : undefined}>
+              <div
+                key={monthIndex}
+                ref={isCurrentMonth ? currentMonthRef : undefined}
+              >
                 <p className="text-xl font-light px-2">
                   {format(date, 'yyyy/MM')}
                 </p>
@@ -128,6 +152,17 @@ const Timeline = () => {
           })}
         </Card>
       </div>
+      {/* <Alert
+        hideIcon
+        description={
+          <p>
+            點擊右上方
+            <PlusIcon />
+            按鈕來新增事件
+          </p>
+        }
+        variant="faded"
+      /> */}
     </>
   )
 }
