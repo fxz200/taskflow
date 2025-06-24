@@ -17,10 +17,10 @@ const Members = () => {
   const [openDialog, setOpenDialog] = useState(false)
 
   useEffect(() => {
-    if (!members || members.length === 0) {
+    if (members.length === 0) {
       dispatch(getAllMembers())
     }
-  }, [members])
+  }, [])
 
   return (
     <>

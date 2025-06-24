@@ -40,7 +40,7 @@ const Backlog = () => {
   const [selectedTableKeys, setSelectedTableKeys] = useState<string[]>([])
 
   useEffect(() => {
-    if (!allTickets || allTickets.length === 0) {
+    if (allTickets.length === 0) {
       dispatch(getAllTickets())
     }
   }, [])
@@ -59,7 +59,6 @@ const Backlog = () => {
             if (keys === 'all') {
               setSelectedTableKeys(allTickets.map((t: Ticket) => t.id))
             } else {
-              console.log('keys', keys)
               setSelectedTableKeys(Array.from(keys as Set<string>))
             }
           }}

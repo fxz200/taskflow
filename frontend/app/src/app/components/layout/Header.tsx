@@ -58,7 +58,7 @@ const Header = ({ selectedTableKeys }: HeaderProps) => {
       })
       setCurrentSprintIndex(index !== -1 ? index : 0)
     }
-  }, [allSprints])
+  }, [])
 
   useEffect(() => {
     setCurrentSprint(currentSprintName)

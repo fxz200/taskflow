@@ -8,7 +8,6 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { getAllMembers } from '@api/actions/member'
 import { postTicket, putTicket } from '@api/actions/ticket'
-import { getAllSprints } from '@api/actions/sprint'
 import SelectField from '@components/common/SelectField'
 
 interface Props {
@@ -40,7 +39,6 @@ const SprintTicketDialog = ({
   initialData = {},
 }: Props) => {
   const dispatch = useAppDispatch()
-  const allSprints = useAppSelector((state) => state.sprint?.sprints) || []
   const PMList = useAppSelector((state) => state.member?.PMList) || []
   const QAList = useAppSelector((state) => state.member?.QAList) || []
   const FEList = useAppSelector((state) => state.member?.FEList) || []
@@ -95,16 +93,10 @@ const SprintTicketDialog = ({
   }
 
   useEffect(() => {
-    if (allSprints.length === 0) {
-      dispatch(getAllSprints())
-    }
-  }, [allSprints])
-
-  useEffect(() => {
     if (PMList.length === 0 || RDList.length === 0 || QAList.length === 0) {
       dispatch(getAllMembers())
     }
-  }, [PMList, RDList, QAList])
+  }, [])
 
   useEffect(() => {
     if (isOpen) {
