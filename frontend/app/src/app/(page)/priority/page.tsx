@@ -17,7 +17,7 @@ import {
   TICKET_TYPES,
 } from '@constants/ticket'
 import TicketDialog from '@components/ticket/TicketDialog'
-import { useAppDispatch } from 'app/hooks'
+import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { getSpecificTickets } from '@api/actions/ticket'
 import {
   ArrowUturnRightIcon,
@@ -26,9 +26,11 @@ import {
 } from '@heroicons/react/20/solid'
 import { PlusIcon } from '@heroicons/react/24/solid'
 import SprintTicketDialog from '@components/ticket/SprintTicketDialog'
+import { getAllSprints } from '@api/actions/sprint'
 
 const Priority = () => {
   const dispatch = useAppDispatch()
+  const allSprints = useAppSelector((state) => state.sprint?.sprints) || []
   const [priorityTickets, setPriorityTickets] = useState<Ticket[]>([])
   const [openDialog, setOpenDialog] = useState(false)
   const [openSprintDialog, setOpenSprintDialog] = useState(false)
@@ -37,6 +39,9 @@ const Priority = () => {
   const [expandedRow, setExpandedRow] = useState<string | null>(null)
 
   useEffect(() => {
+    if (allSprints.length === 0) {
+      dispatch(getAllSprints())
+    }
     dispatch(getSpecificTickets({ query: { statement: 1 } })).then((res) => {
       setPriorityTickets(res?.tickets)
     })

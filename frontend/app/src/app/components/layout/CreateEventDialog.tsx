@@ -64,7 +64,6 @@ const CreateEventDialog = ({
         return start <= nowDate && nowDate <= end
       })?.name
   
-  console.log('defaultSprintName', defaultSprintName)
   const { handleSubmit, reset, control } = useForm<SchemaType>({
     resolver: zodResolver(Schema),
     defaultValues: {

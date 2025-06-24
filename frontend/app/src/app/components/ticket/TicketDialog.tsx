@@ -137,7 +137,7 @@ const TicketDialog = ({
     if (allSprints.length === 0) {
       dispatch(getAllSprints())
     }
-  }, [allSprints])
+  }, [])
 
   useEffect(() => {
     if (originalPMList.length === 0) {
@@ -149,7 +149,7 @@ const TicketDialog = ({
     } else {
       setPmList(originalPMList)
     }
-  }, [originalPMList])
+  }, [])
 
   return (
     <FormDialog

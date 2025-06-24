@@ -19,21 +19,18 @@ const Sprint = () => {
   const [openSprintDialog, setOpenSprintDialog] = useState(false)
 
   useEffect(() => {
-    if (!allSprints || allSprints.length === 0) {
+    if (allSprints.length === 0) {
       dispatch(getAllSprints())
     }
-  }, [allSprints])
-
-  useEffect(() => {
     if (allTickets.length === 0) {
       dispatch(getAllTickets())
     }
-  }, [allTickets])
+  }, [])
 
   return (
     <>
       <div className="flex mr-8 h-full">
-        {allSprints?.length > 0 ? (
+        {allSprints.length > 0 ? (
           <Card
             radius="sm"
             className="flex flex-row items-center justify-center bg-white w-full mb-8 shadow-[2px_4px_4px_0_rgba(0,0,0,0.25)]"
