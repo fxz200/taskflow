@@ -58,7 +58,7 @@ const Header = ({ selectedTableKeys }: HeaderProps) => {
       })
       setCurrentSprintIndex(index !== -1 ? index : 0)
     }
-  }, [])
+  }, [allSprints])
 
   useEffect(() => {
     setCurrentSprint(currentSprintName)
@@ -114,8 +114,7 @@ const Header = ({ selectedTableKeys }: HeaderProps) => {
               >
                 <ChevronLeftIcon className="w-6 h-6 cursor-pointer" />
               </Button>
-
-              <span className="text-xl">{currentSprintName}</span>
+              <span className="text-xl">v{currentSprintName}</span>
               <Button
                 isIconOnly
                 className="w-7 h-7 bg-transparent"
