@@ -29,6 +29,7 @@ const SprintButton = () => {
               isIconOnly
               color="default"
               className="min-w-9 w-9 h-9 data-[hover=true]:!opacity-100 hover:bg-primary"
+              disabled={allSprints.length === 0}
             >
               <ChartBarIcon className="w-5 h-5" />
             </Button>
@@ -44,7 +45,6 @@ const SprintButton = () => {
             </Button>
             <Button
               className="w-full bg-transparent font-light h-9"
-              disabled={allSprints.length === 0}
               onPress={() => {
                 setOpenPublishPopover(false)
               }}
@@ -57,11 +57,13 @@ const SprintButton = () => {
           isIconOnly
           color="default"
           className="min-w-9 w-9 h-9 data-[hover=true]:!opacity-100 hover:bg-primary"
-          onPress={() => {}}
+          disabled={allSprints.length === 0}
+          onPress={() => {
+            window.dispatchEvent(new Event('EXPAND_ALL_TICKETS'))
+          }}
         >
           <ChevronUpDownIcon className="w-5 h-5" />
         </Button>
-
         <Popover
           placement="bottom"
           isOpen={openAddPopover}
