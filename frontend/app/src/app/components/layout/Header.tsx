@@ -29,7 +29,7 @@ const Header = ({ selectedTableKeys }: HeaderProps) => {
   const allSprints = useAppSelector((state) => state.sprint?.sprints) || []
   const [mounted, setMounted] = useState(false)
   const [currentSprintIndex, setCurrentSprintIndex] = useState(0)
-  const currentSprintName = allSprints[currentSprintIndex]?.name || 'Sprint'
+  const currentSprintName = allSprints[currentSprintIndex]?.name || ''
   const currentFeature = mounted
     ? FEATURES_LIST.find((feature) => feature.href === pathname)
     : null
