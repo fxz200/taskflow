@@ -463,6 +463,31 @@
           }
         }
       }
+    },
+    "/api/v1/ticket/copy": {
+      "get": {
+        "produces": ["application/json"],
+        "tags": ["Ticket"],
+        "summary": "Get ExportList.xslx",
+        "parameters": [
+          {
+            "name": "sprint",
+            "in": "query",
+            "description": "the sprint name",
+            "required": true,
+            "type": "string",
+            "default": "ver2.55"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "example": "Checklist for sprint ver 2.55\nSystem Maintaince\nshowmore一鍵關店 http://jira/KOL-5487\nshowmore一鍵關店2 \nshowmore一鍵關店3 \nshowmore一鍵關店4 \nshowmore一鍵關店123 \n"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -591,6 +616,11 @@
         "required": {
           "type": "string",
           "example": true
+        },
+        "develop_status": {
+          "type": "integer",
+          "example": 1,
+          "description": "開發的狀態\n- 0: backlog\n- 1: in dev\n- 2: full-test\n- 3: in-staging\n- 4: done \n- 11: reject"
         }
       }
     },
@@ -649,6 +679,11 @@
         "required": {
           "type": "string",
           "example": true
+        },
+        "develop_status": {
+          "type": "integer",
+          "example": 1,
+          "description": "開發的狀態\n- 0: backlog\n- 1: in dev\n- 2: full-test\n- 3: in-staging\n- 4: done \n- 11: reject"
         }
       }
     },
@@ -708,6 +743,11 @@
         "required": {
           "type": "string",
           "example": true
+        },
+        "develop_status": {
+          "type": "integer",
+          "example": 1,
+          "description": "開發的狀態\n- 0: backlog\n- 1: in dev\n- 2: full-test\n- 3: in-staging\n- 4: done \n- 11: reject"
         }
       }
     }
