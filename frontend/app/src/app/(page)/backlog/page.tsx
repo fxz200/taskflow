@@ -29,6 +29,8 @@ import {
 } from '@heroicons/react/20/solid'
 import { PlusIcon } from '@heroicons/react/24/solid'
 import { useSprint } from 'app/hooks/useSprint'
+import { set } from 'date-fns'
+import SprintTicketDialog from '@components/ticket/SprintTicketDialog'
 
 const Backlog = () => {
   const dispatch = useAppDispatch()
@@ -36,6 +38,7 @@ const Backlog = () => {
   const allTickets = useAppSelector((state) => state?.ticket?.tickets)
   const [openDialog, setOpenDialog] = useState(false)
   const [isEditTicket, setIsEditTicket] = useState(false)
+  const [openSprintTicketDialog, setOpenSprintTicketDialog] = useState(false)
   const [currentTicket, setCurrentTicket] = useState<Ticket | null>(null)
   const [expandedRow, setExpandedRow] = useState<string | null>(null)
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null)
@@ -179,7 +182,8 @@ const Backlog = () => {
                               sprint: currentSprint,
                             }
                             setOpenPopoverId(null)
-                            dispatch(putTicket({ body: payload }))
+                            setCurrentTicket(row)
+                            setOpenSprintTicketDialog(true)
                           }}
                         >
                           排進sprint
@@ -219,6 +223,12 @@ const Backlog = () => {
         isOpen={openDialog}
         setIsOpen={setOpenDialog}
         isEdit={isEditTicket}
+        initialData={currentTicket || undefined}
+      />
+      <SprintTicketDialog
+        isOpen={openSprintTicketDialog}
+        setIsOpen={setOpenSprintTicketDialog}
+        isEdit
         initialData={currentTicket || undefined}
       />
     </>
