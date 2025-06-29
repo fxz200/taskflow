@@ -24,6 +24,10 @@ const Schema = z.object({
       message: 'Please select a valid type',
     }),
   title: z.string().nonempty({ message: 'Please enter a title' }),
+  jira_url: z
+    .string()
+    .url({ message: 'Please enter a valid Ticket Link' })
+    .nonempty({ message: 'Please enter a Ticket Link' }),
   PM: z.string().nonempty({ message: 'Please select a PM' }),
   RD: z.string().nonempty({ message: 'Please select at least one RD' }),
   QA: z.string().nonempty({ message: 'Please select a QA' }),
@@ -57,6 +61,7 @@ const SprintTicketDialog = ({
     defaultValues: {
       type: 0,
       title: '',
+      jira_url: '',
       PM: '',
       RD: '',
       QA: '',
@@ -71,6 +76,7 @@ const SprintTicketDialog = ({
         type: data.type,
         title: data.title,
         summary: data.summary,
+        jira_url: data.jira_url,
         members_ids: [
           data.PM,
           ...data.RD.split(',')
@@ -148,6 +154,17 @@ const SprintTicketDialog = ({
         label="Title"
         labelPlacement="outside"
         placeholder="Title"
+        type="text"
+      />
+      <Input
+        isRequired
+        {...register('jira_url')}
+        errorMessage={errors.jira_url?.message}
+        isInvalid={!!errors.jira_url}
+        name="jira_url"
+        label="Ticket Link"
+        labelPlacement="outside"
+        placeholder="Ticket Link"
         type="text"
       />
       <SelectField

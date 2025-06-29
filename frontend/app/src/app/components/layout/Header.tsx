@@ -114,7 +114,8 @@ const Header = ({ selectedTableKeys }: HeaderProps) => {
               >
                 <ChevronLeftIcon className="w-6 h-6 cursor-pointer" />
               </Button>
-              <span className="text-xl">v{currentSprintName}</span>
+
+              <span className="text-xl">{currentSprintName}</span>
               <Button
                 isIconOnly
                 className="w-7 h-7 bg-transparent"

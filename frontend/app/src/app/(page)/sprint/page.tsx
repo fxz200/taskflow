@@ -1,5 +1,5 @@
 'use client'
-import { Button, Card, Divider } from '@heroui/react'
+import { Button, Card } from '@heroui/react'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import { useEffect, useState } from 'react'
@@ -10,6 +10,7 @@ import { TICKET_TYPES } from '@constants/ticket'
 import { PencilIcon } from '@heroicons/react/20/solid'
 import { useSprint } from 'app/hooks/useSprint'
 import TicketMembers from './components/TicketMembers'
+import Link from 'next/link'
 
 const Sprint = () => {
   const dispatch = useAppDispatch()
@@ -32,10 +33,10 @@ const Sprint = () => {
   }
 
   useEffect(() => {
-    if (allSprints.length === 0) {
+    if (allSprints?.length === 0) {
       dispatch(getAllSprints())
     }
-    if (allTickets.length === 0) {
+    if (allTickets?.length === 0) {
       dispatch(getAllTickets())
     }
   }, [])
@@ -73,7 +74,7 @@ const Sprint = () => {
                 <Card
                   key={ticket.id}
                   radius="none"
-                  className={`flex items-center justify-center min-h-9 mx-4 rounded-tl-lg rounded-br-lg font-light shadow-[2px_2px_2px_0_rgba(0,0,0,0.25)] cursor-pointer transition transform hover:-translate-y-2 hover:border-2 hover:border-white 
+                  className={`group flex items-center justify-center min-h-9 mx-4 rounded-tl-lg rounded-br-lg font-light shadow-[2px_2px_2px_0_rgba(0,0,0,0.25)] transition transform hover:-translate-y-2 hover:border-2 hover:border-white 
                     ${expandedTickets[ticket.id] ? 'h-auto p-4' : 'h-9 px-4'}
                     ${
                       ticket.type === 0
@@ -88,18 +89,27 @@ const Sprint = () => {
                   onPress={() => toggleTicket(ticket.id)}
                 >
                   <div className="w-full h-full">
-                    <div className="grid grid-cols-[100px_1fr_60px] items-center w-full justify-between">
+                    <div className="grid grid-cols-[100px_1fr_60px] items-center w-full justify-between transition transform group-hover:-translate-y-1">
                       <span className="text-start">
                         {TICKET_TYPES[ticket.type]?.label}
                       </span>
-                      <span className="text-start">{ticket.title}</span>
+                      <span className="text-start">
+                        <Link
+                          href={ticket.jira_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="underline decoration-1 underline-offset-4"
+                        >
+                          {ticket.title}
+                        </Link>
+                      </span>
                       <div className="flex items-center justify-center gap-2">
                         <Button
                           className="bg-transparent min-w-5 px-0"
                           onPress={(e) => {
-                            ;(
-                              e as unknown as React.MouseEvent
-                            ).stopPropagation()
+                            // ;(
+                            //   e as unknown as React.MouseEvent
+                            // ).stopPropagation()
                           }}
                         >
                           <PencilIcon className="w-5 h-5" />
@@ -107,9 +117,9 @@ const Sprint = () => {
                         <Button
                           className="bg-transparent min-w-5 px-0"
                           onPress={(e) => {
-                            ;(
-                              e as unknown as React.MouseEvent
-                            ).stopPropagation()
+                            // ;(
+                            //   e as unknown as React.MouseEvent
+                            // ).stopPropagation()
                           }}
                         >
                           <XMarkIcon className="w-6 h-6" />
@@ -117,7 +127,7 @@ const Sprint = () => {
                       </div>
                     </div>
                     {expandedTickets[ticket.id] && (
-                      <div className="grid grid-cols-[100px_1fr_60px] gap-y-4">
+                      <div className="grid grid-cols-[100px_1fr_60px] gap-y-2">
                         <TicketMembers
                           label="PM"
                           members={ticket.members.filter(
