@@ -8,10 +8,10 @@ import React from 'react'
 
 interface ChecklistDialogProps {
   isOpen: boolean
-  setOpen: (open: boolean) => void
+  setIsOpen: (open: boolean) => void
 }
 
-const ChecklistDialog = ({ isOpen, setOpen }: ChecklistDialogProps) => {
+const ChecklistDialog = ({ isOpen, setIsOpen }: ChecklistDialogProps) => {
   const dispatch = useAppDispatch()
   const { currentSprint } = useSprint()
 
@@ -28,14 +28,14 @@ const ChecklistDialog = ({ isOpen, setOpen }: ChecklistDialogProps) => {
         </Link>
       }
       isOpen={isOpen}
-      onClose={() => setOpen(false)}
+      onClose={() => setIsOpen(false)}
       displayButtons={false}
     >
       <Button
         className="flex items-center justify-center w-full font-light p-1 text-lg"
         onPress={() => {
-          dispatch(exportCheckList({ query: { sprint: currentSprint } }))
-          setOpen(false)
+          dispatch(exportCheckList({ query: { sprint: currentSprint?.name } }))
+          setIsOpen(false)
         }}
       >
         <span className="text-center">Download Check List</span>
