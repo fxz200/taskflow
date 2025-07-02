@@ -19,6 +19,7 @@ import Dialog from '@components/common/Dialog'
 import { useSprint } from 'app/hooks/useSprint'
 import { exportAnnouncement, exportCheckList } from '@api/actions/ticket'
 import AnnouncementDialog from '@components/sprint/AnnouncementDialog'
+import ChecklistDialog from '@components/sprint/ChecklistDialog'
 
 const SprintButton = () => {
   const dispatch = useAppDispatch()
@@ -111,7 +112,7 @@ const SprintButton = () => {
             <Button
               isIconOnly
               color="default"
-              className="min-w-9 w-9 h-9  data-[hover=true]:!opacity-100 hover:bg-primary"
+              className="min-w-9 w-9 h-9 data-[hover=true]:!opacity-100 hover:bg-primary"
             >
               <PlusIcon className="w-5 h-5" />
             </Button>
@@ -148,34 +149,12 @@ const SprintButton = () => {
         setIsOpen={setOpenTicketDialog}
       />
       {/* 生成CheckList dialog */}
-      <Dialog
-        title={
-          <Link
-            isExternal
-            showAnchorIcon
-            color="foreground"
-            href="https://docs.google.com/spreadsheets/d/1V7bIGh27W22S8PJjNN0aukKKiwB6V-Lqg5yGtqXXXeY/edit?"
-          >
-            Check List
-          </Link>
-        }
+      <ChecklistDialog
         isOpen={openCheckListDialog}
-        onClose={() => setOpenCheckListDialog(false)}
-        displayButtons={false}
-      >
-        <Button
-          className="flex items-center justify-center w-full font-light p-1 text-lg"
-          onPress={() => {
-            dispatch(exportCheckList({ query: { sprint: currentSprint } }))
-            setOpenCheckListDialog(false)
-          }}
-        >
-          <span className="text-center">Download Check List</span>
-          <FolderArrowDownIcon className="w-6 h-6" />
-        </Button>
-      </Dialog>
+        setIsOpen={setOpenCheckListDialog}
+      />
       {/* 生成上版文字 Dialog */}
-      <AnnouncementDialog 
+      <AnnouncementDialog
         Announcement={Announcement}
         publishTime={publishTime}
         isOpen={openExportAnnouncementDialog}
