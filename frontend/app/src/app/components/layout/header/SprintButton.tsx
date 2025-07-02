@@ -181,49 +181,6 @@ const SprintButton = () => {
         isOpen={openExportAnnouncementDialog}
         setOpen={setOpenExportAnnouncementDialog}
       />
-      {/* <Dialog
-        size="2xl"
-        title={
-          <>
-            <span>生成上版公告文字</span>
-            {!ticketLoading && (
-              <Button
-                isIconOnly
-                className="bg-transparent"
-                onPress={() => {
-                  const announcementText = announcementForSlack(Announcement)
-                  navigator.clipboard.writeText(announcementText).then(() => {
-                    setCopied(true)
-                    setTimeout(() => setCopied(false), 2000)
-                  })
-                }}
-              >
-                {copied ? <CheckIcon className="w-6 h-6" /> : <Square2StackIcon className="w-6 h-6" />}
-              </Button>
-            )}
-          </>
-        }
-        isOpen={openExportAnnouncementDialog}
-        onClose={() => setOpenExportAnnouncementDialog(false)}
-        displayButtons={false}
-        hideCloseButton={false}
-      >
-        {ticketLoading ? (
-          <>
-            <Spinner
-              size="lg"
-              variant="dots"
-              classNames={{
-                base: 'pb-2',
-                wrapper: 'w-24',
-                dots: 'size-5',
-              }}
-            />
-          </>
-        ) : (
-          <AnnouncementText text={Announcement} publishTime={publishTime} />
-        )}
-      </Dialog> */}
     </>
   )
 }
