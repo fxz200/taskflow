@@ -1,7 +1,7 @@
-import { Button, ButtonGroup } from '@heroui/react'
-import { ChevronUpDownIcon, PlusIcon } from '@heroicons/react/20/solid'
+import { Button } from '@heroui/react'
+import { PlusIcon } from '@heroicons/react/20/solid'
 import { useState } from 'react'
-import CreateEventDialog from '../CreateEventDialog'
+import CreateEventDialog from '@components/timeline/CreateEventDialog'
 
 const TimelineButton = () => {
   const [openEventDialog, setOpenEventDialog] = useState(false)

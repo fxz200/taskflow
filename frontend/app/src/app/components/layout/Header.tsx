@@ -61,8 +61,8 @@ const Header = ({ selectedTableKeys }: HeaderProps) => {
   }, [allSprints])
 
   useEffect(() => {
-    setCurrentSprint(currentSprintName)
-  }, [currentSprintName, setCurrentSprint])
+    setCurrentSprint(allSprints[currentSprintIndex] || null)
+  }, [allSprints, currentSprintIndex])
 
   if (!mounted) return null
 

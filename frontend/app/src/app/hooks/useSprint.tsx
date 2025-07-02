@@ -6,22 +6,23 @@ import React, {
   useEffect,
 } from 'react'
 import { useAppSelector } from './useAppSelector'
+import { Sprint } from '@constants/sprint'
 
 interface SprintContextType {
-  currentSprint: string
-  setCurrentSprint: (sprint: string) => void
+  currentSprint: Sprint | null
+  setCurrentSprint: (sprint: Sprint | null) => void
 }
 
 const SprintContext = createContext<SprintContextType>({
-  currentSprint: '',
+  currentSprint: null,
   setCurrentSprint: () => {},
 })
 
 export const SprintProvider = ({ children }: { children: ReactNode }) => {
   const allSprints = useAppSelector((state) => state.sprint?.sprints) || []
-  const [currentSprint, setCurrentSprint] = useState<string>('')
+  const [currentSprint, setCurrentSprint] = useState<Sprint | null>(null)
 
-  const getDefaultSprint = (): string => {
+  const getDefaultSprint = (): Sprint | null => {
     const now = new Date()
     if (allSprints.length > 0) {
       const found = allSprints.find((sprint) => {
@@ -29,9 +30,9 @@ export const SprintProvider = ({ children }: { children: ReactNode }) => {
         const end = new Date(sprint.end_date)
         return start <= now && now <= end
       })
-      if (found) return found.name
+      if (found) return found
     }
-    return ''
+    return null
   }
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import { putSprint } from '@api/actions/sprint'
 import Dialog from '@components/common/Dialog'
-import CreateEventDialog from '@components/layout/CreateEventDialog'
+import CreateEventDialog from '@components/timeline/CreateEventDialog'
 import { Sprint } from '@constants/sprint'
 import { PencilIcon, XMarkIcon } from '@heroicons/react/20/solid'
 import { Card } from '@heroui/react'
@@ -35,7 +35,7 @@ const eventTypes: EventType[] = [
     dateField: 'test_date',
     bgColor: 'bg-[#F57D61]',
   },
-  
+
   {
     key: '3',
     label: 'Retro',

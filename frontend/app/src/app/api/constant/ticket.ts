@@ -27,3 +27,15 @@ export const deleteTicket = {
   success: 'DELETE_TICKET_SUCCESS',
   failure: 'DELETE_TICKET_FAILURE',
 }
+
+export const exportCheckList = {
+  request: 'EXPORT_CHECKLIST_REQUEST',
+  success: 'EXPORT_CHECKLIST_SUCCESS',
+  failure: 'EXPORT_CHECKLIST_FAILURE',
+}
+
+export const exportAnnouncement = {
+  request: 'EXPORT_ANNOUNCEMENT_REQUEST',
+  success: 'EXPORT_ANNOUNCEMENT_SUCCESS',
+  failure: 'EXPORT_ANNOUNCEMENT_FAILURE',
+}

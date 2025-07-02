@@ -30,12 +30,13 @@ export const TABLE_COLUMNS: TableColumns[] = [
 ]
 
 export const TICKET_TYPES: Record<number, { label: string }> = {
-  0: { label: 'Feature' },
-  1: { label: 'Bug' },
-  2: { label: 'Improvement' },
-  3: { label: 'Story' },
-  4: { label: 'Task' },
-  5: { label: 'Epic' },
+  0: { label: 'System Maintaince' },
+  1: { label: 'Feature' },
+  2: { label: 'Bug' },
+  3: { label: 'Improvement' },
+  4: { label: 'Story' },
+  5: { label: 'Task' },
+  6: { label: 'Epic' },
 }
 
 export const TICKET_STATEMENTS: Record<number, { label: string }> = {
