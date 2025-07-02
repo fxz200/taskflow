@@ -40,6 +40,22 @@ export default function ticketReducer(
         loading: false,
         error: action.payload,
       }
+    case actionType.exportAnnouncement.request:
+      return {
+        ...state,
+        loading: true,
+      }
+    case actionType.exportAnnouncement.success:
+      return {
+        ...state,
+        loading: false,
+      }
+    case actionType.exportAnnouncement.failure:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      }
     default:
       return state
   }

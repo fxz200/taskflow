@@ -28,13 +28,10 @@ import {
   ChevronDownIcon,
 } from '@heroicons/react/20/solid'
 import { PlusIcon } from '@heroicons/react/24/solid'
-import { useSprint } from 'app/hooks/useSprint'
-import { set } from 'date-fns'
 import SprintTicketDialog from '@components/ticket/SprintTicketDialog'
 
 const Backlog = () => {
   const dispatch = useAppDispatch()
-  const { currentSprint } = useSprint()
   const allTickets = useAppSelector((state) => state?.ticket?.tickets)
   const [openDialog, setOpenDialog] = useState(false)
   const [isEditTicket, setIsEditTicket] = useState(false)
@@ -176,11 +173,6 @@ const Backlog = () => {
                         <Button
                           className="w-full bg-transparent"
                           onPress={() => {
-                            const payload = {
-                              ...row,
-                              statement: 2,
-                              sprint: currentSprint,
-                            }
                             setOpenPopoverId(null)
                             setCurrentTicket(row)
                             setOpenSprintTicketDialog(true)

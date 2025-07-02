@@ -1,5 +1,5 @@
 'use client'
-import { Button, Card } from '@heroui/react'
+import { Button, Card, Link } from '@heroui/react'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import { useEffect, useState } from 'react'
@@ -10,7 +10,6 @@ import { TICKET_TYPES } from '@constants/ticket'
 import { PencilIcon } from '@heroicons/react/20/solid'
 import { useSprint } from 'app/hooks/useSprint'
 import TicketMembers from './components/TicketMembers'
-import Link from 'next/link'
 
 const Sprint = () => {
   const dispatch = useAppDispatch()
@@ -18,7 +17,7 @@ const Sprint = () => {
   const allSprints = useAppSelector((state) => state?.sprint?.sprints)
   const allTickets = useAppSelector((state) => state?.ticket?.tickets)
   const sprintTickets = allTickets.filter(
-    (ticket) => ticket.statement === 2 && ticket.sprint === currentSprint
+    (ticket) => ticket.statement === 2 && ticket.sprint === currentSprint?.name
   )
   const [openSprintDialog, setOpenSprintDialog] = useState(false)
   const [expandedTickets, setExpandedTickets] = useState<{
@@ -68,13 +67,13 @@ const Sprint = () => {
           >
             <div className="flex flex-col gap-4 h-full py-4 w-[50%] overflow-y-auto">
               <p className="flex items-center justify-center">
-                v{currentSprint}
+                v{currentSprint?.name}
               </p>
               {sprintTickets.map((ticket) => (
                 <Card
                   key={ticket.id}
                   radius="none"
-                  className={`group flex items-center justify-center min-h-9 mx-4 rounded-tl-lg rounded-br-lg font-light shadow-[2px_2px_2px_0_rgba(0,0,0,0.25)] transition transform hover:-translate-y-2 hover:border-2 hover:border-white 
+                  className={`group flex items-center justify-center min-h-9 mx-4 rounded-tl-lg rounded-br-lg shadow-[2px_2px_2px_0_rgba(0,0,0,0.25)] transition transform hover:-translate-y-2 hover:border-2 hover:border-white 
                     ${expandedTickets[ticket.id] ? 'h-auto p-4' : 'h-9 px-4'}
                     ${
                       ticket.type === 0
@@ -89,16 +88,15 @@ const Sprint = () => {
                   onPress={() => toggleTicket(ticket.id)}
                 >
                   <div className="w-full h-full">
-                    <div className="grid grid-cols-[100px_1fr_60px] items-center w-full justify-between transition transform group-hover:-translate-y-1">
+                    <div className="grid grid-cols-[150px_1fr_70px] items-center w-full justify-between transition transform group-hover:-translate-y-1">
                       <span className="text-start">
                         {TICKET_TYPES[ticket.type]?.label}
                       </span>
                       <span className="text-start">
                         <Link
                           href={ticket.jira_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="underline decoration-1 underline-offset-4"
+                          color='foreground'
+                          className="underline decoration-1 underline-offset-4 block whitespace-normal break-all line-clamp-1"
                         >
                           {ticket.title}
                         </Link>
