@@ -108,7 +108,7 @@ const Header = ({ selectedTableKeys }: HeaderProps) => {
             <div className="flex items-center gap-2">
               <Button
                 isIconOnly
-                className="w-7 h-7 bg-transparent"
+                className="min-w-7 w-7 h-7 bg-transparent"
                 onPress={handlePrevSprint}
                 disabled={currentSprintIndex === 0}
               >
@@ -118,7 +118,7 @@ const Header = ({ selectedTableKeys }: HeaderProps) => {
               <span className="text-xl">{currentSprintName}</span>
               <Button
                 isIconOnly
-                className="w-7 h-7 bg-transparent"
+                className="min-w-7 w-7 h-7 bg-transparent"
                 onPress={handleNextSprint}
                 disabled={currentSprintIndex === allSprints.length - 1}
               >

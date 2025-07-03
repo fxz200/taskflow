@@ -5,16 +5,16 @@ import React from 'react'
 interface TicketMembersProps {
   label: string
   members: Member[]
-  rowStart?: number
+  className?: string
 }
 
 const TicketMembers = ({
   label,
   members,
-  rowStart = 2,
+  className = '',
 }: TicketMembersProps) => {
   return (
-    <div className={`row-start-${rowStart} col-start-2 flex items-center`}>
+    <div className={`flex items-center ${className}`}>
       <span>{label}</span>
       <div className="flex items-center ml-1">
         {members.map((member) => (
