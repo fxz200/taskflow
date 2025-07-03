@@ -1,6 +1,5 @@
 import {
   Button,
-  Link,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -8,16 +7,14 @@ import {
 import {
   ChartBarIcon,
   ChevronUpDownIcon,
-  FolderArrowDownIcon,
   PlusIcon,
 } from '@heroicons/react/20/solid'
 import { useState } from 'react'
 import CreateSprintDialog from '@components/sprint/CreateSprintDialog'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import SprintTicketDialog from '@components/ticket/SprintTicketDialog'
-import Dialog from '@components/common/Dialog'
 import { useSprint } from 'app/hooks/useSprint'
-import { exportAnnouncement, exportCheckList } from '@api/actions/ticket'
+import { exportAnnouncement } from '@api/actions/ticket'
 import AnnouncementDialog from '@components/sprint/AnnouncementDialog'
 import ChecklistDialog from '@components/sprint/ChecklistDialog'
 
