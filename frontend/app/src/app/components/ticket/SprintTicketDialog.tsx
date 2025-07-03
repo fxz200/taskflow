@@ -14,7 +14,7 @@ interface Props {
   isOpen: boolean
   setIsOpen: (open: boolean) => void
   isEdit?: boolean
-  initialData?: Partial<Ticket> | undefined
+  initialData?: Partial<Ticket> | null
 }
 
 const Schema = z.object({
@@ -40,7 +40,7 @@ const SprintTicketDialog = ({
   isOpen,
   setIsOpen,
   isEdit = false,
-  initialData = {},
+  initialData = null,
 }: Props) => {
   const dispatch = useAppDispatch()
   const PMList = useAppSelector((state) => state.member?.PMList) || []

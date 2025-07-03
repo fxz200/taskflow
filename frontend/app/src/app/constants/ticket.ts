@@ -7,6 +7,7 @@ export interface Ticket {
   title: string
   statement: number
   status: number
+  develop_status: number
   sprint: string
   jira_url: string
   summary: string
@@ -58,4 +59,13 @@ export const TICKET_PRIORITIES: Record<number, { label: string }> = {
   2: { label: 'P2' },
   3: { label: 'P3' },
   4: { label: 'P4' },
+}
+
+export const TIKCET_DEVELOP_STATUSES: Record<number, { label: string }> = {
+  0: { label: 'backlog' },
+  1: { label: 'in development' },
+  2: { label: 'full test' },
+  3: { label: 'in staging' },
+  4: { label: 'done' },
+  11: { label: 'reject' },
 }

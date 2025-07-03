@@ -195,7 +195,7 @@ const Priority = () => {
         isOpen={openSprintDialog}
         setIsOpen={setOpenSprintDialog}
         isEdit
-        initialData={currentTicket || undefined}
+        initialData={currentTicket}
       />
     </>
   )

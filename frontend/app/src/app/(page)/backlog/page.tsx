@@ -221,7 +221,7 @@ const Backlog = () => {
         isOpen={openSprintTicketDialog}
         setIsOpen={setOpenSprintTicketDialog}
         isEdit
-        initialData={currentTicket || undefined}
+        initialData={currentTicket}
       />
     </>
   )
