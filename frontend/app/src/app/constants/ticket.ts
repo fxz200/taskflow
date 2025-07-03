@@ -61,7 +61,7 @@ export const TICKET_PRIORITIES: Record<number, { label: string }> = {
   4: { label: 'P4' },
 }
 
-export const TIKCET_DEVELOP_STATUSES: Record<number, { label: string }> = {
+export const TICKET_DEVELOP_STATUSES: Record<number, { label: string }> = {
   0: { label: 'backlog' },
   1: { label: 'in development' },
   2: { label: 'full test' },

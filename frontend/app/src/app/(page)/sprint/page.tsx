@@ -40,7 +40,7 @@ const Sprint = () => {
               <p className="flex items-center justify-center">
                 v{currentSprint?.name}
               </p>
-              <TicketCards sprintTickets={sprintTickets} />
+              <TicketCards tickets={sprintTickets} />
             </div>
             <div className="flex flex-col gap-4 h-full py-4 w-[50%] bg-[#ececec] overflow-y-auto">
               <p className="flex items-center justify-center">分隔線</p>
