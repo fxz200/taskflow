@@ -12,14 +12,14 @@ interface Feature {
   icon: ComponentType<any>
 }
 
-export const LogoIcon: ComponentType<any> = (props) => (
-  <img src="/img/logo.png" alt="Logo" {...props} />
+export const SprintIcon: ComponentType<any> = (props) => (
+  <img src="/img/sprint.png" alt="sprint" {...props} />
 )
 
 export const FEATURES_LIST: Feature[] = [
   { name: 'Timeline', href: '/timeline', icon: CalendarIcon },
   { name: 'Backlog', href: '/backlog', icon: ClipboardDocumentListIcon },
-  { name: 'Sprint', href: '/sprint', icon: LogoIcon },
+  { name: 'Sprint', href: '/sprint', icon: SprintIcon },
   { name: 'Priority', href: '/priority', icon: BarsArrowUpIcon },
   { name: 'Members', href: '/members', icon: UserIcon },
 ]
