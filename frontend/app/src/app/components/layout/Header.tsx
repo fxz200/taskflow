@@ -70,11 +70,10 @@ const Header = ({ selectedTableKeys }: HeaderProps) => {
     <>
       <div className="flex flex-col justify-between w-full h-full">
         <div className="flex justify-between items-center p-4 px-8">
-          <img
-            src={theme === 'light' ? '/img/logo.png' : '/img/logo_dark.png'}
-            alt="Logo"
-            className="w-6 h-6"
-          />
+          <div className='flex items-center gap-2'>
+            <img src="/img/logo.png" alt="Logo" className="w-12" />
+            <span className='text-medium font-mono font-light text-[#262847]'>ScrumStack</span>
+          </div>
           <div>
             <Button
               isIconOnly
