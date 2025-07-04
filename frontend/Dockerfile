@@ -24,6 +24,13 @@ RUN yarn build && \
 FROM node:20-alpine AS runner
 ENV NODE_ENV=production
 WORKDIR /app
+
+COPY --from=builder /app ./
+COPY --from=builder /app/next.config.mjs ./
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+
 # 複製 standalone 文件和 public 資源
 COPY --from=builder /app/standalone ./
 COPY --from=builder /app/standalone/.next/static ./.next/static

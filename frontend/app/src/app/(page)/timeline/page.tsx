@@ -82,7 +82,7 @@ const Timeline = () => {
 
   return (
     <>
-      <div className="flex pr-8 w-full h-[83vh]">
+      <div className="flex pr-8 w-full h-[83vh] pb-8">
         <Card
           radius="sm"
           shadow="none"
@@ -152,17 +152,6 @@ const Timeline = () => {
           })}
         </Card>
       </div>
-      {/* <Alert
-        hideIcon
-        description={
-          <p>
-            點擊右上方
-            <PlusIcon />
-            按鈕來新增事件
-          </p>
-        }
-        variant="faded"
-      /> */}
     </>
   )
 }

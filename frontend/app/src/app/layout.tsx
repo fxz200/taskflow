@@ -6,6 +6,7 @@ import Header from '@components/layout/Header'
 import store from './store'
 import { Store } from 'redux'
 import { cloneElement, useState } from 'react'
+import Footer from '@components/layout/Footer'
 
 export default function RootLayout({
   children,
@@ -27,12 +28,13 @@ export default function RootLayout({
             <div className="h-40">
               <Header selectedTableKeys={selectedTableKeys} />
             </div>
-            <div className="grid grid-cols-[auto_1fr] h-full">
+            <div className="grid grid-cols-[auto_1fr] h-[calc(100%-8px)]">
               <div className="w-32">
                 <Sidebar />
               </div>
               <div>{childrenWithProps}</div>
             </div>
+            <Footer />
           </div>
         </Providers>
       </body>
