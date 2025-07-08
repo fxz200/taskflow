@@ -17,7 +17,7 @@ import {
   TICKET_TYPES,
 } from '@constants/ticket'
 import TicketDialog from '@components/ticket/TicketDialog'
-import { useAppDispatch, useAppSelector } from 'app/hooks'
+import { useAppDispatch, useAppSelector, useSelectedTableKeys } from 'app/hooks'
 import { getSpecificTickets } from '@api/actions/ticket'
 import {
   ArrowUturnRightIcon,
@@ -30,6 +30,7 @@ import { getAllSprints } from '@api/actions/sprint'
 
 const Priority = () => {
   const dispatch = useAppDispatch()
+  const { setSelectedTableKeys, selectedTableKeys } = useSelectedTableKeys()
   const allSprints = useAppSelector((state) => state.sprint?.sprints) || []
   const [priorityTickets, setPriorityTickets] = useState<Ticket[]>([])
   const [openDialog, setOpenDialog] = useState(false)
@@ -48,7 +49,7 @@ const Priority = () => {
   }, [])
 
   return (
-    <>
+    <React.Fragment>
       <div className="flex mr-8 h-full">
         <Table
           aria-label="Example static collection table"
@@ -56,6 +57,14 @@ const Priority = () => {
           radius="lg"
           shadow="none"
           selectionMode="multiple"
+          selectedKeys={selectedTableKeys}
+          onSelectionChange={(keys) => {
+            if (keys === 'all') {
+              setSelectedTableKeys(priorityTickets?.map((t: Ticket) => t.id))
+            } else {
+              setSelectedTableKeys(Array.from(keys as Set<string>))
+            }
+          }}
           classNames={{
             wrapper: 'shadow-[2px_4px_4px_0_rgba(0,0,0,0.25)] h-full mb-8 ',
             table: priorityTickets.length === 0 ? 'h-full' : '',
@@ -100,8 +109,8 @@ const Priority = () => {
             }
           >
             {priorityTickets?.map((row) => (
-              <>
-                <TableRow key={row.id}>
+              <React.Fragment key={row.id}>
+                <TableRow>
                   <TableCell>
                     <span
                       className={`rounded-lg px-3 ${
@@ -173,7 +182,7 @@ const Priority = () => {
                     </TableCell>
                   </TableRow>
                 )}
-              </>
+              </React.Fragment>
             ))}
           </TableBody>
         </Table>
@@ -197,7 +206,7 @@ const Priority = () => {
         isEdit
         initialData={currentTicket}
       />
-    </>
+    </React.Fragment>
   )
 }
 

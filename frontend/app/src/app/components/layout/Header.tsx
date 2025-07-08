@@ -18,11 +18,7 @@ import SprintButton from './header/SprintButton'
 import { useAppSelector } from 'app/hooks'
 import { useSprint } from 'app/hooks/useSprint'
 
-interface HeaderProps {
-  selectedTableKeys: string[]
-}
-
-const Header = ({ selectedTableKeys }: HeaderProps) => {
+const Header = () => {
   const pathname = usePathname()
   const { theme, setTheme } = useTheme()
   const { setCurrentSprint } = useSprint()
@@ -130,7 +126,7 @@ const Header = ({ selectedTableKeys }: HeaderProps) => {
           {currentFeature?.name === 'Timeline' && <TimelineButton />}
           {(currentFeature?.name === 'Backlog' ||
             currentFeature?.name === 'Priority') && (
-            <TicketButton selectedTableKeys={selectedTableKeys} />
+            <TicketButton />
           )}
           {currentFeature?.name === 'Members' && <MemberButton />}
           {currentFeature?.name === 'Sprint' && <SprintButton />}
