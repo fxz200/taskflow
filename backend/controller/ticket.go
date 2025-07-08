@@ -57,8 +57,25 @@ func UpdateTicket(c *gin.Context) {
 }
 
 func DeleteTicket(c *gin.Context) {
-	id := c.Query("id")
-	err := repository.DeleteTicket(id)
+	ids := c.QueryArray("id")
+	if len(ids) == 0 {
+		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, "at least one id is required")
+		return
+	}
+
+	var validIDs []string
+	for _, id := range ids {
+		if strings.TrimSpace(id) != "" {
+			validIDs = append(validIDs, strings.TrimSpace(id))
+		}
+	}
+
+	if len(validIDs) == 0 {
+		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, "valid ids are required")
+		return
+	}
+
+	err := repository.DeleteTicket(validIDs)
 	if err != nil {
 		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, err.Error())
 		return
