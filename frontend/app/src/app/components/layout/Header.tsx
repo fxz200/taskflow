@@ -15,8 +15,7 @@ import TimelineButton from './header/TimelineButton'
 import TicketButton from './header/TicketButton'
 import MemberButton from './header/MemberButton'
 import SprintButton from './header/SprintButton'
-import { useAppSelector } from 'app/hooks'
-import { useSprint } from 'app/hooks/useSprint'
+import { useAppSelector, useSprint } from 'app/hooks'
 
 const Header = () => {
   const pathname = usePathname()

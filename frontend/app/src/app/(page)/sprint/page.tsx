@@ -1,12 +1,11 @@
 'use client'
 import { Button, Card } from '@heroui/react'
-import { useAppDispatch, useAppSelector } from 'app/hooks'
+import { useAppDispatch, useAppSelector, useSprint } from 'app/hooks'
 import { PlusIcon } from '@heroicons/react/24/solid'
 import { useEffect, useState } from 'react'
 import CreateSprintDialog from '@components/sprint/CreateSprintDialog'
 import { getAllSprints } from '@api/actions/sprint'
 import { getAllTickets } from '@api/actions/ticket'
-import { useSprint } from 'app/hooks/useSprint'
 import TicketCards from './components/TicketCards'
 
 const Sprint = () => {
