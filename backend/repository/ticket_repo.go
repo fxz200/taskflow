@@ -119,20 +119,45 @@ func UpdateTicket(ticket *model.Ticket) (err error) {
 	return err
 }
 
-func DeleteTicket(id string) (err error) {
-	var ticket model.Ticket
-	err = sql.Connect.Where("id = ?", id).First(&ticket).Error
-	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return fmt.Errorf("ticket does not exist")
-		}
-		return
+func DeleteTicket(ids []string) (err error) {
+	if len(ids) == 0 {
+		return fmt.Errorf("no ticket IDs provided")
 	}
-	//delete related ticket members
-	err = sql.Connect.Table("ticket_members").Where("ticket_id = ?", id).Delete(nil).Error
+
+	tx := sql.Connect.Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+
+	if err := tx.Error; err != nil {
+		return err
+	}
+
+	var count int64
+	err = tx.Model(&model.Ticket{}).Where("id IN ?", ids).Count(&count).Error
 	if err != nil {
+		tx.Rollback()
+		return fmt.Errorf("failed to check tickets existence: %v", err)
+	}
+
+	if count != int64(len(ids)) {
+		tx.Rollback()
+		return fmt.Errorf("some tickets do not exist")
+	}
+
+	err = tx.Table("ticket_members").Where("ticket_id IN ?", ids).Delete(nil).Error
+	if err != nil {
+		tx.Rollback()
 		return fmt.Errorf("failed to delete related ticket members: %v", err)
 	}
-	err = sql.Connect.Unscoped().Delete(&ticket).Error
-	return
+
+	err = tx.Unscoped().Where("id IN ?", ids).Delete(&model.Ticket{}).Error
+	if err != nil {
+		tx.Rollback()
+		return fmt.Errorf("failed to delete tickets: %v", err)
+	}
+
+	return tx.Commit().Error
 }
