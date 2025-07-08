@@ -1,8 +1,7 @@
 import Dialog from '@components/common/Dialog'
 import { CheckIcon, Square2StackIcon } from '@heroicons/react/20/solid'
 import { Button, Spinner } from '@heroui/react'
-import { useAppSelector } from 'app/hooks'
-import { useSprint } from 'app/hooks/useSprint'
+import { useAppSelector, useSprint } from 'app/hooks'
 import React, { useState } from 'react'
 import AnnouncementText from './AnnouncementText'
 

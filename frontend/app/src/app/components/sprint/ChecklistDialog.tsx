@@ -2,8 +2,7 @@ import { exportCheckList } from '@api/actions/ticket'
 import Dialog from '@components/common/Dialog'
 import { FolderArrowDownIcon } from '@heroicons/react/20/solid'
 import { Button, Link } from '@heroui/react'
-import { useAppDispatch } from 'app/hooks'
-import { useSprint } from 'app/hooks/useSprint'
+import { useAppDispatch, useSprint } from 'app/hooks'
 import React from 'react'
 
 interface ChecklistDialogProps {

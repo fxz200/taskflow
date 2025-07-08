@@ -4,8 +4,7 @@ import { HeroUIProvider, ToastProvider } from '@heroui/react'
 import { ThemeProvider } from 'next-themes'
 import { EnhancedStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
-import { SprintProvider } from './hooks/useSprint'
-import { SelectedTableKeysProvider } from './hooks/useSelectedTableKeys'
+import { SelectedTableKeysProvider, SprintProvider } from './hooks'
 
 export function Providers({
   children,
