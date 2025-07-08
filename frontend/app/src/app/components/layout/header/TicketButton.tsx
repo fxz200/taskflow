@@ -1,16 +1,13 @@
 import { Button } from '@heroui/react'
 import { PlusIcon, TrashIcon } from '@heroicons/react/20/solid'
 import { deleteTicket } from '@api/actions/ticket'
-import { useAppDispatch } from 'app/hooks'
+import { useAppDispatch, useSelectedTableKeys } from 'app/hooks'
 import TicketDialog from '@components/ticket/TicketDialog'
 import { useState } from 'react'
 
-interface Props {
-  selectedTableKeys: string[]
-}
-
-const TicketButton = ({ selectedTableKeys }: Props) => {
+const TicketButton = () => {
   const dispatch = useAppDispatch()
+  const { selectedTableKeys, setSelectedTableKeys } = useSelectedTableKeys()
   const [openTicketDialog, setOpenTicketDialog] = useState(false)
 
   return (
@@ -21,7 +18,9 @@ const TicketButton = ({ selectedTableKeys }: Props) => {
           color="default"
           className="min-w-9 w-9 h-9 data-[hover=true]:!opacity-100 hover:bg-primary"
           onPress={() => {
-            dispatch(deleteTicket({ body: selectedTableKeys }))
+            dispatch(deleteTicket({ query: { id: selectedTableKeys  } })).then(()=>{
+              setSelectedTableKeys([])
+            })
           }}
         >
           <TrashIcon className="w-5 h-5" />

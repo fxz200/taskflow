@@ -20,7 +20,7 @@ import {
   TICKET_TYPES,
 } from '@constants/ticket'
 import TicketDialog from '@components/ticket/TicketDialog'
-import { useAppDispatch, useAppSelector } from 'app/hooks'
+import { useAppDispatch, useAppSelector, useSelectedTableKeys } from 'app/hooks'
 import { getAllTickets, putTicket } from '@api/actions/ticket'
 import {
   ArrowUturnRightIcon,
@@ -32,6 +32,7 @@ import SprintTicketDialog from '@components/ticket/SprintTicketDialog'
 
 const Backlog = () => {
   const dispatch = useAppDispatch()
+  const { setSelectedTableKeys, selectedTableKeys } = useSelectedTableKeys()
   const allTickets = useAppSelector((state) => state?.ticket?.tickets)
   const [openDialog, setOpenDialog] = useState(false)
   const [isEditTicket, setIsEditTicket] = useState(false)
@@ -39,7 +40,6 @@ const Backlog = () => {
   const [currentTicket, setCurrentTicket] = useState<Ticket | null>(null)
   const [expandedRow, setExpandedRow] = useState<string | null>(null)
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null)
-  const [selectedTableKeys, setSelectedTableKeys] = useState<string[]>([])
 
   useEffect(() => {
     if (allTickets.length === 0) {
@@ -48,7 +48,7 @@ const Backlog = () => {
   }, [])
 
   return (
-    <>
+    <React.Fragment>
       <div className="flex mr-8 h-full">
         <Table
           aria-label="Example static collection table"
@@ -106,8 +106,8 @@ const Backlog = () => {
             }
           >
             {allTickets?.map((row) => (
-              <>
-                <TableRow key={row.id}>
+              <React.Fragment key={row.id}>
+                <TableRow>
                   <TableCell>
                     <span
                       className={`rounded-lg px-3 ${
@@ -206,7 +206,7 @@ const Backlog = () => {
                     </TableCell>
                   </TableRow>
                 )}
-              </>
+              </React.Fragment>
             ))}
           </TableBody>
         </Table>
@@ -223,7 +223,7 @@ const Backlog = () => {
         isEdit
         initialData={currentTicket}
       />
-    </>
+    </React.Fragment>
   )
 }
 

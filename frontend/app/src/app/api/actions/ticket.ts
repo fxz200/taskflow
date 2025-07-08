@@ -129,11 +129,11 @@ export const putTicket =
   }
 
 export const deleteTicket =
-  ({ body }: Props) =>
+  ({ query = {} }: Props) =>
   (dispatch: AppDispatch) => {
     dispatch({ type: actionType.postTicket.request })
     return api
-      .delete(`/v1/ticket`, body)
+      .delete(`/v1/ticket?${qs.stringify(query)}`)
       .then((res) => {
         if (res.data?.code === 200) {
           dispatch({

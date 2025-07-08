@@ -5,7 +5,6 @@ import Sidebar from '@components/layout/Sidebar'
 import Header from '@components/layout/Header'
 import store from './store'
 import { Store } from 'redux'
-import { cloneElement, useState } from 'react'
 import Footer from '@components/layout/Footer'
 
 export default function RootLayout({
@@ -13,12 +12,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const [selectedTableKeys, setSelectedTableKeys] = useState<string[]>([])
-
-  const childrenWithProps = cloneElement(children as React.ReactElement, {
-    selectedTableKeys,
-    setSelectedTableKeys,
-  })
 
   return (
     <html lang="en">
@@ -26,13 +19,13 @@ export default function RootLayout({
         <Providers store={store as Store}>
           <div className="flex flex-col h-screen">
             <div className="h-40">
-              <Header selectedTableKeys={selectedTableKeys} />
+              <Header />
             </div>
             <div className="grid grid-cols-[auto_1fr] h-[calc(100%-8px)]">
               <div className="w-32">
                 <Sidebar />
               </div>
-              <div>{childrenWithProps}</div>
+              <div>{children}</div>
             </div>
             <Footer />
           </div>

@@ -85,7 +85,7 @@ const TicketDialog = ({
       priority: 0,
       release: '',
       assignee: '',
-      status: pathname === '/priority' ? 0 : undefined,
+      status: pathname === '/priority' ? 1 : undefined,
       summary: '',
     },
   })
