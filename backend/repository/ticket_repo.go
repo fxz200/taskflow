@@ -9,19 +9,42 @@ import (
 	"gorm.io/gorm"
 )
 
-func GetTickets(sprint string, ticketType string, statement string, search string) (ticket []*model.Ticket, err error) {
+type GetTicketQueryParams struct {
+	Sprint       string
+	TicketType   string
+	Statement    string
+	Search       string
+	ReleaseSort  string
+	PrioritySort string
+}
+
+func GetTickets(params GetTicketQueryParams) (ticket []*model.Ticket, err error) {
 	query := sql.Connect.Model(&model.Ticket{}).Preload("Members")
-	if sprint != "" {
-		query = query.Where("sprint = ?", sprint)
+	if params.Sprint != "" {
+		query = query.Where("sprint = ?", params.Sprint)
 	}
-	if ticketType != "" {
-		query = query.Where("type = ?", ticketType)
+	if params.TicketType != "" {
+		query = query.Where("type = ?", params.TicketType)
 	}
-	if statement != "" {
-		query = query.Where("statement = ?", statement)
+	if params.Statement != "" {
+		query = query.Where("statement = ?", params.Statement)
 	}
-	if search != "" {
-		query = query.Where("title LIKE ? OR jira_url LIKE ?", "%"+search+"%", "%"+search+"%")
+	if params.Search != "" {
+		query = query.Where("title LIKE ? OR jira_url LIKE ?", "%"+params.Search+"%", "%"+params.Search+"%")
+	}
+	if params.ReleaseSort != "" {
+		if params.ReleaseSort == "asc" {
+			query = query.Order("sprint ASC")
+		} else if params.ReleaseSort == "desc" {
+			query = query.Order("sprint DESC")
+		}
+	}
+	if params.PrioritySort != "" {
+		if params.PrioritySort == "asc" {
+			query = query.Order("priority ASC")
+		} else if params.PrioritySort == "desc" {
+			query = query.Order("priority DESC")
+		}
 	}
 	err = query.Find(&ticket).Error
 	for _, ticket := range ticket {

@@ -12,11 +12,15 @@ import (
 )
 
 func GetTickets(c *gin.Context) {
-	sprint := c.Query("sprint")
-	ticketType := c.Query("type")
-	statement := c.Query("statement")
-	search := c.Query("search")
-	tickets, err := repository.GetTickets(sprint, ticketType, statement, search)
+	params := repository.GetTicketQueryParams{
+		Sprint:       c.Query("sprint"),
+		TicketType:   c.Query("type"),
+		Statement:    c.Query("statement"),
+		Search:       c.Query("search"),
+		ReleaseSort:  c.Query("release_sort"),
+		PrioritySort: c.Query("priority_sort"),
+	}
+	tickets, err := repository.GetTickets(params)
 	if err != nil {
 		JSONResponse(c, http.StatusInternalServerError, http.StatusInternalServerError, nil, err.Error())
 		return
@@ -162,7 +166,9 @@ func CopyCheckList(c *gin.Context) {
 		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, "sprint is required")
 		return
 	}
-	tickets, err := repository.GetTickets(sprint, "", "", "")
+	tickets, err := repository.GetTickets(repository.GetTicketQueryParams{
+		Sprint: sprint,
+	})
 	if err != nil {
 		JSONResponse(c, http.StatusInternalServerError, http.StatusInternalServerError, nil, err.Error())
 		return
