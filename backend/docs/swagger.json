@@ -347,8 +347,7 @@
             "in": "query",
             "description": "the sprint name",
             "required": false,
-            "type": "string",
-            "default": "ver2.55"
+            "type": "string"
           },
           {
             "name": "statement",
@@ -357,6 +356,13 @@
             "required": false,
             "type": "string",
             "enum": [1, 2, 3]
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "jira number or ticket title",
+            "required": false,
+            "type": "string"
           }
         ],
         "responses": {
