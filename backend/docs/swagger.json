@@ -363,6 +363,22 @@
             "description": "jira number or ticket title",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "priority_sort",
+            "in": "query",
+            "description": "sort by priority",
+            "required": false,
+            "type": "string",
+            "enum": ["asc", "desc"]
+          },
+          {
+            "name": "release_sort",
+            "in": "query",
+            "description": "sort by release time (sprint)",
+            "required": false,
+            "type": "string",
+            "enum": ["asc", "desc"]
           }
         ],
         "responses": {
