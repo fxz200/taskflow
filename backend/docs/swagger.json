@@ -510,6 +510,41 @@
           }
         }
       }
+    },
+    "/api/v1/ticket/batch_update": {
+      "put": {
+        "produces": ["application/json"],
+        "tags": ["Ticket"],
+        "summary": "Get ExportList.xslx",
+        "parameters": [
+          {
+            "name": "update_statement",
+            "in": "query",
+            "description": "- 1: in Backlog\n- 2: in priority\n- 3: in Sprint",
+            "required": false,
+            "type": "string",
+            "enum": [1, 2, 3]
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "description": "傳ticket id",
+            "schema": {
+              "$ref": "#/definitions/model.Ticket.batch_update"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "example": "Checklist for sprint ver 2.55\nSystem Maintaince\nshowmore一鍵關店 http://jira/KOL-5487\nshowmore一鍵關店2 \nshowmore一鍵關店3 \nshowmore一鍵關店4 \nshowmore一鍵關店123 \n"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -770,6 +805,19 @@
           "type": "integer",
           "example": 1,
           "description": "開發的狀態\n- 0: backlog\n- 1: in dev\n- 2: full-test\n- 3: in-staging\n- 4: done \n- 11: reject"
+        }
+      }
+    },
+    "model.Ticket.batch_update": {
+      "type": "object",
+      "required": ["statement", "ticket_ids"],
+      "properties": {
+        "ticket_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": ["231ecb24-ce65-4190-8850-ae22217cf17a"]
         }
       }
     }

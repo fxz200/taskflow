@@ -144,6 +144,30 @@ func UpdateTicket(ticket *model.Ticket) (err error) {
 
 	return err
 }
+func BatchUpdateTickets(ids []string, statement_type string) (err error) {
+	if len(ids) == 0 {
+		return fmt.Errorf("no ticket IDs provided")
+	}
+
+	tx := sql.Connect.Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+
+	if err := tx.Error; err != nil {
+		return err
+	}
+
+	err = tx.Model(&model.Ticket{}).Where("id IN ?", ids).Update("statement", statement_type).Error
+	if err != nil {
+		tx.Rollback()
+		return fmt.Errorf("failed to update tickets: %v", err)
+	}
+
+	return tx.Commit().Error
+}
 
 func DeleteTicket(ids []string) (err error) {
 	if len(ids) == 0 {

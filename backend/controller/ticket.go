@@ -60,7 +60,26 @@ func UpdateTicket(c *gin.Context) {
 	}
 	JSONResponse(c, http.StatusOK, http.StatusOK, nil, "OK")
 }
-
+func BatchUpdateTicket(c *gin.Context) {
+	updateType := c.Query("update_statement")
+	var request struct {
+		TickIDs []string `json:"ticket_ids"`
+	}
+	if err := c.ShouldBindJSON(&request); err != nil {
+		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, "Invalid JSON format")
+		return
+	}
+	if len(request.TickIDs) == 0 {
+		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, "tick_ids are required")
+		return
+	}
+	err := repository.BatchUpdateTickets(request.TickIDs, updateType)
+	if err != nil {
+		JSONResponse(c, http.StatusBadRequest, http.StatusBadRequest, nil, err.Error())
+		return
+	}
+	JSONResponse(c, http.StatusOK, http.StatusOK, nil, "OK")
+}
 func DeleteTicket(c *gin.Context) {
 	ids := c.QueryArray("id")
 	if len(ids) == 0 {
