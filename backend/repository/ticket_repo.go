@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func GetTickets(sprint string, ticketType string, statement string) (ticket []*model.Ticket, err error) {
+func GetTickets(sprint string, ticketType string, statement string, search string) (ticket []*model.Ticket, err error) {
 	query := sql.Connect.Model(&model.Ticket{}).Preload("Members")
 	if sprint != "" {
 		query = query.Where("sprint = ?", sprint)
@@ -19,6 +19,9 @@ func GetTickets(sprint string, ticketType string, statement string) (ticket []*m
 	}
 	if statement != "" {
 		query = query.Where("statement = ?", statement)
+	}
+	if search != "" {
+		query = query.Where("title LIKE ? OR jira_url LIKE ?", "%"+search+"%", "%"+search+"%")
 	}
 	err = query.Find(&ticket).Error
 	for _, ticket := range ticket {
