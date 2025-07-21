@@ -19,6 +19,10 @@ func GetTickets(c *gin.Context) {
 		Search:       c.Query("search"),
 		ReleaseSort:  c.Query("release_sort"),
 		PrioritySort: c.Query("priority_sort"),
+		Status:       c.Query("status"),
+		Priority:     c.Query("priority"),
+		MembersID:    c.Query("member_id"),
+		Release:      c.Query("release"),
 	}
 	tickets, err := repository.GetTickets(params)
 	if err != nil {

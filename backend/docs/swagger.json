@@ -379,6 +379,36 @@
             "required": false,
             "type": "string",
             "enum": ["asc", "desc"]
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "在Priority的狀態\n- 0: not in priority\n- 1: 待處理\n- 2: 進行中\n- 3: 已完成",
+            "required": false,
+            "type": "string",
+            "enum": [0, 1, 2, 3]
+          },
+          {
+            "name": "priority",
+            "in": "query",
+            "description": "- 0: P0\n- 1: P1\n- 2: P2\n- 3: p3\n- 4: p4",
+            "required": false,
+            "type": "string",
+            "enum": [0, 1, 2, 3, 4]
+          },
+          {
+            "name": "member_id",
+            "in": "query",
+            "description": "member id",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "release",
+            "in": "query",
+            "description": "release sprint",
+            "required": false,
+            "type": "string"
           }
         ],
         "responses": {
