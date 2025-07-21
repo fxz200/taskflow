@@ -16,6 +16,11 @@ type GetTicketQueryParams struct {
 	Search       string
 	ReleaseSort  string
 	PrioritySort string
+	Type         string
+	Status       string
+	Priority     string
+	MembersID    string
+	Release      string
 }
 
 func GetTickets(params GetTicketQueryParams) (ticket []*model.Ticket, err error) {
@@ -45,6 +50,19 @@ func GetTickets(params GetTicketQueryParams) (ticket []*model.Ticket, err error)
 		} else if params.PrioritySort == "desc" {
 			query = query.Order("priority DESC")
 		}
+	}
+	if params.Status != "" {
+		query = query.Where("status = ?", params.Status)
+	}
+	if params.Priority != "" {
+		query = query.Where("priority = ?", params.Priority)
+	}
+	if params.MembersID != "" {
+		query = query.Joins("JOIN ticket_members ON ticket_members.ticket_id = tickets.id").
+			Where("ticket_members.member_id = ?", params.MembersID)
+	}
+	if params.Release != "" {
+		query = query.Where("sprint = ?", params.Release)
 	}
 	err = query.Find(&ticket).Error
 	for _, ticket := range ticket {
