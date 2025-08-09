@@ -5,6 +5,7 @@ import (
 	"backend/sql"
 	"errors"
 	"fmt"
+	"strconv"
 
 	"gorm.io/gorm"
 )
@@ -21,6 +22,8 @@ type GetTicketQueryParams struct {
 	Priority     string
 	MembersID    string
 	Release      string
+	Offset       string
+	Limit        string
 }
 
 func GetTickets(params GetTicketQueryParams) (ticket []*model.Ticket, err error) {
@@ -63,6 +66,20 @@ func GetTickets(params GetTicketQueryParams) (ticket []*model.Ticket, err error)
 	}
 	if params.Release != "" {
 		query = query.Where("sprint = ?", params.Release)
+	}
+	if params.Offset != "" {
+		offset, err := strconv.Atoi(params.Offset)
+		if err != nil {
+			return nil, fmt.Errorf("invalid offset value: %v", err)
+		}
+		query = query.Offset(offset)
+	}
+	if params.Limit != "" {
+		limit, err := strconv.Atoi(params.Limit)
+		if err != nil {
+			return nil, fmt.Errorf("invalid limit value: %v", err)
+		}
+		query = query.Limit(limit)
 	}
 	err = query.Find(&ticket).Error
 	for _, ticket := range ticket {

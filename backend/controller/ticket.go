@@ -23,6 +23,8 @@ func GetTickets(c *gin.Context) {
 		Priority:     c.Query("priority"),
 		MembersID:    c.Query("member_id"),
 		Release:      c.Query("release"),
+		Offset:       c.Query("offset"),
+		Limit:        c.Query("limit"),
 	}
 	tickets, err := repository.GetTickets(params)
 	if err != nil {
